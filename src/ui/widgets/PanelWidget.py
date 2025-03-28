@@ -1,5 +1,4 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout
-from PyQt6.QtCore import Qt, pyqtSignal
 from src.ui.widgets.MqttDataWidget import MqttDataWidget
 from src.ui.widgets.PublicDataWidget import PublicDataWidget
 
