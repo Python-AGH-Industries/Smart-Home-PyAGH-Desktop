@@ -24,12 +24,28 @@ class MainWindow(QMainWindow):
 
         self.panelWidget = PanelWidget()
         self.sidePanelWidget = SidePanelWidget()
+        self.sidePanelWidget.logoutRequest.connect(self.panelToLoginTransition)
+        self.sidePanelWidget.setMinimumWidth(100)
 
         wrapperLayout = QHBoxLayout(self.wrapper)
-        wrapperLayout.addWidget(self.sidePanelWidget, stretch = 1)
-        wrapperLayout.addWidget(self.panelWidget, stretch = 9)
+        wrapperLayout.addWidget(self.sidePanelWidget)
+        wrapperLayout.addWidget(self.panelWidget)
 
         wrapperLayout.setContentsMargins(0, 0, 0, 0)
         wrapperLayout.setSpacing(0)
 
         self.setCentralWidget(self.wrapper)
+
+    def panelToLoginTransition(self):
+        if self.panelWidget is not None:
+            self.panelWidget.deleteLater()
+            self.panelWidget = None
+
+        if self.sidePanelWidget is not None:
+            self.sidePanelWidget.deleteLater()
+            self.sidePanelWidget = None
+
+            self.loginWidget = LoginWidget()
+            self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
+
+            self.setCentralWidget(self.loginWidget)
