@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from PyQt6.QtCore import Qt, pyqtSignal
 from src.ui.widgets.IconButton import IconButton
 
-class SidePanelWidget(QWidget):
+class SidePanel(QWidget):
     logoutRequest = pyqtSignal()
 
     def __init__(self):
