@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QMainWindow
+from PyQt6.QtWidgets import QMainWindow, QWidget, QHBoxLayout
 from src.ui.widgets.LoginWidget import LoginWidget
 from src.ui.widgets.PanelWidget import PanelWidget
+from src.ui.widgets.SidePanelWidget import SidePanelWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -19,5 +20,16 @@ class MainWindow(QMainWindow):
             self.loginWidget.deleteLater()
             self.loginWidget = None
 
+        self.wrapper = QWidget()
+
         self.panelWidget = PanelWidget()
-        self.setCentralWidget(self.panelWidget)
+        self.sidePanelWidget = SidePanelWidget()
+
+        wrapperLayout = QHBoxLayout(self.wrapper)
+        wrapperLayout.addWidget(self.sidePanelWidget, stretch = 1)
+        wrapperLayout.addWidget(self.panelWidget, stretch = 9)
+
+        wrapperLayout.setContentsMargins(0, 0, 0, 0)
+        wrapperLayout.setSpacing(0)
+
+        self.setCentralWidget(self.wrapper)
