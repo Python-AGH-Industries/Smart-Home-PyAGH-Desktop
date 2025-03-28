@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow
-from LoginWidget import LoginWidget
-from PanelWidget import PanelWidget
+from src.ui.widgets.LoginWidget import LoginWidget
+from src.ui.widgets.PanelWidget import PanelWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
