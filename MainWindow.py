@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QMainWindow
 from LoginWidget import LoginWidget
+from PanelWidget import PanelWidget
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -8,7 +9,15 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Smart Home Panel")
         self.setMinimumSize(800, 600)
 
-        loginWidget = LoginWidget()
+        self.loginWidget = LoginWidget()
+        self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
 
-        self.setCentralWidget(loginWidget)
+        self.setCentralWidget(self.loginWidget)
 
+    def loginToPanelTransition(self):
+        if self.loginWidget is not None:
+            self.loginWidget.deleteLater()
+            self.loginWidget = None
+
+        self.panelWidget = PanelWidget()
+        self.setCentralWidget(self.panelWidget)

@@ -1,9 +1,11 @@
 from PyQt6.QtWidgets import QPushButton, QWidget, \
                             QVBoxLayout, QHBoxLayout, QLabel, \
                             QSizePolicy
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, pyqtSignal
 
 class LoginWidget(QWidget):
+    loginSuccessful = pyqtSignal()
+
     def __init__(self):
         super().__init__()
 
@@ -15,6 +17,7 @@ class LoginWidget(QWidget):
         loginButtonLayout = QHBoxLayout()
         loginButton = QPushButton("Login", self)
         loginButton.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        loginButton.clicked.connect(self.loginHandler)
 
         loginButtonLayout.addStretch(1)
         loginButtonLayout.addWidget(loginButton, stretch = 5)
@@ -31,4 +34,6 @@ class LoginWidget(QWidget):
 
         self.setLayout(loginWidgetLayout)
 
+    def loginHandler(self):
+        self.loginSuccessful.emit()
         
