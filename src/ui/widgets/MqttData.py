@@ -6,10 +6,10 @@ class MqttData(QWidget):
         super().__init__()
         mqttDataLayout = QVBoxLayout(self)
 
-        temperatureRow = MqttDataRow()
-        humidityRow = MqttDataRow()
-        pressureRow = MqttDataRow()
-        lightRow = MqttDataRow()
+        temperatureRow = MqttDataRow("Temperature")
+        humidityRow = MqttDataRow("Humidity")
+        pressureRow = MqttDataRow("Pressure")
+        lightRow = MqttDataRow("Light")
 
         mqttDataLayout.addWidget(temperatureRow)
         mqttDataLayout.addWidget(humidityRow)

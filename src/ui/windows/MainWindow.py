@@ -8,7 +8,7 @@ class MainWindow(QMainWindow):
         super().__init__()
 
         self.setWindowTitle("Smart Home Panel")
-        self.setMinimumSize(800, 600)
+        self.setMinimumSize(1200, 800)
 
         self.loginWidget = Login()
         self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
