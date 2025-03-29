@@ -11,8 +11,8 @@ class Panel(QWidget):
         mqttDataWidget = MqttData()
         publicDataWidget = PublicData()
 
-        panelLayout.addWidget(mqttDataWidget, stretch = 3)
-        panelLayout.addWidget(publicDataWidget, stretch = 2)
+        panelLayout.addWidget(mqttDataWidget, stretch = 2)
+        panelLayout.addWidget(publicDataWidget, stretch = 1)
 
         panelLayout.setContentsMargins(0, 0, 0, 0)
         panelLayout.setSpacing(0)
