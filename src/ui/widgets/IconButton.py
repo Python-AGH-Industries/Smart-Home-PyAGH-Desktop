@@ -3,8 +3,11 @@ from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize
 
 class IconButton(QPushButton):
-    def __init__(self, path = "", parent = None):
+    def __init__(self, path = "", parent = None, fixedSize = 80):
         super().__init__(parent)
-        self.setFixedSize(80, 80)
+        self.setFixedSize(QSize(fixedSize, fixedSize))
         self.setIcon(QIcon(path))
-        self.setIconSize(QSize(70, 70))
+        
+        offset = fixedSize / 8
+
+        self.setIconSize(QSize(int(fixedSize - offset), int(fixedSize - offset)))
