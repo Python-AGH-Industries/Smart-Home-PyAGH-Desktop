@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from src.ui.widgets.mqttDataRow import MqttDataRow
 
-class MqttData(QWidget):
+class MqttSubPanel(QWidget):
     def __init__(self):
         super().__init__()
         mqttDataLayout = QVBoxLayout(self)

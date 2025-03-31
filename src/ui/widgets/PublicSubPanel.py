@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
 
-class PublicData(QWidget):
+class PublicSubPanel(QWidget):
     def __init__(self):
         super().__init__()
         self.setStyleSheet("background-color: blue;")

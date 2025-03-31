@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout
-from src.ui.widgets.MqttData import MqttData
-from src.ui.widgets.PublicData import PublicData
+from src.ui.widgets.MqttSubPanel import MqttSubPanel
+from src.ui.widgets.PublicSubPanel import PublicSubPanel
 
 class Panel(QWidget):
     def __init__(self):
@@ -8,11 +8,11 @@ class Panel(QWidget):
 
         panelLayout = QHBoxLayout(self)
 
-        mqttDataWidget = MqttData()
-        publicDataWidget = PublicData()
+        mqttDataWidget = MqttSubPanel()
+        publicDataWidget = PublicSubPanel()
 
-        panelLayout.addWidget(mqttDataWidget, stretch = 2)
-        panelLayout.addWidget(publicDataWidget, stretch = 1)
+        panelLayout.addWidget(mqttDataWidget, stretch = 3)
+        panelLayout.addWidget(publicDataWidget, stretch = 2)
 
         panelLayout.setContentsMargins(0, 0, 0, 0)
         panelLayout.setSpacing(0)

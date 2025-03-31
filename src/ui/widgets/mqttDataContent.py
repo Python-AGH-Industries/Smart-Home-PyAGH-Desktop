@@ -1,10 +1,17 @@
-from PyQt6.QtWidgets import QWidget, QLabel, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QHBoxLayout
+from src.ui.widgets.mqttDataGraph import MqttDataGraph
+from src.ui.widgets.mqttDataDetails import MqttDataDetails
 
 class MqttDataContent(QWidget):
-    def __init__(self):
+    def __init__(self, title):
         super().__init__()
-        label = QLabel("Content wrapper", self)
-        layout = QHBoxLayout(self)
-        layout.addWidget(label)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(0)
+        dataContentLayout = QHBoxLayout(self)
+
+        dataGraph = MqttDataGraph(title)
+        dataDetails = MqttDataDetails()
+
+        dataContentLayout.addWidget(dataGraph, stretch = 5)
+        dataContentLayout.addWidget(dataDetails, stretch = 4)
+
+        dataContentLayout.setContentsMargins(0, 0, 0, 0)
+        dataContentLayout.setSpacing(0)

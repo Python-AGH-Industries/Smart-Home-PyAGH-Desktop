@@ -5,12 +5,11 @@ from src.ui.widgets.mqttDataBar import MqttDataBar
 class MqttDataRow(QWidget):
     def __init__(self, title):
         super().__init__()
-        self.setStyleSheet("background-color: green; border: 1px solid black;")
 
         wrapperLayout = QVBoxLayout(self)
 
         rowBar = MqttDataBar(title)
-        rowContent = MqttDataContent()
+        rowContent = MqttDataContent(title)
 
         wrapperLayout.addWidget(rowBar)
         wrapperLayout.addWidget(rowContent)
