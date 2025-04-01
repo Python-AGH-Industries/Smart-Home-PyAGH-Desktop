@@ -3,12 +3,12 @@ from src.ui.widgets.mqttDataGraph import MqttDataGraph
 from src.ui.widgets.mqttDataDetails import MqttDataDetails
 
 class MqttDataContent(QWidget):
-    def __init__(self, title):
+    def __init__(self, title, units):
         super().__init__()
         dataContentLayout = QHBoxLayout(self)
 
         dataGraph = MqttDataGraph(title)
-        dataDetails = MqttDataDetails()
+        dataDetails = MqttDataDetails(title, units)
 
         dataContentLayout.addWidget(dataGraph, stretch = 5)
         dataContentLayout.addWidget(dataDetails, stretch = 4)
