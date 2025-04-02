@@ -1,15 +1,16 @@
-from PyQt6.QtWidgets import QMainWindow
-from src.ui.widgets.LoginWidget import LoginWidget
-from src.ui.widgets.PanelWidget import PanelWidget
+from PyQt6.QtWidgets import QMainWindow, QWidget, QHBoxLayout
+from src.ui.widgets.login import Login
+from src.ui.widgets.panel import Panel
+from src.ui.widgets.sidePanel import SidePanel
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
         self.setWindowTitle("Smart Home Panel")
-        self.setMinimumSize(800, 600)
+        self.setMinimumSize(1200, 800)
 
-        self.loginWidget = LoginWidget()
+        self.loginWidget = Login()
         self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
 
         self.setCentralWidget(self.loginWidget)
@@ -19,5 +20,32 @@ class MainWindow(QMainWindow):
             self.loginWidget.deleteLater()
             self.loginWidget = None
 
-        self.panelWidget = PanelWidget()
-        self.setCentralWidget(self.panelWidget)
+        self.wrapper = QWidget()
+
+        self.panelWidget = Panel()
+        self.sidePanelWidget = SidePanel()
+        self.sidePanelWidget.logoutRequest.connect(self.panelToLoginTransition)
+        self.sidePanelWidget.setFixedWidth(100)
+
+        wrapperLayout = QHBoxLayout(self.wrapper)
+        wrapperLayout.addWidget(self.sidePanelWidget)
+        wrapperLayout.addWidget(self.panelWidget)
+
+        wrapperLayout.setContentsMargins(0, 0, 0, 0)
+        wrapperLayout.setSpacing(0)
+
+        self.setCentralWidget(self.wrapper)
+
+    def panelToLoginTransition(self):
+        if self.panelWidget is not None:
+            self.panelWidget.deleteLater()
+            self.panelWidget = None
+
+        if self.sidePanelWidget is not None:
+            self.sidePanelWidget.deleteLater()
+            self.sidePanelWidget = None
+
+        self.loginWidget = Login()
+        self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
+
+        self.setCentralWidget(self.loginWidget)

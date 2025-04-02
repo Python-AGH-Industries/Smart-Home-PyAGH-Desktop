@@ -3,11 +3,7 @@ from PyQt6.QtWidgets import QPushButton, QWidget, \
                             QSizePolicy, QLineEdit
 from PyQt6.QtCore import Qt, pyqtSignal
 
-from src.model.LoginController import LoginController
-from src.ui.widgets.TextInput import TextInput
-
-
-class LoginWidget(QWidget):
+class Login(QWidget):
     loginSuccessful = pyqtSignal()
 
     def __init__(self):
