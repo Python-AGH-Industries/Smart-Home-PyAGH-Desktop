@@ -3,8 +3,8 @@ from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
 class MqttSubPanelBar(QWidget):
     def __init__(self):
         super().__init__()
-        label = QPushButton("Room 1")
-        label2 = QPushButton("Room 2")
+        label = QPushButton("Kitchen")
+        label2 = QPushButton("Living Room")
         self.setFixedHeight(40)
         self.setStyleSheet("background-color: red;")
         layout = QHBoxLayout(self)
