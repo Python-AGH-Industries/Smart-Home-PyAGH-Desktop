@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QHBoxLayout
-from src.ui.widgets.Login import Login
-from src.ui.widgets.Panel import Panel
-from src.ui.widgets.SidePanel import SidePanel
+from src.ui.widgets.login import Login
+from src.ui.widgets.panel import Panel
+from src.ui.widgets.sidePanel import SidePanel
 
 class MainWindow(QMainWindow):
     def __init__(self):

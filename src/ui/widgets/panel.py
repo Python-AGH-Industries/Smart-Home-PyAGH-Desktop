@@ -1,6 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
-from src.ui.widgets.MqttSubPanel import MqttSubPanel
-from src.ui.widgets.PublicSubPanel import PublicSubPanel
+from src.ui.widgets.mqttSubPanel import MqttSubPanel
+from src.ui.widgets.publicSubPanel import PublicSubPanel
 from src.ui.widgets.mqttSubPanelBar import MqttSubPanelBar
 
 class Panel(QWidget):
