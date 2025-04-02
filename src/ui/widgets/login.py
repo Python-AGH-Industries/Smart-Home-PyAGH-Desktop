@@ -1,7 +1,9 @@
 from PyQt6.QtWidgets import QPushButton, QWidget, \
                             QVBoxLayout, QHBoxLayout, QLabel, \
-                            QSizePolicy, QLineEdit
+                            QSizePolicy
 from PyQt6.QtCore import Qt, pyqtSignal
+from src.ui.widgets.textInput import TextInput
+from src.model.loginController import LoginController
 
 class Login(QWidget):
     loginSuccessful = pyqtSignal()
@@ -9,14 +11,10 @@ class Login(QWidget):
     def __init__(self):
         super().__init__()
 
-
         self.loginWidgetLayout = QVBoxLayout(self)
 
         self.loginWelcomeLabel = QLabel("Welcome to you Smart Home Panel", self)
         self.loginWelcomeLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-
-            
 
         self.loginButtonLayout = QHBoxLayout()
 
@@ -41,14 +39,7 @@ class Login(QWidget):
         self.loginWidgetLayout.setContentsMargins(0, 0, 0, 0)
         self.loginWidgetLayout.setSpacing(0)
 
-
         self.setLayout(self.loginWidgetLayout)
-
-
-
-
-
-
 
     def loginHandler(self):
 

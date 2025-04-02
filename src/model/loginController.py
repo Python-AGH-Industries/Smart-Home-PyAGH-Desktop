@@ -1,5 +1,4 @@
-from src.model.User import User
-
+from src.model.user import User
 
 class LoginController():
     def __init__(self):

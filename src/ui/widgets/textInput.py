@@ -1,6 +1,5 @@
 from PyQt6.QtWidgets import QLineEdit
 
-
 class TextInput():
     def __init__(self,placeholderText):
         self.object = QLineEdit()

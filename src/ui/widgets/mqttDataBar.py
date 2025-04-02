@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QLabel
-from src.ui.widgets.IconButton import IconButton
+from src.ui.widgets.iconButton import IconButton
 
 class MqttDataBar(QWidget):
     def __init__(self, title):
