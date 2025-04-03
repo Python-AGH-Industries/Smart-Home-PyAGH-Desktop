@@ -2,14 +2,14 @@ from src.model.user import User
 
 class LoginController():
     def __init__(self):
-        self.users = {"user1":User("user1","abcd")}
+        self.users = {"a": User("a","a")}
 
     def adduser(self,username,password):
-        self.users.update({username,User(username,password)})
+        self.users.update({username, User(username, password)})
 
     def login(self,username,password):
         print(self.users)
-        print(self.users['user1'])
+        print(self.users['a'])
         if username in self.users:
             return self.users[username].checkCredentials(password)
         else:

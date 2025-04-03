@@ -1,20 +1,22 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 import pyqtgraph as pg
-from random import randint
+from datetime import datetime
 
 class MqttDataGraph(QWidget):
     def __init__(self, leftLabel, data):
         super().__init__()
+        self.plot_widget = pg.PlotWidget()
         layout = QVBoxLayout(self)
-        plot_graph = pg.PlotWidget()
+        layout.addWidget(self.plot_widget)
+        
+        timestamps = [t.timestamp() for (_, t) in data]
+        values = [v for (v, _) in data]
 
-        time = [t for (_, t) in data]
-        data = [d for (d, _) in data]
-        pen = pg.mkPen(color=(255,0,0))
+        date_axis = pg.DateAxisItem(orientation='bottom')
+        self.plot_widget.setAxisItems({'bottom': date_axis})
 
-        plot_graph.plot(time, data, pen = pen)
-        plot_graph.setLabel("left", leftLabel)
-        plot_graph.setLabel("bottom", "Time (min)")
-        plot_graph.setTitle(leftLabel + " vs Time", color="w", size="10pt")
+        self.plot_widget.plot(timestamps, values, pen='r')
 
-        layout.addWidget(plot_graph)
+        self.plot_widget.setLabel('left', leftLabel)
+        self.plot_widget.setLabel('bottom', 'Time')
+        self.plot_widget.setTitle(f"{leftLabel} vs Time")
