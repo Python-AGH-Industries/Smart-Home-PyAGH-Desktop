@@ -1,8 +1,10 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QFileDialog
 from src.ui.widgets.mqttDataGraph import MqttDataGraph
 from src.ui.widgets.mqttDataDetails import MqttDataDetails
 from src.model.unitConverter import UnitConverter
 from datetime import datetime, timedelta
+import pyqtgraph.exporters
+import json
 
 class MqttDataContent(QWidget):
     def __init__(self, rowSpecs, mqttData):
@@ -38,6 +40,7 @@ class MqttDataContent(QWidget):
                 self.specs.units[self.dataDetails.unitSelection.comboBox.currentIndex()], 
                 [v for (v, _) in self.allMqttData]
             )
+        
         newValuesUsed = self.converter.convertUnits(
             self.specs.title,
             self.dataDetails.chosenUnit,
@@ -65,3 +68,70 @@ class MqttDataContent(QWidget):
         self.usedMqttData = [(v, t) for v, t in self.allMqttData if t >= offset]
         self.dataDetails.updateDetails([v for v, _ in self.usedMqttData])
         self.dataGraph.drawGraph(self.usedMqttData)
+
+    def saveDataInJson(self):
+        jsonData = {}
+        jsonData[self.specs.title] = {}
+
+        for value, time in self.usedMqttData:
+            jsonData[self.specs.title][str(time)] = value
+
+        jsonData = json.dumps(jsonData, indent = 4)
+
+        response = QFileDialog.getSaveFileName(
+            parent = self,
+            caption = "Select location to save",
+            filter = "JSON Files (*.json);;All Files (*)"
+        )
+
+        fileName = response[0]
+
+        if fileName:
+            if not fileName.lower().endswith(".json"):
+                fileName += ".json"
+
+            file = open(fileName, "w")
+            file.write(jsonData)
+            file.close()
+
+    def saveDataInCsv(self):
+        csvData = []
+        csvData.append(("Date", f"{self.specs.title} value"))
+
+        for value, time in self.usedMqttData:
+            csvData.append((time, value))
+
+        response = QFileDialog.getSaveFileName(
+            parent = self,
+            caption = "Select location to save",
+            filter = "CSV Files (*.csv);;All Files (*)"
+        )
+
+        fileName = response[0]
+
+        if fileName:
+            if not fileName.lower().endswith(".csv"):
+                fileName += ".csv"
+
+            file = open(fileName, "w+")
+            for time, value in csvData:
+                file.write(f"{time},{value}\n")
+            file.close()
+
+    def saveDataInPng(self):
+        response = QFileDialog.getSaveFileName(
+            parent = self,
+            caption = "Select location to save",
+            filter = "PNG Files (*.png);;All Files (*)"
+        )
+
+        fileName = response[0]
+
+        if fileName:
+            if not fileName.lower().endswith(".png"):
+                fileName += ".png"
+            exporter = pyqtgraph.exporters.ImageExporter(
+                self.dataGraph.plot_widget.plotItem
+            )
+            exporter.export(fileName)
+            

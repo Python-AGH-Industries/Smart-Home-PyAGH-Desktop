@@ -8,14 +8,17 @@ class MqttDataRow(QWidget):
 
         wrapperLayout = QVBoxLayout(self)
 
-        rowBar = MqttDataBar(rowSpecs.title)
-        rowContent = MqttDataContent(rowSpecs, mqttData)
+        self.rowBar = MqttDataBar(rowSpecs.title)
+        self.rowContent = MqttDataContent(rowSpecs, mqttData)
 
-        rowBar.minimizeButton.clicked.connect(rowContent.hide)
-        rowBar.maximizeButton.clicked.connect(rowContent.show)
+        self.rowBar.minimizeButton.clicked.connect(self.rowContent.hide)
+        self.rowBar.maximizeButton.clicked.connect(self.rowContent.show)
+        self.rowBar.jsonButton.clicked.connect(self.rowContent.saveDataInJson)
+        self.rowBar.csvButton.clicked.connect(self.rowContent.saveDataInCsv)
+        self.rowBar.imageButton.clicked.connect(self.rowContent.saveDataInPng)
 
-        wrapperLayout.addWidget(rowBar)
-        wrapperLayout.addWidget(rowContent)
+        wrapperLayout.addWidget(self.rowBar)
+        wrapperLayout.addWidget(self.rowContent)
 
         wrapperLayout.setContentsMargins(0, 0, 0, 0)
         wrapperLayout.setSpacing(0)
