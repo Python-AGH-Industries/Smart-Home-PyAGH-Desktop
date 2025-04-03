@@ -55,7 +55,7 @@ class MqttDataContent(QWidget):
         period = self.dataDetails.periods[self.dataDetails.periodSelection.comboBox.currentIndex()]
         now = datetime.now()
         offset = now
-        print("new period ", period)
+
         if period == "7 days":
             offset = now - timedelta(days = 7)
         else:

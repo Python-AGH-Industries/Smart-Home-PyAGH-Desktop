@@ -11,8 +11,8 @@ class MqttDataBar(QWidget):
         barLayout = QHBoxLayout(self)
 
         barTitle = QLabel(title, self)
-        self.minimizeButton = IconButton(iconPath + "minimize.png", self, 25)
-        self.maximizeButton = IconButton(iconPath + "maximize.png", self, 25)
+        self.minimizeButton = IconButton(f"{iconPath}minimize.png", self, 25)
+        self.maximizeButton = IconButton(f"{iconPath}maximize.png", self, 25)
 
         barLayout.addWidget(barTitle)
         barLayout.addStretch(1)

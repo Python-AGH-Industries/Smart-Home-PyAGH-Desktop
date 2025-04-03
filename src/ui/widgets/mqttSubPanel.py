@@ -40,6 +40,7 @@ class MqttSubPanel(QWidget):
         mqttDataLayout.addWidget(humidityRow)
         mqttDataLayout.addWidget(pressureRow)
         mqttDataLayout.addWidget(lightRow)
+        mqttDataLayout.addStretch(2)
 
         mqttDataLayout.setContentsMargins(0, 0, 0, 0)
         mqttDataLayout.setSpacing(0)

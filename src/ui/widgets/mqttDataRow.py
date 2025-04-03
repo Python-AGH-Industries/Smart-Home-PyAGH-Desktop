@@ -11,6 +11,9 @@ class MqttDataRow(QWidget):
         rowBar = MqttDataBar(rowSpecs.title)
         rowContent = MqttDataContent(rowSpecs, mqttData)
 
+        rowBar.minimizeButton.clicked.connect(rowContent.hide)
+        rowBar.maximizeButton.clicked.connect(rowContent.show)
+
         wrapperLayout.addWidget(rowBar)
         wrapperLayout.addWidget(rowContent)
 
