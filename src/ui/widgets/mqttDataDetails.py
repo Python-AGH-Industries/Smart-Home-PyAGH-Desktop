@@ -15,9 +15,9 @@ class MqttDataDetails(QWidget):
 
         self.sensorSelection = LabelComboBox(f"Chosen {specs.title.lower()}" 
                                             f" sensor", specs.sensors, self)
-        self.periodSelection = LabelComboBox("Showing " + specs.title.lower() +
-                                        " from the last", self.periods, self)
-        self.unitSelection = LabelComboBox(specs.title + " unit ", specs.units, self)
+        self.periodSelection = LabelComboBox(f"Showing {specs.title.lower()}"
+                                        f" from the last", self.periods, self)
+        self.unitSelection = LabelComboBox(f"{specs.title} unit ", specs.units, self)
 
         self.rounder = FloatRounder()
 
@@ -29,6 +29,7 @@ class MqttDataDetails(QWidget):
         self.maxLabel = QLabel("", self)
         
         self.unitSelection.comboBox.currentTextChanged.connect(self.onUnitsChanged)
+        self.periodSelection.comboBox.currentTextChanged.connect(self.onPeriodChanged)
 
         layout.addWidget(self.sensorSelection)
         layout.addWidget(self.periodSelection)
@@ -36,12 +37,13 @@ class MqttDataDetails(QWidget):
         layout.addWidget(self.meanLabel)
         layout.addWidget(self.minLabel)
         layout.addWidget(self.maxLabel)
+
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(5)
 
     def updateDetails(self, mqttData):
         self.chosenUnit = self.specs.units[self.unitSelection.comboBox.currentIndex()]
-        print(mqttData)
+        self.chosenPeriod = self.periods[self.periodSelection.comboBox.currentIndex()]
         temp_mean = self.rounder.roundFloat5(sum(mqttData) / len(mqttData))
         temp_min = self.rounder.roundFloat5(min(mqttData))
         temp_max = self.rounder.roundFloat5(max(mqttData))
@@ -52,3 +54,6 @@ class MqttDataDetails(QWidget):
 
     def onUnitsChanged(self):
         self.userChangedUnit.emit()
+
+    def onPeriodChanged(self):
+        self.userChangedTimeRange.emit()
