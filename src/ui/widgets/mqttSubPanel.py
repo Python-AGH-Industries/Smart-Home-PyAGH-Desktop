@@ -1,12 +1,14 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
 from src.ui.widgets.mqttDataRow import MqttDataRow
 from src.model.dataRowSpecs import DataRowSpecs
+from src.model.floatRounder import FloatRounder
 from random import randint
 from datetime import datetime, timedelta
 
 class MqttSubPanel(QWidget):
     def __init__(self):
         super().__init__()
+        self.rounder = FloatRounder()
         mqttDataLayout = QVBoxLayout(self)
 
         tempSpecs = DataRowSpecs("Temperature", ["C", "F", "K"],
@@ -23,14 +25,14 @@ class MqttSubPanel(QWidget):
         tempData, humiData, presData, lighData = [], [], [], []
 
         for _ in range(cnt):
-            tempData.append((round(randint(100, 350) / 10, 3), current_time))
-            humiData.append((round(randint(100, 300) / 10, 3), current_time))
-            presData.append((round(randint(980000, 1030000) / 100, 3), current_time))
-            lighData.append((round(randint(3000, 12000), 3), current_time))
+            tempData.append((self.rounder.roundFloat5(randint(100, 350) / 10), current_time))
+            humiData.append((self.rounder.roundFloat5(randint(100, 300) / 10), current_time))
+            presData.append((self.rounder.roundFloat5(randint(980000, 1030000) / 10), current_time))
+            lighData.append((self.rounder.roundFloat5(randint(3000, 12000)), current_time))
             current_time += timedelta(hours = 1)
 
         temperatureRow = MqttDataRow(tempSpecs, tempData)
-        humidityRow = MqttDataRow(humiditySpecs, humiData)
+        humidityRow = MqttDataRow(humiditySpecs, humiData) 
         pressureRow = MqttDataRow(pressureSpecs, presData)
         lightRow = MqttDataRow(lightSpecs, lighData)
 
