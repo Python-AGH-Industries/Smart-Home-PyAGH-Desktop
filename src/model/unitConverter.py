@@ -3,6 +3,9 @@ class UnitConverter:
         pass
 
     def convertUnits(self, title, oldUnit, newUnit, data):
+        if oldUnit==newUnit:
+            return data
+
         if title == "Temperature":
             return self.convertTemperature(oldUnit, newUnit, data)
         elif title == "Humidity":

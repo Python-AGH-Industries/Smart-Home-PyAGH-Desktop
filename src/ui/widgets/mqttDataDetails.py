@@ -3,9 +3,11 @@ from src.ui.widgets.labelComboBox import LabelComboBox
 from src.model.unitConverter import UnitConverter
 
 class MqttDataDetails(QWidget):
-    def __init__(self, specs, mqttData):
+    def __init__(self, specs, mqttData,changeTimeFrame,changeUnits):
         super().__init__()
         self.specs = specs
+        self.changeTimeFrame = changeTimeFrame
+        self.changeUnits = changeUnits
         layout = QVBoxLayout(self)
         periods = ["4h", "8h", "12h", "24h", "48h", "7 days"]
 
@@ -29,6 +31,7 @@ class MqttDataDetails(QWidget):
         
         self.converter = UnitConverter()
         self.unitSelection.comboBox.currentTextChanged.connect(self.onUnitsChanged)
+        self.periodSelection.comboBox.currentTextChanged.connect(self.onTimeframeChanged)
 
         layout.addWidget(self.sensorSelection)
         layout.addWidget(self.periodSelection)
@@ -51,4 +54,10 @@ class MqttDataDetails(QWidget):
         self.data = self.converter.convertUnits(self.specs.title, self.chosenUnit, 
                                     newText, self.data)
         self.chosenUnit = newText
-        self.updateDetails()
+        print(self.chosenUnit)
+        self.changeUnits(self.chosenUnit)
+
+    def onTimeframeChanged(self,newText):
+        self.chosenPeriod = newText
+        print(self.chosenPeriod)
+        self.changeTimeFrame(newText)

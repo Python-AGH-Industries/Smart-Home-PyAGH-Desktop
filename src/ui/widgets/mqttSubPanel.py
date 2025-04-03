@@ -1,4 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
+
 from src.ui.widgets.mqttDataRow import MqttDataRow
 from src.model.dataRowSpecs import DataRowSpecs
 from random import randint
@@ -17,10 +18,10 @@ class MqttSubPanel(QWidget):
         lightSpecs = DataRowSpecs("Light", ["Cd"],
                                ["Table", "Desk"])
 
-        tempData = [(round(randint(100, 350) / 10, 3), i + 1) for i in range(10)]
-        humiData = [(round(randint(100, 300) / 10, 3), i + 1) for i in range(10)]
-        presData = [(round(randint(980000, 1030000) / 100, 3), i + 1) for i in range(10)]
-        lighData = [(round(randint(3000, 12000), 3), i + 1) for i in range(10)]
+        tempData = [(round(randint(100, 350) / 10, 3), i + 1) for i in range(10080)]
+        humiData = [(round(randint(100, 300) / 10, 3), i + 1) for i in range(10080)]
+        presData = [(round(randint(980000, 1030000) / 100, 3), i + 1) for i in range(10080)]
+        lighData = [(round(randint(3000, 12000), 3), i + 1) for i in range(10080)]
 
         temperatureRow = MqttDataRow(tempSpecs, tempData)
         humidityRow = MqttDataRow(humiditySpecs, humiData)
