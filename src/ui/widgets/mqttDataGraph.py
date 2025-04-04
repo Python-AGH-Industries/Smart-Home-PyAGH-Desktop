@@ -6,12 +6,24 @@ class MqttDataGraph(QWidget):
         super().__init__()
         self.plot_widget = pg.PlotWidget()
 
-        self.plot_widget.setLabel('left', leftLabel)
+        self.plot_widget.setBackground("#f0f0f0")
+
+        self.plot_widget.getAxis('left').setPen('k')  
+        self.plot_widget.getAxis('left').setTextPen('k')  
+        self.plot_widget.getAxis('bottom').setPen('k')  
+        self.plot_widget.getAxis('bottom').setTextPen('k')
+
+        self.plot_widget.setLabel('left', leftLabel, color='k')
+        self.plot_widget.setLabel('bottom', 'Time', color='k')
+        
         date_axis = pg.DateAxisItem(orientation='bottom')
+        date_axis.setPen('k')  
+        date_axis.setTextPen('k')  
         self.plot_widget.setAxisItems({'bottom': date_axis})
-        self.plot_widget.setTitle(f"{leftLabel} vs Time")
-        self.plot_widget.setLabel('bottom', 'Time')
-        self.plot_widget.enableAutoRange()
+
+        self.plot_widget.setTitle(f"{leftLabel} vs Time", color='k', size='12pt')
+
+        self.plot_widget.showGrid(x=True, y=True, alpha=0.2)
 
         self.timestamps = []
         self.values = []
@@ -23,5 +35,4 @@ class MqttDataGraph(QWidget):
         self.values = [v for v, _ in data]
         self.timestamps = [t.timestamp() for _, t in data]
         self.plot_widget.clear()
-        self.plot_widget.plot(self.timestamps, self.values, pen = 'r')
-    
+        self.plot_widget.plot(self.timestamps, self.values, pen='r') 

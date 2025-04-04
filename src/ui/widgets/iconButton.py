@@ -8,6 +8,6 @@ class IconButton(QPushButton):
         self.setFixedSize(QSize(fixedSize, fixedSize))
         self.setIcon(QIcon(path))
         
-        offset = fixedSize / 8
+        offset = fixedSize / 6
 
         self.setIconSize(QSize(int(fixedSize - offset), int(fixedSize - offset)))

@@ -60,7 +60,6 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.loginWidget)
 
     def loginToRegisterTransition(self):
-        print("AAA")
         if self.loginWidget is not None:
             self.loginWidget.deleteLater()
             self.loginWidget = None
@@ -69,6 +68,7 @@ class MainWindow(QMainWindow):
         self.loginWidget.goBack.connect(self.registrationToLoginTransition)
 
         self.setCentralWidget(self.loginWidget)
+    
     def registrationToLoginTransition(self):
         if self.loginWidget is not None:
             self.loginWidget.deleteLater()
