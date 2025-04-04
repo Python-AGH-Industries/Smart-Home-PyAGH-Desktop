@@ -4,7 +4,6 @@ class TextInput():
     def __init__(self,placeholderText):
         self.object = QLineEdit()
         self.object.setPlaceholderText(placeholderText)
-        self.object.setStyleSheet("padding: 5px;")
     def append(self,layout):
         layout.addWidget(self.object)
     def getText(self):

@@ -1,0 +1,35 @@
+QWidget, QHBoxLayout {
+    background-color: #f0f0f0;
+}
+
+QPushButton {
+    background-color: #3498db;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+    max-height:120px;
+    max-width:400px;
+    margin-bottom:200px;
+    margin-left:30px;
+    margin-right:30px
+}
+
+QPushButton:hover {
+    background-color: #2980b9;
+}
+QLabel{
+    font-size:30px;}
+    QLineEdit{
+    background-color:#f0f0f0;
+    min-height:50px;
+    margin-left:200px;
+    margin-right:200px;
+    margit-top:25px;
+    margit-bottom:25px;
+    border-radius:10px;
+}
+QMessageBox{
+    text-align: center;
+      padding: 70px 0;
+
+}
