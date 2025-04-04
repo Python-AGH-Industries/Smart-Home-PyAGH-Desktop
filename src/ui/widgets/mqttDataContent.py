@@ -21,6 +21,8 @@ class MqttDataContent(QWidget):
 
         self.dataDetails.userChangedUnit.connect(self.onUnitsChanged)
         self.dataDetails.userChangedTimeRange.connect(self.onPeriodChanged)
+        self.dataDetails.userChangedPenColor.connect(self.onColorChanged)
+        self.dataDetails.userChangedBackgroundColor.connect(self.onBackgroundChanged)
 
         self.dataDetails.updateDetails([v for (v, _) in self.usedMqttData])
         self.onPeriodChanged()
@@ -68,6 +70,30 @@ class MqttDataContent(QWidget):
         self.usedMqttData = [(v, t) for v, t in self.allMqttData if t >= offset]
         self.dataDetails.updateDetails([v for v, _ in self.usedMqttData])
         self.dataGraph.drawGraph(self.usedMqttData)
+
+    def onColorChanged(self):
+        newColor = self.dataDetails.colors[self.dataDetails.colorSelection.comboBox.currentIndex()]
+
+        if newColor == "red":
+            newColor = "#fc0303"
+        elif newColor == "black":
+            newColor = "#000000"
+        elif newColor == "white":
+            newColor = "#f0f0f0"
+
+        self.dataGraph.changePenColor(newColor)
+
+    def onBackgroundChanged(self):
+        newColor = self.dataDetails.backgrounds[self.dataDetails.backgroundSelection.comboBox.currentIndex()]
+
+        if newColor == "gray":
+            newColor = "#7a7a7a"
+        elif newColor == "black":
+            newColor = "#000000"
+        elif newColor == "white":
+            newColor = "#f0f0f0"
+
+        self.dataGraph.changeGraphBackground(newColor)
 
     def saveDataInJson(self):
         jsonData = {}

@@ -6,18 +6,24 @@ from src.model.floatRounder import FloatRounder
 class MqttDataDetails(QWidget):
     userChangedUnit = pyqtSignal()
     userChangedTimeRange = pyqtSignal()
+    userChangedPenColor = pyqtSignal()
+    userChangedBackgroundColor = pyqtSignal()
 
     def __init__(self, specs):
         super().__init__()
         self.specs = specs
         layout = QVBoxLayout(self)
         self.periods = ["4h", "8h", "12h", "24h", "48h", "7 days"]
+        self.colors = ["red", "black", "white"]
+        self.backgrounds = ["white", "gray", "black"] 
 
         self.sensorSelection = LabelComboBox(f"Chosen {specs.title.lower()}" 
                                             f" sensor", specs.sensors, self)
         self.periodSelection = LabelComboBox(f"Showing {specs.title.lower()}"
                                         f" from the last", self.periods, self)
         self.unitSelection = LabelComboBox(f"{specs.title} unit ", specs.units, self)
+        self.colorSelection = LabelComboBox(f"{specs.title} graph color ", self.colors, self)
+        self.backgroundSelection = LabelComboBox(f"{specs.title} graph background ", self.backgrounds, self)
 
         self.rounder = FloatRounder()
 
@@ -25,18 +31,19 @@ class MqttDataDetails(QWidget):
         self.chosenUnit = specs.units[self.unitSelection.comboBox.currentIndex()]
 
         self.meanLabel = QLabel("", self)
-        self.minLabel = QLabel("", self)
-        self.maxLabel = QLabel("", self)
+        self.meanLabel.setWordWrap(True)
         
         self.unitSelection.comboBox.currentTextChanged.connect(self.onUnitsChanged)
         self.periodSelection.comboBox.currentTextChanged.connect(self.onPeriodChanged)
+        self.colorSelection.comboBox.currentTextChanged.connect(self.onColorChanged)
+        self.backgroundSelection.comboBox.currentTextChanged.connect(self.onBackgroundChanged)
 
         layout.addWidget(self.sensorSelection)
         layout.addWidget(self.periodSelection)
         layout.addWidget(self.unitSelection)
+        layout.addWidget(self.colorSelection)
+        layout.addWidget(self.backgroundSelection)
         layout.addWidget(self.meanLabel)
-        layout.addWidget(self.minLabel)
-        layout.addWidget(self.maxLabel)
 
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(5)
@@ -48,12 +55,18 @@ class MqttDataDetails(QWidget):
         temp_min = self.rounder.roundFloat5(min(mqttData))
         temp_max = self.rounder.roundFloat5(max(mqttData))
 
-        self.meanLabel.setText(f"Last {self.chosenPeriod} mean is {temp_mean} {self.chosenUnit}")
-        self.minLabel.setText(f"Last {self.chosenPeriod} minimum is {temp_min} {self.chosenUnit}")
-        self.maxLabel.setText(f"Last {self.chosenPeriod} maximum is {temp_max} {self.chosenUnit}")
+        self.meanLabel.setText(f"Last {self.chosenPeriod} mean = {temp_mean} {self.chosenUnit}, "
+                               f"minimum = {temp_min} {self.chosenUnit}, "
+                               f"maximum = {temp_max} {self.chosenUnit}")
 
     def onUnitsChanged(self):
         self.userChangedUnit.emit()
 
     def onPeriodChanged(self):
         self.userChangedTimeRange.emit()
+
+    def onColorChanged(self):
+        self.userChangedPenColor.emit()
+
+    def onBackgroundChanged(self):
+        self.userChangedBackgroundColor.emit()

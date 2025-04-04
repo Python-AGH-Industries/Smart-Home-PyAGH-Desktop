@@ -36,3 +36,10 @@ class MqttDataGraph(QWidget):
         self.timestamps = [t.timestamp() for _, t in data]
         self.plot_widget.clear()
         self.plot_widget.plot(self.timestamps, self.values, pen='r') 
+
+    def changePenColor(self, color):
+        self.plot_widget.clear()
+        self.plot_widget.plot(self.timestamps, self.values, pen=color)
+
+    def changeGraphBackground(self, color):
+        self.plot_widget.setBackground(color)
