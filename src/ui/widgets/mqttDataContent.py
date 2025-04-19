@@ -7,6 +7,18 @@ import pyqtgraph.exporters
 import json
 
 class MqttDataContent(QWidget):
+    colorMap = {
+        "red": "#fc0303",
+        "black": "#000000",
+        "white": "#f0f0f0"
+    }
+
+    backgroundMap = {
+        "gray": "#7a7a7a",
+        "black": "#000000",
+        "white": "#f0f0f0"
+    }
+
     def __init__(self, rowSpecs, mqttData):
         super().__init__()
         dataContentLayout = QHBoxLayout(self)
@@ -77,29 +89,11 @@ class MqttDataContent(QWidget):
         self.dataDetails.updateDetails([v for v, _ in self.usedMqttData], newPeriod)
         self.dataGraph.drawGraph(self.usedMqttData)
 
-    def onColorChanged(self):
-        newColor = "" # TO DO
+    def updateColor(self, newColor):
+        self.dataGraph.changePenColor(self.colorMap[newColor])
 
-        if newColor == "red":
-            newColor = "#fc0303"
-        elif newColor == "black":
-            newColor = "#000000"
-        elif newColor == "white":
-            newColor = "#f0f0f0"
-
-        self.dataGraph.changePenColor(newColor)
-
-    def onBackgroundChanged(self):
-        newColor = "" # TO DO
-
-        if newColor == "gray":
-            newColor = "#7a7a7a"
-        elif newColor == "black":
-            newColor = "#000000"
-        elif newColor == "white":
-            newColor = "#f0f0f0"
-
-        self.dataGraph.changeGraphBackground(newColor)
+    def updateBackground(self, newColor):
+        self.dataGraph.changeGraphBackground(self.backgroundMap[newColor])
 
     def saveDataInJson(self):
         jsonData = {}

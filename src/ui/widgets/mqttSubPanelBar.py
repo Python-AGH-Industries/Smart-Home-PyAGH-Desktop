@@ -18,17 +18,17 @@ class MqttSubPanelBar(QWidget):
         self.backgrounds = ["white", "gray"] 
 
         self.periodSelection = LabelComboBox(
-            f"Showing data from the last ",
+            f"Data period ",
             self.periods,
             self
         )
         self.colorSelection = LabelComboBox(
-            f"Graph color ",
+            f"Color ",
             self.colors,
             self
         )
         self.backgroundSelection = LabelComboBox(
-            f"Graph background ",
+            f"Background ",
             self.backgrounds,
             self
         )
@@ -38,7 +38,7 @@ class MqttSubPanelBar(QWidget):
         )
 
         self.colorSelection.comboBox.currentIndexChanged.connect(
-            lambda: self.userChangedPeriod.emit()
+            lambda: self.userChangedColor.emit()
         )
 
         self.backgroundSelection.comboBox.currentTextChanged.connect(
@@ -46,7 +46,6 @@ class MqttSubPanelBar(QWidget):
         )
 
         self.setFixedHeight(30)
-        self.setStyleSheet("background-color: rgb(225, 225, 225); color: rgb(20, 20, 20);")
         layout = QHBoxLayout(self)
         layout.addWidget(room1)
         layout.addWidget(room2)

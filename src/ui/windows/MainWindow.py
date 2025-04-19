@@ -35,6 +35,14 @@ class MainWindow(QMainWindow):
         self.sidePanelWidget.logoutRequest.connect(self.panelToLoginTransition)
         self.sidePanelWidget.setFixedWidth(100)
 
+        self.panelWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/panel.qss")
+        )
+
+        self.sidePanelWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/sidePanel.qss")
+        )
+
         wrapperLayout = QHBoxLayout(self.wrapper)
         wrapperLayout.addWidget(self.sidePanelWidget)
         wrapperLayout.addWidget(self.panelWidget)

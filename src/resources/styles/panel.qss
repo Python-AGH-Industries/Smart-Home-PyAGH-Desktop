@@ -1,0 +1,7 @@
+Panel {
+    background-color: rgb(0, 0, 50);
+}
+
+IconButton {
+    background-color: rgb(0, 0, 160);
+}
