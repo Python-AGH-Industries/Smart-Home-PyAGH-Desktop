@@ -8,9 +8,8 @@ class MqttDataBar(QWidget):
         super().__init__()
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         iconPath = "src/resources/icons/"
-        self.height = 30
+        self.height = 40
         self.setFixedHeight(self.height)
-        self.setStyleSheet("QWidget {background-color: rgb(80, 80, 80);}")
 
         barLayout = QHBoxLayout(self)
 
@@ -18,27 +17,27 @@ class MqttDataBar(QWidget):
         self.minimizeButton = IconButton(
             f"{iconPath}minimize.png",
             self,
-            self.height - 5
+            self.height - 10
         )
         self.maximizeButton = IconButton(
             f"{iconPath}maximize.png",
             self,
-            self.height - 5
+            self.height - 10
         )
         self.jsonButton = IconButton(
             f"{iconPath}json.png",
             self,
-            self.height - 5
+            self.height - 10
         )
         self.csvButton = IconButton(
             f"{iconPath}csv.png",
             self,
-            self.height - 5
+            self.height - 10
         )
         self.imageButton = IconButton(
             f"{iconPath}image.png",
             self,
-            self.height - 5
+            self.height - 10
         )
 
         barLayout.addWidget(barTitle)
