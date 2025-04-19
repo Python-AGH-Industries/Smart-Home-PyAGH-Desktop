@@ -10,4 +10,7 @@ class IconButton(QPushButton):
         
         offset = fixedSize / 6
 
-        self.setIconSize(QSize(int(fixedSize - offset), int(fixedSize - offset)))
+        self.setIconSize(QSize(
+            int(fixedSize - offset),
+            int(fixedSize - offset)
+        ))

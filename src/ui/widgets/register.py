@@ -21,7 +21,10 @@ class Register(QWidget):
         self.loginButtonLayout = QHBoxLayout()
 
         loginButton = QPushButton("Register", self)
-        loginButton.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        loginButton.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding
+        )
         loginButton.clicked.connect(self.registerUser)
 
 

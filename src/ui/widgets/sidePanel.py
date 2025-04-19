@@ -25,10 +25,25 @@ class SidePanel(QWidget):
         sidePanelLayout.addStretch(1)
         sidePanelLayout.addWidget(logoutButton)
 
-        sidePanelLayout.setAlignment(homeButton, Qt.AlignmentFlag.AlignHCenter)
-        sidePanelLayout.setAlignment(helpButton, Qt.AlignmentFlag.AlignHCenter)
-        sidePanelLayout.setAlignment(aboutButton, Qt.AlignmentFlag.AlignHCenter)
-        sidePanelLayout.setAlignment(logoutButton, Qt.AlignmentFlag.AlignHCenter)
+        sidePanelLayout.setAlignment(
+            homeButton,
+            Qt.AlignmentFlag.AlignHCenter
+        )
+
+        sidePanelLayout.setAlignment(
+            helpButton,
+            Qt.AlignmentFlag.AlignHCenter
+        )
+
+        sidePanelLayout.setAlignment(
+            aboutButton,
+            Qt.AlignmentFlag.AlignHCenter
+        )
+
+        sidePanelLayout.setAlignment(
+            logoutButton,
+            Qt.AlignmentFlag.AlignHCenter
+        )
 
         sidePanelLayout.setSpacing(10)
 

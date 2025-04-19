@@ -7,18 +7,40 @@ class Panel(QWidget):
     def __init__(self):
         super().__init__()
 
-        panelLayout = QHBoxLayout(self)
-        mqttSubPanelLayout = QVBoxLayout()
+        self.panelLayout = QHBoxLayout(self)
+        self.mqttSubPanelLayout = QVBoxLayout()
 
-        mqttSubPanelBar = MqttSubPanelBar()
-        mqttDataWidget = MqttSubPanel()
-        publicDataWidget = PublicSubPanel()
+        self.mqttSubPanelBar = MqttSubPanelBar()
+        self.mqttDataWidget = MqttSubPanel()
+        self.publicDataWidget = PublicSubPanel()
 
-        mqttSubPanelLayout.addWidget(mqttSubPanelBar)
-        mqttSubPanelLayout.addWidget(mqttDataWidget) 
+        self.mqttSubPanelBar.userChangedPeriod.connect(self.updatePeriods)
 
-        panelLayout.addLayout(mqttSubPanelLayout, stretch = 2)
-        panelLayout.addWidget(publicDataWidget, stretch = 1)
+        self.updatePeriods()
 
-        panelLayout.setContentsMargins(0, 0, 0, 0)
-        panelLayout.setSpacing(0)
+        self.mqttSubPanelLayout.addWidget(self.mqttSubPanelBar)
+        self.mqttSubPanelLayout.addWidget(self.mqttDataWidget) 
+
+        self.panelLayout.addLayout(self.mqttSubPanelLayout, stretch = 2)
+        self.panelLayout.addWidget(self.publicDataWidget, stretch = 1)
+
+        self.panelLayout.setContentsMargins(0, 0, 0, 0)
+        self.panelLayout.setSpacing(0)
+
+    def updatePeriods(self):
+        currentPeriod = self.mqttSubPanelBar.periods[
+            self.mqttSubPanelBar.periodSelection.comboBox.currentIndex()
+        ]
+
+        self.mqttDataWidget.temperatureRow.rowContent.onPeriodChanged(
+            currentPeriod
+        )
+        self.mqttDataWidget.humidityRow.rowContent.onPeriodChanged(
+            currentPeriod
+        )
+        self.mqttDataWidget.pressureRow.rowContent.onPeriodChanged(
+            currentPeriod
+        )
+        self.mqttDataWidget.lightRow.rowContent.onPeriodChanged(
+            currentPeriod
+        )

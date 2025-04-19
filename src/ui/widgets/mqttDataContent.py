@@ -20,12 +20,8 @@ class MqttDataContent(QWidget):
         self.dataDetails = MqttDataDetails(self.specs)
 
         self.dataDetails.userChangedUnit.connect(self.onUnitsChanged)
-        self.dataDetails.userChangedTimeRange.connect(self.onPeriodChanged)
-        self.dataDetails.userChangedPenColor.connect(self.onColorChanged)
-        self.dataDetails.userChangedBackgroundColor.connect(self.onBackgroundChanged)
 
         self.dataDetails.updateDetails([v for (v, _) in self.usedMqttData])
-        self.onPeriodChanged()
 
         self.dataGraph.drawGraph(self.usedMqttData)
 
@@ -39,40 +35,50 @@ class MqttDataContent(QWidget):
         newValuesAll = self.converter.convertUnits(
                 self.specs.title, 
                 self.dataDetails.chosenUnit,
-                self.specs.units[self.dataDetails.unitSelection.comboBox.currentIndex()], 
+                self.specs.units[
+                    self.dataDetails.unitSelection.comboBox.currentIndex()
+                ],
                 [v for (v, _) in self.allMqttData]
             )
         
         newValuesUsed = self.converter.convertUnits(
-            self.specs.title,
-            self.dataDetails.chosenUnit,
-            self.specs.units[self.dataDetails.unitSelection.comboBox.currentIndex()],
-            [v for (v, _) in self.usedMqttData]
-        )
+                self.specs.title,
+                self.dataDetails.chosenUnit,
+                self.specs.units[
+                    self.dataDetails.unitSelection.comboBox.currentIndex()
+                ],
+                [v for (v, _) in self.usedMqttData]
+            )
 
-        self.usedMqttData = list(zip(newValuesUsed, [t for _, t in self.usedMqttData]))
-        self.allMqttData = list(zip(newValuesAll, [t for _, t in self.allMqttData]))
+        self.usedMqttData = list(zip(
+            newValuesUsed,
+            [t for _, t in self.usedMqttData]
+        ))
+
+        self.allMqttData = list(zip(
+            newValuesAll,
+            [t for _, t in self.allMqttData]
+        ))
 
         self.dataDetails.updateDetails([v for v, _ in self.usedMqttData])
         self.dataGraph.drawGraph(self.usedMqttData)
 
-    def onPeriodChanged(self):
-        period = self.dataDetails.periods[self.dataDetails.periodSelection.comboBox.currentIndex()]
+    def onPeriodChanged(self, newPeriod):
         now = datetime.now()
         offset = now
 
-        if period == "7 days":
+        if newPeriod == "7 days":
             offset = now - timedelta(days = 7)
         else:
-            hs = int(period[: period.index("h")])
+            hs = int(newPeriod[: newPeriod.index("h")])
             offset = now - timedelta(hours = hs)
 
         self.usedMqttData = [(v, t) for v, t in self.allMqttData if t >= offset]
-        self.dataDetails.updateDetails([v for v, _ in self.usedMqttData])
+        self.dataDetails.updateDetails([v for v, _ in self.usedMqttData], newPeriod)
         self.dataGraph.drawGraph(self.usedMqttData)
 
     def onColorChanged(self):
-        newColor = self.dataDetails.colors[self.dataDetails.colorSelection.comboBox.currentIndex()]
+        newColor = "" # TO DO
 
         if newColor == "red":
             newColor = "#fc0303"
@@ -84,7 +90,7 @@ class MqttDataContent(QWidget):
         self.dataGraph.changePenColor(newColor)
 
     def onBackgroundChanged(self):
-        newColor = self.dataDetails.backgrounds[self.dataDetails.backgroundSelection.comboBox.currentIndex()]
+        newColor = "" # TO DO
 
         if newColor == "gray":
             newColor = "#7a7a7a"

@@ -8,18 +8,38 @@ class MqttDataBar(QWidget):
         super().__init__()
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         iconPath = "src/resources/icons/"
-        self.height = 40
+        self.height = 30
         self.setFixedHeight(self.height)
         self.setStyleSheet("QWidget {background-color: rgb(80, 80, 80);}")
 
         barLayout = QHBoxLayout(self)
 
         barTitle = QLabel(title, self)
-        self.minimizeButton = IconButton(f"{iconPath}minimize.png", self, self.height - 5)
-        self.maximizeButton = IconButton(f"{iconPath}maximize.png", self, self.height - 5)
-        self.jsonButton = IconButton(f"{iconPath}json.png", self, self.height - 5)
-        self.csvButton = IconButton(f"{iconPath}csv.png", self, self.height - 5)
-        self.imageButton = IconButton(f"{iconPath}image.png", self, self.height - 5)
+        self.minimizeButton = IconButton(
+            f"{iconPath}minimize.png",
+            self,
+            self.height - 5
+        )
+        self.maximizeButton = IconButton(
+            f"{iconPath}maximize.png",
+            self,
+            self.height - 5
+        )
+        self.jsonButton = IconButton(
+            f"{iconPath}json.png",
+            self,
+            self.height - 5
+        )
+        self.csvButton = IconButton(
+            f"{iconPath}csv.png",
+            self,
+            self.height - 5
+        )
+        self.imageButton = IconButton(
+            f"{iconPath}image.png",
+            self,
+            self.height - 5
+        )
 
         barLayout.addWidget(barTitle)
         barLayout.addStretch(1)

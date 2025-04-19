@@ -14,7 +14,9 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(1200, 800)
 
         self.loginWidget = Login()
-        self.loginWidget.setStyleSheet(styleLoader.load("./src/resources/styles/login.qss"))
+        self.loginWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/login.qss")
+        )
 
         self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
         self.loginWidget.register.connect(self.loginToRegisterTransition)
@@ -52,7 +54,9 @@ class MainWindow(QMainWindow):
             self.sidePanelWidget = None
 
         self.loginWidget = Login()
-        self.loginWidget.setStyleSheet(styleLoader.load("./src/resources/styles/login.qss"))
+        self.loginWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/login.qss")
+        )
 
         self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
         self.loginWidget.register.connect(self.loginToRegisterTransition)
@@ -75,7 +79,9 @@ class MainWindow(QMainWindow):
             self.loginWidget = None
 
         self.loginWidget = Login()
-        self.loginWidget.setStyleSheet(styleLoader.load("./src/resources/styles/login.qss"))
+        self.loginWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/login.qss")
+        )
 
         self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
         self.loginWidget.register.connect(self.loginToRegisterTransition)

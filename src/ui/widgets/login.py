@@ -20,11 +20,17 @@ class Login(QWidget):
         self.loginButtonLayout = QHBoxLayout()
 
         loginButton = QPushButton("Login", self)
-        loginButton.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        loginButton.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding
+        )
         loginButton.clicked.connect(self.loginHandler)
 
         registerButton = QPushButton("Register", self)
-        registerButton.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        registerButton.setSizePolicy(
+            QSizePolicy.Policy.Expanding,
+            QSizePolicy.Policy.Expanding
+        )
         registerButton.clicked.connect(self.registerHandler)
 
         self.loginButtonLayout.addStretch(1)
@@ -50,12 +56,19 @@ class Login(QWidget):
 
         loginController = LoginController()
 
-        if loginController.login(self.usernameField.getText(),self.passwordField.getText()):
+        if loginController.login(
+            self.usernameField.getText(),
+            self.passwordField.getText()
+        ):
             print("logowanie pomyślne")
             self.loginSuccessful.emit()
 
         else:
-            QMessageBox.information(self, "Błąd logowania", "Zły login lub hasło")
+            QMessageBox.information(
+                self,
+                "Błąd logowania",
+                "Zły login lub hasło"
+            )
 
             print("Zły login lub hasło")
     def registerHandler(self):

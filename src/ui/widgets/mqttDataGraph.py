@@ -21,7 +21,11 @@ class MqttDataGraph(QWidget):
         date_axis.setTextPen('k')  
         self.plot_widget.setAxisItems({'bottom': date_axis})
 
-        self.plot_widget.setTitle(f"{leftLabel} vs Time", color='k', size='12pt')
+        self.plot_widget.setTitle(
+            f"{leftLabel} vs Time",
+            color='k',
+            size='12pt'
+        )
 
         self.plot_widget.showGrid(x=True, y=True, alpha=0.2)
 

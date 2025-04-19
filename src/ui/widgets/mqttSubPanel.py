@@ -25,21 +25,41 @@ class MqttSubPanel(QWidget):
         tempData, humiData, presData, lighData = [], [], [], []
 
         for _ in range(cnt):
-            tempData.append((self.rounder.roundFloat5(randint(100, 350) / 10), current_time))
-            humiData.append((self.rounder.roundFloat5(randint(100, 300) / 10), current_time))
-            presData.append((self.rounder.roundFloat5(randint(980000, 1030000) / 10), current_time))
-            lighData.append((self.rounder.roundFloat5(randint(3000, 12000)), current_time))
+            tempData.append(
+                (
+                    self.rounder.roundFloat5(randint(100, 350) / 10),
+                    current_time
+                )
+            )
+            humiData.append(
+                (
+                    self.rounder.roundFloat5(randint(100, 300) / 10),
+                    current_time
+                )
+            )
+            presData.append(
+                (
+                    self.rounder.roundFloat5(randint(980000, 1030000) / 10),
+                    current_time
+                )
+            )
+            lighData.append(
+                (
+                    self.rounder.roundFloat5(randint(3000, 12000)),
+                    current_time
+                )
+            )
             current_time += timedelta(hours = 1)
 
-        temperatureRow = MqttDataRow(tempSpecs, tempData)
-        humidityRow = MqttDataRow(humiditySpecs, humiData) 
-        pressureRow = MqttDataRow(pressureSpecs, presData)
-        lightRow = MqttDataRow(lightSpecs, lighData)
+        self.temperatureRow = MqttDataRow(tempSpecs, tempData)
+        self.humidityRow = MqttDataRow(humiditySpecs, humiData) 
+        self.pressureRow = MqttDataRow(pressureSpecs, presData)
+        self.lightRow = MqttDataRow(lightSpecs, lighData)
 
-        mqttDataLayout.addWidget(temperatureRow)
-        mqttDataLayout.addWidget(humidityRow)
-        mqttDataLayout.addWidget(pressureRow)
-        mqttDataLayout.addWidget(lightRow)
+        mqttDataLayout.addWidget(self.temperatureRow)
+        mqttDataLayout.addWidget(self.humidityRow)
+        mqttDataLayout.addWidget(self.pressureRow)
+        mqttDataLayout.addWidget(self.lightRow)
         mqttDataLayout.addStretch(2)
 
         mqttDataLayout.setContentsMargins(0, 0, 0, 0)
