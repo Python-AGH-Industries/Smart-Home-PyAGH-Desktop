@@ -6,24 +6,28 @@ class MqttDataGraph(QWidget):
         super().__init__()
         self.plot_widget = pg.PlotWidget()
 
-        self.plot_widget.setBackground("#f0f0f0")
+        self.plot_widget.setBackground("#ffffff")
 
-        self.plot_widget.getAxis('left').setPen('k')  
-        self.plot_widget.getAxis('left').setTextPen('k')  
-        self.plot_widget.getAxis('bottom').setPen('k')  
-        self.plot_widget.getAxis('bottom').setTextPen('k')
+        self.plot_widget.getAxis('left').setPen('w')  
+        self.plot_widget.getAxis('left').setTextPen('w')  
+        self.plot_widget.getAxis('bottom').setPen('w')  
+        self.plot_widget.getAxis('bottom').setTextPen('w')
 
-        self.plot_widget.setLabel('left', leftLabel, color='k')
-        self.plot_widget.setLabel('bottom', 'Time', color='k')
+        self.plot_widget.setLabel('left', leftLabel, color='w')
+        self.plot_widget.setLabel('bottom', 'Time', color='w')
         
+        left_axis = self.plot_widget.getAxis('left')
+        left_axis.setPen(pg.mkPen('w'))
+        left_axis.setTextPen(pg.mkPen('w'))
+
         date_axis = pg.DateAxisItem(orientation='bottom')
-        date_axis.setPen('k')  
-        date_axis.setTextPen('k')  
+        date_axis.setPen('w')  
+        date_axis.setTextPen('w')  
         self.plot_widget.setAxisItems({'bottom': date_axis})
 
         self.plot_widget.setTitle(
             f"{leftLabel} vs Time",
-            color='k',
+            color='w',
             size='12pt'
         )
 
@@ -39,7 +43,7 @@ class MqttDataGraph(QWidget):
         self.values = [v for v, _ in data]
         self.timestamps = [t.timestamp() for _, t in data]
         self.plot_widget.clear()
-        self.plot_widget.plot(self.timestamps, self.values, pen='r') 
+        self.plot_widget.plot(self.timestamps, self.values, pen='w') 
 
     def changePenColor(self, color):
         self.plot_widget.clear()

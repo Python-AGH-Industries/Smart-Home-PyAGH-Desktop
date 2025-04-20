@@ -14,8 +14,8 @@ class MqttSubPanelBar(QWidget):
         add_button = QPushButton("+")
 
         self.periods = ["4h", "8h", "12h", "24h", "48h", "7 days"]
-        self.colors = ["red", "black", "white"]
-        self.backgrounds = ["white", "gray"] 
+        self.colors = ["white", "black", "red"]
+        self.backgrounds = ["midnight", "navy", "slate"] 
 
         self.periodSelection = LabelComboBox(
             f"Data period ",

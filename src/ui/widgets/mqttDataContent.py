@@ -14,9 +14,9 @@ class MqttDataContent(QWidget):
     }
 
     backgroundMap = {
-        "gray": "#7a7a7a",
-        "black": "#000000",
-        "white": "#f0f0f0"
+        "midnight": "#283c5a",
+        "navy": "#325078",
+        "slate": "#506ea0"
     }
 
     def __init__(self, rowSpecs, mqttData):

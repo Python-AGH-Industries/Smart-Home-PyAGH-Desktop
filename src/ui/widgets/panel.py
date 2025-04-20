@@ -22,6 +22,8 @@ class Panel(QWidget):
         self.mqttSubPanelBar.userChangedBackground.connect(self.updateBackground)
 
         self.updatePeriods()
+        self.updateBackground()
+        self.updateColor()
 
         self.mqttSubPanelLayout.addWidget(self.mqttSubPanelBar)
         self.mqttSubPanelLayout.addWidget(self.mqttDataWidget) 
