@@ -1,6 +1,6 @@
 /* SIDE PANEL BACKGROUND */
 SidePanel {
-    background-color: rgba(20, 40, 70, 160); 
+    background-color: rgb(20, 40, 70); 
 }
 
 /* SIDE PANEL BUTTONS */

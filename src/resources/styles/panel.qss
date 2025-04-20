@@ -68,7 +68,7 @@ IconButton:pressed, QPushButton:pressed {
 /* DATA BAR */
 
 MqttDataBar {
-    background-color: rgba(20, 40, 70, 160);  
+    background-color: rgb(20, 40, 70);  
     border-top-right-radius: 15px;
     border-bottom-right-radius: 15px;
     border-top-left-radius: 0px;
@@ -96,4 +96,10 @@ MqttDataBar IconButton:hover {
 
 MqttDataBar IconButton:pressed {
     background-color: rgba(0, 80, 180, 200);
+}
+
+/* Label Group (Mean, Min, Max) */
+
+StackedLabels {
+    background-color: rgb(20, 40, 70)
 }

@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from src.ui.widgets.labelComboBox import LabelComboBox
 from PyQt6.QtCore import pyqtSignal
 from src.model.floatRounder import FloatRounder
+from src.ui.widgets.mqttLabelGroup import MqttLabelGroup
 
 class MqttDataDetails(QWidget):
     userChangedUnit = pyqtSignal()
@@ -30,8 +31,7 @@ class MqttDataDetails(QWidget):
             self.unitSelection.comboBox.currentIndex()
         ]
 
-        self.meanLabel = QLabel("", self)
-        self.meanLabel.setWordWrap(True)
+        self.labelGroup = MqttLabelGroup()
         
         self.unitSelection.comboBox.currentTextChanged.connect(
             lambda: self.userChangedUnit.emit()
@@ -39,7 +39,7 @@ class MqttDataDetails(QWidget):
 
         layout.addWidget(self.sensorSelection)
         layout.addWidget(self.unitSelection)
-        layout.addWidget(self.meanLabel)
+        layout.addWidget(self.labelGroup)
 
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(5)
@@ -54,6 +54,8 @@ class MqttDataDetails(QWidget):
         temp_min = self.rounder.roundFloat5(min(mqttData))
         temp_max = self.rounder.roundFloat5(max(mqttData))
 
-        self.meanLabel.setText(f"Mean = {temp_mean} {self.chosenUnit}, "
-                               f"minimum = {temp_min} {self.chosenUnit}, "
-                               f"maximum = {temp_max} {self.chosenUnit}")
+        self.labelGroup.setText(
+            f"{temp_mean} {self.chosenUnit}", 
+            f"{temp_min} {self.chosenUnit}", 
+            f"{temp_max} {self.chosenUnit}"
+        )
