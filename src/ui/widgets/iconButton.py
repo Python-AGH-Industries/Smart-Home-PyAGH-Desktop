@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QPushButton
+from PyQt6.QtWidgets import QPushButton, QStyleOption, QStyle
 from PyQt6.QtGui import QIcon
 from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QPainter
@@ -16,7 +16,12 @@ class IconButton(QPushButton):
             int(fixedSize - offset)
         ))
 
-    def paintEvent(self, a0):
+    def paintEvent(self, event):
         painter = QPainter(self)
-        painter.fillRect(self.rect(), self.palette().window())
-        return super().paintEvent(a0)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

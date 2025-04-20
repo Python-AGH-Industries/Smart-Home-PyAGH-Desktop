@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QLabel
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QLabel, QStyle, QStyleOption
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter
 from src.ui.widgets.iconButton import IconButton
@@ -11,33 +11,35 @@ class MqttDataBar(QWidget):
         self.height = 40
         self.setFixedHeight(self.height)
 
+        offset = 10
+
         barLayout = QHBoxLayout(self)
 
         barTitle = QLabel(title, self)
         self.minimizeButton = IconButton(
             f"{iconPath}minimize.png",
             self,
-            self.height - 10
+            self.height - offset
         )
         self.maximizeButton = IconButton(
             f"{iconPath}maximize.png",
             self,
-            self.height - 10
+            self.height - offset
         )
         self.jsonButton = IconButton(
             f"{iconPath}json.png",
             self,
-            self.height - 10
+            self.height - offset
         )
         self.csvButton = IconButton(
             f"{iconPath}csv.png",
             self,
-            self.height - 10
+            self.height - offset
         )
         self.imageButton = IconButton(
             f"{iconPath}image.png",
             self,
-            self.height - 10
+            self.height - offset
         )
 
         barLayout.addWidget(barTitle)
@@ -49,9 +51,14 @@ class MqttDataBar(QWidget):
         barLayout.addWidget(self.maximizeButton)
 
         barLayout.setContentsMargins(0, 0, 0, 0)
-        barLayout.setSpacing(5)
+        barLayout.setSpacing(10)
     
-    def paintEvent(self, a0):
+    def paintEvent(self, event):
         painter = QPainter(self)
-        painter.fillRect(self.rect(), self.palette().window())
-        return super().paintEvent(a0)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

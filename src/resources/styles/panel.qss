@@ -47,21 +47,18 @@ QComboBox QAbstractItemView::item {
 
 QPushButton {
     background-color: rgba(0, 100, 200, 100); 
-    border: 1px solid rgba(255, 255, 255, 40);
     border-radius: 4px;
     padding: 5px;
 }
 
 IconButton {
     background-color: rgba(0, 100, 200, 100); 
-    border: 1px solid rgba(255, 255, 255, 40);
     border-radius: 12px;
     padding: 10px;
 }
 
 IconButton:hover, QPushButton:hover {
     background-color: rgba(0, 120, 255, 180);
-    border: 1px solid rgba(255, 255, 255, 100);
 }
 
 IconButton:pressed, QPushButton:pressed {
@@ -72,10 +69,12 @@ IconButton:pressed, QPushButton:pressed {
 
 MqttDataBar {
     background-color: rgba(20, 40, 70, 160);  
-    border: 1px solid rgba(255, 255, 255, 30);
-    border-radius: 10px;
-    padding: 6px 12px;
-    margin: 4px 0;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding: 10px 10px;
+    margin: 0px;
 }
 
 MqttDataBar QLabel {
@@ -87,14 +86,12 @@ MqttDataBar QLabel {
 
 MqttDataBar IconButton {
     background-color: rgba(0, 100, 200, 100);
-    border: 1px solid rgba(255, 255, 255, 40);
     border-radius: 10px;
     padding: 6px 10px;
 }
 
 MqttDataBar IconButton:hover {
     background-color: rgba(0, 130, 255, 160);
-    border: 1px solid rgba(255, 255, 255, 100);
 }
 
 MqttDataBar IconButton:pressed {

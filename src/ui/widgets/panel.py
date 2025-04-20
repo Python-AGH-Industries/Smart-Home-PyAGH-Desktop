@@ -1,4 +1,5 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QStyleOption, QStyle
+from PyQt6.QtCore import Qt
 from src.ui.widgets.mqttSubPanel import MqttSubPanel
 from src.ui.widgets.publicSubPanel import PublicSubPanel
 from src.ui.widgets.mqttSubPanelBar import MqttSubPanelBar
@@ -7,6 +8,7 @@ from PyQt6.QtGui import QPainter
 class Panel(QWidget):
     def __init__(self):
         super().__init__()
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
 
         self.panelLayout = QHBoxLayout(self)
         self.mqttSubPanelLayout = QVBoxLayout()
@@ -84,8 +86,12 @@ class Panel(QWidget):
             currentColor
         )
 
-    def paintEvent(self, a0):
+    def paintEvent(self, event):
         painter = QPainter(self)
-        painter.fillRect(self.rect(), self.palette().window())
-        return super().paintEvent(a0)
-    
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)
