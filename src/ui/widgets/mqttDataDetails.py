@@ -6,12 +6,13 @@ from src.ui.widgets.mqttLabelGroup import MqttLabelGroup
 
 class MqttDataDetails(QWidget):
     userChangedUnit = pyqtSignal()
+    userChangedSensor = pyqtSignal()
 
     def __init__(self, specs):
         super().__init__()
         self.specs = specs
         layout = QVBoxLayout(self)
-        print(specs)
+
         self.sensorSelection = LabelComboBox(
             f"Chosen {specs.title.lower()} sensor",
             specs.sensors,
@@ -30,9 +31,15 @@ class MqttDataDetails(QWidget):
         self.chosenUnit = self.specs.units[
             self.unitSelection.comboBox.currentIndex()
         ]
+        self.chosenSensor = self.specs.sensors[
+            self.sensorSelection.comboBox.currentIndex()
+        ]
 
         self.labelGroup = MqttLabelGroup()
         
+        self.sensorSelection.comboBox.currentTextChanged.connect(
+            lambda: self.userChangedSensor.emit()
+        )
         self.unitSelection.comboBox.currentTextChanged.connect(
             lambda: self.userChangedUnit.emit()
         )
@@ -59,3 +66,5 @@ class MqttDataDetails(QWidget):
             f"{temp_min} {self.chosenUnit}", 
             f"{temp_max} {self.chosenUnit}"
         )
+    def updateSensor(self):
+        self.chosenSensor = self.specs.sensors[self.sensorSelection.comboBox.currentIndex()]

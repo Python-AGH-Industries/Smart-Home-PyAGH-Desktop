@@ -25,42 +25,10 @@ class MqttSubPanel(QWidget):
         lightSpecs = DataRowSpecs("Light", ["Cd"],
                                self.create_sensor_list(4))
 
-        cnt = 18
-        current_time = datetime.now() - timedelta(hours = cnt)
-        tempData, humiData, presData, lighData = [], [], [], []
-
-        for _ in range(cnt):
-            tempData.append(
-                (
-                    self.rounder.roundFloat5(randint(100, 350) / 10),
-                    current_time
-                )
-            )
-            humiData.append(
-                (
-                    self.rounder.roundFloat5(randint(100, 300) / 10),
-                    current_time
-                )
-            )
-            presData.append(
-                (
-                    self.rounder.roundFloat5(randint(980000, 1030000) / 10),
-                    current_time
-                )
-            )
-            lighData.append(
-                (
-                    self.rounder.roundFloat5(randint(3000, 12000)),
-                    current_time
-                )
-            )
-            current_time += timedelta(hours = 1)
-
-        # print(tempData)
-        self.temperatureRow = MqttDataRow(tempSpecs, tempData)
-        self.humidityRow = MqttDataRow(humiditySpecs, humiData) 
-        self.pressureRow = MqttDataRow(pressureSpecs, presData)
-        self.lightRow = MqttDataRow(lightSpecs, lighData)
+        self.temperatureRow = MqttDataRow(tempSpecs)
+        self.humidityRow = MqttDataRow(humiditySpecs)
+        self.pressureRow = MqttDataRow(pressureSpecs)
+        self.lightRow = MqttDataRow(lightSpecs)
 
         mqttDataLayout.addWidget(self.temperatureRow)
         mqttDataLayout.addWidget(self.humidityRow)

@@ -3,13 +3,13 @@ from src.ui.widgets.mqttDataContent import MqttDataContent
 from src.ui.widgets.mqttDataBar import MqttDataBar
 
 class MqttDataRow(QWidget):
-    def __init__(self, rowSpecs, mqttData):
+    def __init__(self, rowSpecs):
         super().__init__()
 
         wrapperLayout = QVBoxLayout(self)
 
         self.rowBar = MqttDataBar(rowSpecs.title)
-        self.rowContent = MqttDataContent(rowSpecs, mqttData)
+        self.rowContent = MqttDataContent(rowSpecs)
 
         self.rowBar.minimizeButton.clicked.connect(self.rowContent.hide)
         self.rowBar.maximizeButton.clicked.connect(self.rowContent.show)

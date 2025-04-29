@@ -1,4 +1,8 @@
+from datetime import time
+
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QFileDialog
+
+from src.model.loginController import LoginController
 from src.ui.widgets.mqttDataGraph import MqttDataGraph
 from src.ui.widgets.mqttDataDetails import MqttDataDetails
 from src.model.unitConverter import UnitConverter
@@ -19,13 +23,23 @@ class MqttDataContent(QWidget):
         "slate": "#506ea0"
     }
 
-    def __init__(self, rowSpecs, mqttData):
+    def __init__(self, rowSpecs):
         super().__init__()
         dataContentLayout = QHBoxLayout(self)
-        print("data")
+
+        self.currentSensor = rowSpecs.sensors[0][1]
+        # downloading data from server
+        controller = LoginController()
+        mqttData = controller.getSensorData(self.currentSensor)
         print(mqttData)
+        mqttData = mqttData["sensor_data"]
+        mqttData = list(map(lambda x: (x['measurementValue'], datetime.combine(datetime.strptime(x['measurementDate'], '%a, %d %b %Y %H:%M:%S GMT'),time.fromisoformat(x['measurementTime']))),mqttData))
+        if len(mqttData)==0:
+            mqttData.append((1,datetime.now()))
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
+
+
         self.specs = rowSpecs
 
         self.converter = UnitConverter()
@@ -33,10 +47,14 @@ class MqttDataContent(QWidget):
         self.dataDetails = MqttDataDetails(self.specs)
 
         self.dataDetails.userChangedUnit.connect(self.onUnitsChanged)
+        self.dataDetails.userChangedSensor.connect(self.onSensorChanged)
 
         self.dataDetails.updateDetails([v for (v, _) in self.usedMqttData])
 
         self.dataGraph.drawGraph(self.usedMqttData)
+
+
+
 
         dataContentLayout.addWidget(self.dataGraph, stretch = 5)
         dataContentLayout.addWidget(self.dataDetails, stretch = 4)
@@ -44,7 +62,30 @@ class MqttDataContent(QWidget):
         dataContentLayout.setContentsMargins(0, 0, 0, 0)
         dataContentLayout.setSpacing(0)
 
+
+    # Bug to fix: when changing sensor, program displays all available data
+
+    def getData(self, sensor_id):
+        controller = LoginController()
+        mqttData = controller.getSensorData(sensor_id)
+        print(mqttData)
+        mqttData = mqttData["sensor_data"]
+        mqttData = list(map(lambda x: (x['measurementValue'], datetime.combine(datetime.strptime(x['measurementDate'], '%a, %d %b %Y %H:%M:%S GMT'),time.fromisoformat(x['measurementTime']))),mqttData))
+        if len(mqttData)==0:
+            mqttData.append((1,datetime.now()))
+        self.allMqttData = mqttData
+        self.usedMqttData = mqttData
+
+    def onSensorChanged(self):
+        self.dataDetails.updateSensor()
+        print(self.dataDetails.chosenSensor)
+        self.getData(self.dataDetails.chosenSensor[1])
+
+        self.dataGraph.drawGraph(self.usedMqttData)
+
+
     def onUnitsChanged(self):
+        print(self.dataDetails.chosenUnit)
         newValuesAll = self.converter.convertUnits(
                 self.specs.title, 
                 self.dataDetails.chosenUnit,
@@ -161,4 +202,3 @@ class MqttDataContent(QWidget):
                 self.dataGraph.plot_widget.plotItem
             )
             exporter.export(fileName)
-            

@@ -4,7 +4,6 @@ import json
 
 class LoginController():
 
-
     def __new__(cls, *args, **kw):
         if not hasattr(cls, '_instance'):
             orig = super(LoginController, cls)
@@ -32,5 +31,5 @@ class LoginController():
         res = self.session.post('http://127.0.0.1:5000/getUserSensors', json={"type_id":type_id})
         return json.loads(res.text)
     def getSensorData(self,sensor_id):
-        res = self.session.post('http://127.0.0.1:5000/getUserSensors', json={"type_id":sensor_id})
+        res = self.session.post('http://127.0.0.1:5000/readSensorData', json={"sensor_id":sensor_id})
         return json.loads(res.text)

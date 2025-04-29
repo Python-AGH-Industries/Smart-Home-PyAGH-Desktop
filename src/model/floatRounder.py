@@ -5,6 +5,8 @@ class FloatRounder():
         pass
 
     def roundFloat5(self, number):
+        if number == 0:
+            return 0
         num_len = int(log10(number)) + 1
         if abs(number) < 1:
             return round(number, 5 + self.zerosCount(number))
