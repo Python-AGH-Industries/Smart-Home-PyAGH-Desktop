@@ -11,7 +11,7 @@ class MqttDataDetails(QWidget):
         super().__init__()
         self.specs = specs
         layout = QVBoxLayout(self)
-
+        print(specs)
         self.sensorSelection = LabelComboBox(
             f"Chosen {specs.title.lower()} sensor",
             specs.sensors,

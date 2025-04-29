@@ -1,4 +1,7 @@
+import requests
 from PyQt6.QtWidgets import QWidget, QVBoxLayout
+
+from src.model.loginController import LoginController
 from src.ui.widgets.mqttDataRow import MqttDataRow
 from src.model.dataRowSpecs import DataRowSpecs
 from src.model.floatRounder import FloatRounder
@@ -9,16 +12,18 @@ class MqttSubPanel(QWidget):
     def __init__(self):
         super().__init__()
         self.rounder = FloatRounder()
+        self.login = LoginController()
+
         mqttDataLayout = QVBoxLayout(self)
 
         tempSpecs = DataRowSpecs("Temperature", ["C", "F", "K"],
-                                ["Oven", "Floor"])
+                                self.create_sensor_list(1))
         humiditySpecs = DataRowSpecs("Humidity", ["%", "g/m³", "kg/m³"],
-                                ["Ceiling"])
+                                self.create_sensor_list(2))
         pressureSpecs = DataRowSpecs("Pressure", ["Pa", "bar", "atm"],
-                                ["Floor P1", "Floor P2"])
+                                self.create_sensor_list(3))
         lightSpecs = DataRowSpecs("Light", ["Cd"],
-                               ["Table", "Desk"])
+                               self.create_sensor_list(4))
 
         cnt = 18
         current_time = datetime.now() - timedelta(hours = cnt)
@@ -51,6 +56,7 @@ class MqttSubPanel(QWidget):
             )
             current_time += timedelta(hours = 1)
 
+        # print(tempData)
         self.temperatureRow = MqttDataRow(tempSpecs, tempData)
         self.humidityRow = MqttDataRow(humiditySpecs, humiData) 
         self.pressureRow = MqttDataRow(pressureSpecs, presData)
@@ -64,3 +70,10 @@ class MqttSubPanel(QWidget):
 
         mqttDataLayout.setContentsMargins(0, 0, 0, 0)
         mqttDataLayout.setSpacing(0)
+
+    def create_sensor_list(self,type_id):
+        response = self.login.getSensors(type_id)
+        result = []
+        for sensor in response["sensors"]:
+            result.append((sensor["name"],sensor["id"]))
+        return result

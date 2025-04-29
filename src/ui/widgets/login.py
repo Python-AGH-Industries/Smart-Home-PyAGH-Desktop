@@ -2,8 +2,9 @@ from PyQt6.QtWidgets import QPushButton, QWidget, \
     QVBoxLayout, QHBoxLayout, QLabel, \
     QSizePolicy, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
-from src.ui.widgets.textInput import TextInput
+
 from src.model.loginController import LoginController
+from src.ui.widgets.textInput import TextInput
 
 class Login(QWidget):
     loginSuccessful = pyqtSignal()

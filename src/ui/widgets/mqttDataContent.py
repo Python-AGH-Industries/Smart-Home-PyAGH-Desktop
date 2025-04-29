@@ -22,7 +22,8 @@ class MqttDataContent(QWidget):
     def __init__(self, rowSpecs, mqttData):
         super().__init__()
         dataContentLayout = QHBoxLayout(self)
-
+        print("data")
+        print(mqttData)
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
         self.specs = rowSpecs
