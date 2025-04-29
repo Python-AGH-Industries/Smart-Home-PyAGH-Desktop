@@ -34,15 +34,15 @@ class MqttSubPanelBar(QWidget):
         )
 
         self.periodSelection.comboBox.currentTextChanged.connect(
-            lambda: self.userChangedPeriod.emit()
+            self.userChangedPeriod.emit
         )
 
         self.colorSelection.comboBox.currentIndexChanged.connect(
-            lambda: self.userChangedColor.emit()
+            self.userChangedColor.emit
         )
 
         self.backgroundSelection.comboBox.currentTextChanged.connect(
-            lambda: self.userChangedBackground.emit()
+            self.userChangedBackground.emit
         )
 
         self.setFixedHeight(30)

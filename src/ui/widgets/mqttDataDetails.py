@@ -41,7 +41,7 @@ class MqttDataDetails(QWidget):
             lambda: self.userChangedSensor.emit()
         )
         self.unitSelection.comboBox.currentTextChanged.connect(
-            lambda: self.userChangedUnit.emit()
+            self.userChangedUnit.emit
         )
 
         layout.addWidget(self.sensorSelection)
