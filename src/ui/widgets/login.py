@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QPushButton, QWidget, \
     QSizePolicy, QMessageBox
 from PyQt6.QtCore import Qt, pyqtSignal
 
+from src.model.user import User
 from src.model.loginController import LoginController
 from src.ui.widgets.textInput import TextInput
 
@@ -10,9 +11,10 @@ class Login(QWidget):
     loginSuccessful = pyqtSignal()
     register = pyqtSignal()
 
+    currentUser = None
+
     def __init__(self):
         super().__init__()
-
         self.loginWidgetLayout = QVBoxLayout(self)
 
         self.loginWelcomeLabel = QLabel("Welcome to you Smart Home Panel", self)
@@ -54,16 +56,19 @@ class Login(QWidget):
         self.setLayout(self.loginWidgetLayout)
 
     def loginHandler(self):
-
+        global currentUser
         loginController = LoginController()
 
+        username = self.usernameField.getText()
+        password = self.passwordField.getText()
+
         if loginController.login(
-            self.usernameField.getText(),
-            self.passwordField.getText()
+            username,
+            password
         ):
+            Login.currentUser = User(username, password)
             print("logowanie pomyślne")
             self.loginSuccessful.emit()
-
         else:
             QMessageBox.information(
                 self,
@@ -72,7 +77,11 @@ class Login(QWidget):
             )
 
             print("Zły login lub hasło")
+            
     def registerHandler(self):
         self.register.emit()
-
         pass
+
+    @classmethod
+    def getCurrentUser(cls):
+        return cls.currentUser

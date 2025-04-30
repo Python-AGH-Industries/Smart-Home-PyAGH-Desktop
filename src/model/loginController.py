@@ -1,4 +1,3 @@
-from src.model.user import User
 import requests
 import json
 
@@ -20,16 +19,26 @@ class LoginController():
     def adduser(self,username,password):
         # self.users.update({username, User(username, password)})
         pass
-    def login(self,username,password):
+    def login(self, username, password):
+        global user
+        res = json.loads(self.session.post(
+            'http://127.0.0.1:5000/login',
+            json = {
+                "username": username,
+                "password": password
+                }
+            ).text
+        )
 
-        res = json.loads(self.session.post('http://127.0.0.1:5000/login',json = {"username":username,"password":password}).text)
         if res['success']:
             return True
         else:
             return False
+        
     def getSensors(self,type_id):
         res = self.session.post('http://127.0.0.1:5000/getUserSensors', json={"type_id":type_id})
         return json.loads(res.text)
+    
     def getSensorData(self,sensor_id):
         res = self.session.post('http://127.0.0.1:5000/readSensorData', json={"sensor_id":sensor_id})
         return json.loads(res.text)

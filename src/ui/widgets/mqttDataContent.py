@@ -31,7 +31,22 @@ class MqttDataContent(QWidget):
         controller = LoginController()
         mqttData = controller.getSensorData(self.currentSensor)
         mqttData = mqttData["sensor_data"]
-        mqttData = list(map(lambda x: (x['measurementValue'], datetime.combine(datetime.strptime(x['measurementDate'], '%a, %d %b %Y %H:%M:%S GMT'),time.fromisoformat(x['measurementTime']))),mqttData))
+        mqttData = list(
+            map(
+                lambda x: (
+                    x['measurementValue'],
+                    datetime.combine(
+                        datetime.strptime(
+                            x['measurementDate'],
+                            '%a, %d %b %Y %H:%M:%S GMT'
+                        ),
+                        time.fromisoformat(x['measurementTime'])
+                    )
+                ),
+                mqttData
+            )
+        )
+
         if len(mqttData)==0:
             mqttData.append((1,datetime.now()))
         self.allMqttData = mqttData
@@ -66,7 +81,21 @@ class MqttDataContent(QWidget):
         controller = LoginController()
         mqttData = controller.getSensorData(sensor_id)
         mqttData = mqttData["sensor_data"]
-        mqttData = list(map(lambda x: (x['measurementValue'], datetime.combine(datetime.strptime(x['measurementDate'], '%a, %d %b %Y %H:%M:%S GMT'),time.fromisoformat(x['measurementTime']))),mqttData))
+        mqttData = list(
+            map(
+                lambda x: (
+                    x['measurementValue'],
+                    datetime.combine(
+                        datetime.strptime(
+                            x['measurementDate'],
+                            '%a, %d %b %Y %H:%M:%S GMT'
+                        ),
+                        time.fromisoformat(x['measurementTime'])
+                    )
+                ),
+                mqttData
+            )
+        )
         if len(mqttData)==0:
             mqttData.append((1,datetime.now()))
         self.allMqttData = mqttData
