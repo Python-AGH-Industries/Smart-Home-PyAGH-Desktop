@@ -48,15 +48,34 @@ class SettingsPanel(QWidget):
         buttonLayout = QHBoxLayout()
         self.saveButton = QPushButton("Save Changes")
         self.cancelButton = QPushButton("Cancel")
-        
+
         self.saveButton.clicked.connect(self.saveChanges)
         self.cancelButton.clicked.connect(self.clearForm)
-        
+
         buttonLayout.addStretch()
         buttonLayout.addWidget(self.cancelButton)
         buttonLayout.addWidget(self.saveButton)
-        
+
         layout.addLayout(buttonLayout)
+
+        deleteLayout = QHBoxLayout()
+        deleteAccountLabel = QLabel("Delete your account")
+        deleteButton = QPushButton("Delete")
+
+        deleteLayout.addWidget(deleteAccountLabel)
+        deleteLayout.addWidget(deleteButton)
+        deleteLayout.addStretch(1)
+
+        deleteButton.clicked.connect(
+            lambda: self.session.post(
+                'http://127.0.0.1:5000/deleteAccount',
+                json = {
+                    "username": self.user.username
+                }
+            )
+        )
+        
+        layout.addLayout(deleteLayout)
         layout.addStretch(1)
         
     def saveChanges(self):
@@ -74,7 +93,7 @@ class SettingsPanel(QWidget):
         
         self.session.post(
             'http://127.0.0.1:5000/changePassword',
-            json={
+            json = {
                 "username": self.user.username,
                 "newPassword": new,
                 "oldPassword": current
