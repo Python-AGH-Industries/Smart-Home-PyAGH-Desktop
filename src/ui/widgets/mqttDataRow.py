@@ -5,7 +5,6 @@ from src.ui.widgets.mqttDataBar import MqttDataBar
 class MqttDataRow(QWidget):
     def __init__(self, rowSpecs):
         super().__init__()
-
         wrapperLayout = QVBoxLayout(self)
 
         self.rowBar = MqttDataBar(rowSpecs.title)

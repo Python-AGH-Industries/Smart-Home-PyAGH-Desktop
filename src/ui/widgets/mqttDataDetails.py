@@ -56,10 +56,14 @@ class MqttDataDetails(QWidget):
             self.chosenPeriod = newPeriod
 
         self.chosenUnit = self.specs.units[self.unitSelection.comboBox.currentIndex()]
-
-        temp_mean = self.rounder.roundFloat5(sum(mqttData) / len(mqttData))
-        temp_min = self.rounder.roundFloat5(min(mqttData))
-        temp_max = self.rounder.roundFloat5(max(mqttData))
+        if len(mqttData)==0:
+            temp_mean = 0
+            temp_min = 0
+            temp_max = 0
+        else:
+            temp_mean = self.rounder.roundFloat5(sum(mqttData) / len(mqttData))
+            temp_min = self.rounder.roundFloat5(min(mqttData))
+            temp_max = self.rounder.roundFloat5(max(mqttData))
 
         self.labelGroup.setText(
             f"{temp_mean} {self.chosenUnit}", 

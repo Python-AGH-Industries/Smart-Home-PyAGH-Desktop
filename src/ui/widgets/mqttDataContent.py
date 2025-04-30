@@ -26,12 +26,10 @@ class MqttDataContent(QWidget):
     def __init__(self, rowSpecs):
         super().__init__()
         dataContentLayout = QHBoxLayout(self)
-
         self.currentSensor = rowSpecs.sensors[0][1]
         # downloading data from server
         controller = LoginController()
         mqttData = controller.getSensorData(self.currentSensor)
-        print(mqttData)
         mqttData = mqttData["sensor_data"]
         mqttData = list(map(lambda x: (x['measurementValue'], datetime.combine(datetime.strptime(x['measurementDate'], '%a, %d %b %Y %H:%M:%S GMT'),time.fromisoformat(x['measurementTime']))),mqttData))
         if len(mqttData)==0:
@@ -55,7 +53,6 @@ class MqttDataContent(QWidget):
 
 
 
-
         dataContentLayout.addWidget(self.dataGraph, stretch = 5)
         dataContentLayout.addWidget(self.dataDetails, stretch = 4)
 
@@ -68,7 +65,6 @@ class MqttDataContent(QWidget):
     def getData(self, sensor_id):
         controller = LoginController()
         mqttData = controller.getSensorData(sensor_id)
-        print(mqttData)
         mqttData = mqttData["sensor_data"]
         mqttData = list(map(lambda x: (x['measurementValue'], datetime.combine(datetime.strptime(x['measurementDate'], '%a, %d %b %Y %H:%M:%S GMT'),time.fromisoformat(x['measurementTime']))),mqttData))
         if len(mqttData)==0:
@@ -80,12 +76,11 @@ class MqttDataContent(QWidget):
         self.dataDetails.updateSensor()
         print(self.dataDetails.chosenSensor)
         self.getData(self.dataDetails.chosenSensor[1])
-
-        self.dataGraph.drawGraph(self.usedMqttData)
+        self.onPeriodChanged(self.currentPeriod)
 
 
     def onUnitsChanged(self):
-        print(self.dataDetails.chosenUnit)
+
         newValuesAll = self.converter.convertUnits(
                 self.specs.title, 
                 self.dataDetails.chosenUnit,
@@ -118,6 +113,8 @@ class MqttDataContent(QWidget):
         self.dataGraph.drawGraph(self.usedMqttData)
 
     def onPeriodChanged(self, newPeriod):
+        self.currentPeriod = newPeriod
+
         now = datetime.now()
         offset = now
 
