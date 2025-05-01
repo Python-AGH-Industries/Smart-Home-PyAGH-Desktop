@@ -66,7 +66,7 @@ class Login(QWidget):
             username,
             password
         ):
-            Login.currentUser = User(username, password)
+            Login.currentUser = User(username)
             print("logowanie pomyślne")
             self.loginSuccessful.emit()
         else:

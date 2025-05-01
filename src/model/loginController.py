@@ -16,9 +16,6 @@ class LoginController():
             self.session = requests.session()
             self.initialized = True
 
-    def adduser(self,username,password):
-        # self.users.update({username, User(username, password)})
-        pass
     def login(self, username, password):
         global user
         res = json.loads(self.session.post(
