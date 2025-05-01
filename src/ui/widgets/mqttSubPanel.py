@@ -39,9 +39,9 @@ class MqttSubPanel(QWidget):
         mqttDataLayout.setContentsMargins(0, 0, 0, 0)
         mqttDataLayout.setSpacing(0)
 
-    def create_sensor_list(self,type_id):
+    def create_sensor_list(self, type_id):
         response = self.login.getSensors(type_id)
         result = []
         for sensor in response["sensors"]:
-            result.append((sensor["name"],sensor["id"]))
+            result.append((sensor["name"], sensor["id"]))
         return result
