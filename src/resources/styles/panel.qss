@@ -3,7 +3,7 @@
 }
 
 Panel {
-    background-color: rgba(10, 20, 40, 180);
+    background-color: rgb(10, 20, 40);
     border: none;
 }
 
@@ -101,5 +101,21 @@ MqttDataBar IconButton:pressed {
 /* Label Group (Mean, Min, Max) */
 
 StackedLabels {
-    background-color: rgb(20, 40, 70)
+    background-color: rgb(20, 40, 70);
+    border-radius: 10px;
+}
+
+/* Settings Panel */
+
+SettingsPanel {
+    background-color: rgb(10, 20, 40);
+    border: none;
+}
+
+QLineEdit {
+    background-color: rgb(10, 30, 60);
+    border: 1px solid rgb(255, 255, 255);
+    border-radius: 6px;
+    padding: 4px;
+    color: white;
 }

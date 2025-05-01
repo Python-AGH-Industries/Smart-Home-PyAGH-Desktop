@@ -55,6 +55,10 @@ class MainWindow(QMainWindow):
             styleLoader.load("./src/resources/styles/panel.qss")
         )
 
+        self.settingsWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/panel.qss")
+        )
+
         self.sidePanelWidget.setStyleSheet(
             styleLoader.load("./src/resources/styles/sidePanel.qss")
         )
