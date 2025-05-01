@@ -98,14 +98,14 @@ MqttDataBar IconButton:pressed {
     background-color: rgba(0, 80, 180, 200);
 }
 
-/* Label Group (Mean, Min, Max) */
+/* LABEL GROUP (Mean, Min, Max) */
 
 StackedLabels {
     background-color: rgb(20, 40, 70);
     border-radius: 10px;
 }
 
-/* Settings Panel */
+/* SETTINGS PANEL */
 
 SettingsPanel {
     background-color: rgb(10, 20, 40);
@@ -118,4 +118,9 @@ QLineEdit {
     border-radius: 6px;
     padding: 4px;
     color: white;
+}
+
+DeleteAccountConfirmationDialog {
+    background-color: rgb(10, 20, 40);
+    border: none;
 }

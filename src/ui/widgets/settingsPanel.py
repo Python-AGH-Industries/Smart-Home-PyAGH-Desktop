@@ -1,9 +1,10 @@
 from PyQt6.QtWidgets import (QWidget, QLabel, QVBoxLayout, QGridLayout, 
                              QLineEdit, QPushButton, QStyle, QStyleOption,
-                             QHBoxLayout, QMessageBox)
+                             QHBoxLayout, QMessageBox, QDialog)
 from PyQt6.QtGui import QPainter
 from PyQt6.QtCore import pyqtSignal
 from src.ui.widgets.login import Login
+from src.ui.windows.DeleteAccountConfirmationDialog import DeleteAccountConfirmationDialog
 
 import requests
 
@@ -21,7 +22,6 @@ class SettingsPanel(QWidget):
         self.session = requests.session()
         
         self.usernameLabel = QLabel("Hello, " + str(self.user.username))
-        self.usernameLabel.setStyleSheet("font-size: 16px; font-weight: bold;")
         layout.addWidget(self.usernameLabel)
         
         formLayout = QGridLayout()
@@ -66,15 +66,8 @@ class SettingsPanel(QWidget):
         deleteLayout.addWidget(deleteButton)
         deleteLayout.addStretch(1)
 
-        deleteButton.clicked.connect(
-            lambda: self.session.post(
-                'http://127.0.0.1:5000/deleteAccount',
-                json = {
-                    "username": self.user.username
-                }
-            )
-        )
-        
+        deleteButton.clicked.connect(self.accountDeletionConfirmation)
+
         layout.addLayout(deleteLayout)
         layout.addStretch(1)
         
@@ -88,6 +81,14 @@ class SettingsPanel(QWidget):
                 self,
                 "Password mismatch",
                 "New password and repeated password has to be the same!"
+            )
+            return
+        
+        if current == "" or new == "" or repeated == "":
+            QMessageBox.warning(
+                self,
+                "Empty field",
+                "One of the fields is empty"
             )
             return
         
@@ -106,11 +107,51 @@ class SettingsPanel(QWidget):
         self.currentPassInput.clear()
         self.newPassInput.clear()
         self.repeatPassInput.clear()
+
+    def accountDeletionConfirmation(self):
+        dialog = DeleteAccountConfirmationDialog(self)
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return
+
+        password = dialog.getPassword()
+        if password == "":
+            QMessageBox.warning(
+                self,
+                "Input Error",
+                "Password cannot be empty."
+            )
+            return
+
+        response = self.session.post(
+            'http://127.0.0.1:5000/deleteAccount',
+            json = {
+                "username": self.user.username,
+                "password": password
+            }
+        )
+
+        if response.status_code == 200:
+            QMessageBox.information(
+                self,
+                "Account Deleted",
+                "Your account has been successfully deleted."
+            )
+        else:
+            QMessageBox.warning(
+                self,
+                "Error",
+                f"Failed to delete account: {response.json().get("error")}"
+            )
     
     def paintEvent(self, event):
         painter = QPainter(self)
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         opt = QStyleOption()
         opt.initFrom(self)
-        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+        self.style().drawPrimitive(
+            QStyle.PrimitiveElement.PE_Widget,
+            opt,
+            painter,
+            self
+        )
         super().paintEvent(event)
