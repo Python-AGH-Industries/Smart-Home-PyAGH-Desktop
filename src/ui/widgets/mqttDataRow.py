@@ -2,11 +2,16 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QDialog
 from src.ui.widgets.mqttDataContent import MqttDataContent
 from src.ui.widgets.mqttDataBar import MqttDataBar
 from src.ui.windows.changeSensorNameDialog import ChangeSensorNameDialog
+from src.ui.widgets.login import Login
+
+import requests
 
 class MqttDataRow(QWidget):
     def __init__(self, rowSpecs):
         super().__init__()
         wrapperLayout = QVBoxLayout(self)
+
+        self.session = requests.session()
 
         self.rowBar = MqttDataBar(rowSpecs.title)
         self.rowContent = MqttDataContent(rowSpecs)
@@ -31,3 +36,18 @@ class MqttDataRow(QWidget):
 
         if dialog.exec() != QDialog.DialogCode.Accepted:
             return
+        
+        newNames = dialog.getNewSensorData()
+        i = 0
+
+        for oldName, _ in sensorList:
+            if newNames[i] == oldName: continue
+            self.session.post(
+                "http://127.0.0.1:5000/changeSensorName",
+                json = {
+                    "username": Login.getCurrentUser().username,
+                    "oldName": oldName,
+                    "newName": newNames[i]
+                }    
+            )
+            i += 1

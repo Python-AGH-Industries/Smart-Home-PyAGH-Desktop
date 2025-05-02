@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import (QWidget, QLabel, QVBoxLayout, QGridLayout,
 from PyQt6.QtGui import QPainter
 from PyQt6.QtCore import pyqtSignal
 from src.ui.widgets.login import Login
-from src.ui.windows.DeleteAccountConfirmationDialog import DeleteAccountConfirmationDialog
+from src.ui.windows.deleteAccountConfirmationDialog import DeleteAccountConfirmationDialog
 
 import requests
 

@@ -17,7 +17,6 @@ class LoginController():
             self.initialized = True
 
     def login(self, username, password):
-        global user
         res = json.loads(self.session.post(
             'http://127.0.0.1:5000/login',
             json = {
