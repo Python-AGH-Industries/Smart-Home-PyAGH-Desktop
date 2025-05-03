@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QDialog
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QDialog, QMessageBox
 from src.ui.widgets.mqttDataContent import MqttDataContent
 from src.ui.widgets.mqttDataBar import MqttDataBar
 from src.ui.windows.changeSensorNameDialog import ChangeSensorNameDialog
@@ -37,17 +37,37 @@ class MqttDataRow(QWidget):
         if dialog.exec() != QDialog.DialogCode.Accepted:
             return
         
-        newNames = dialog.getNewSensorData()
-        i = 0
+        newNames = [name.strip() for name in dialog.getNewSensorData()]
+        resultData = []
 
-        for oldName, _ in sensorList:
-            if newNames[i] == oldName: continue
-            self.session.post(
+        for (oldName, id), newName in zip(sensorList, newNames):
+            if newName == oldName: 
+                resultData.append((newName, id))
+                continue
+
+            response = self.session.post(
                 "http://127.0.0.1:5000/changeSensorName",
                 json = {
                     "username": Login.getCurrentUser().username,
                     "oldName": oldName,
-                    "newName": newNames[i]
+                    "newName": newName
                 }    
             )
-            i += 1
+
+            if response.status_code == 200:
+                resultData.append((newName, id))
+                QMessageBox.information(
+                    self,
+                    "Changed name",
+                    f"Changed sensor name from {oldName} to {newName}"
+                )
+            else:
+                resultData.append((oldName, id))
+                QMessageBox.warning(
+                    self,
+                    "Change failed",
+                    f"Could not change sensor name from {oldName} to "
+                    f"{newName} because:\n{response.json().get("error")}"
+                )
+
+        self.rowContent.dataDetails.updataSensorNames(resultData)

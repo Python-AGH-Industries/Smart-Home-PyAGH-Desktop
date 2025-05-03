@@ -27,6 +27,7 @@ class MqttDataContent(QWidget):
         super().__init__()
         dataContentLayout = QHBoxLayout(self)
         self.currentSensor = rowSpecs.sensors[0][1]
+
         # downloading data from server
         controller = LoginController()
         mqttData = controller.getSensorData(self.currentSensor)
@@ -47,11 +48,11 @@ class MqttDataContent(QWidget):
             )
         )
 
-        if len(mqttData)==0:
-            mqttData.append((1,datetime.now()))
+        if len(mqttData) == 0:
+            mqttData.append((1, datetime.now()))
+
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
-
 
         self.specs = rowSpecs
 
@@ -66,16 +67,11 @@ class MqttDataContent(QWidget):
 
         self.dataGraph.drawGraph(self.usedMqttData)
 
-
-
         dataContentLayout.addWidget(self.dataGraph, stretch = 5)
         dataContentLayout.addWidget(self.dataDetails, stretch = 4)
 
         dataContentLayout.setContentsMargins(0, 0, 0, 0)
         dataContentLayout.setSpacing(0)
-
-
-    # Bug to fix: when changing sensor, program displays all available data
 
     def getData(self, sensor_id):
         controller = LoginController()
@@ -103,13 +99,10 @@ class MqttDataContent(QWidget):
 
     def onSensorChanged(self):
         self.dataDetails.updateSensor()
-        print(self.dataDetails.chosenSensor)
         self.getData(self.dataDetails.chosenSensor[1])
         self.onPeriodChanged(self.currentPeriod)
 
-
     def onUnitsChanged(self):
-
         newValuesAll = self.converter.convertUnits(
                 self.specs.title, 
                 self.dataDetails.chosenUnit,

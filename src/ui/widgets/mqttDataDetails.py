@@ -56,7 +56,7 @@ class MqttDataDetails(QWidget):
             self.chosenPeriod = newPeriod
 
         self.chosenUnit = self.specs.units[self.unitSelection.comboBox.currentIndex()]
-        if len(mqttData)==0:
+        if len(mqttData) == 0:
             temp_mean = 0
             temp_min = 0
             temp_max = 0
@@ -70,5 +70,17 @@ class MqttDataDetails(QWidget):
             f"{temp_min} {self.chosenUnit}", 
             f"{temp_max} {self.chosenUnit}"
         )
+    
     def updateSensor(self):
         self.chosenSensor = self.specs.sensors[self.sensorSelection.comboBox.currentIndex()]
+
+    def updataSensorNames(self, newNames):
+        self.specs.sensors = newNames
+
+        newItems = [item for item, _ in newNames]
+
+        self.sensorSelection.comboBox.clear()
+        self.sensorSelection.comboBox.addItems(newItems)
+        self.chosenSensor = self.specs.sensors[
+            self.sensorSelection.comboBox.currentIndex()
+        ]
