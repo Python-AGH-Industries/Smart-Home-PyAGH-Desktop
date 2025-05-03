@@ -15,7 +15,7 @@ class MqttDataDetails(QWidget):
 
         self.sensorSelection = LabelComboBox(
             f"Chosen {specs.title.lower()} sensor",
-            specs.sensors,
+            [name for name, _ in self.specs.sensors],
             self
         )
 
@@ -72,7 +72,9 @@ class MqttDataDetails(QWidget):
         )
     
     def updateSensor(self):
-        self.chosenSensor = self.specs.sensors[self.sensorSelection.comboBox.currentIndex()]
+        self.chosenSensor = self.specs.sensors[
+            self.sensorSelection.comboBox.currentIndex()
+        ]
 
     def updataSensorNames(self, newNames):
         self.specs.sensors = newNames

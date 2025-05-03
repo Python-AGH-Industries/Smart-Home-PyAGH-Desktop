@@ -10,8 +10,7 @@ class LabelComboBox(QWidget):
         description.setWordWrap(True)
 
         self.comboBox = QComboBox(self)
-        print(options)
-        self.comboBox.insertItems(0, [x[0] for x in options])
+        self.comboBox.addItems(options)
 
         comboBoxLayout.addWidget(description)
         comboBoxLayout.addWidget(self.comboBox)

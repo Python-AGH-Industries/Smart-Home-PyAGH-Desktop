@@ -65,8 +65,6 @@ class MqttDataContent(QWidget):
 
         self.dataDetails.updateDetails([v for (v, _) in self.usedMqttData])
 
-        self.dataGraph.drawGraph(self.usedMqttData)
-
         dataContentLayout.addWidget(self.dataGraph, stretch = 5)
         dataContentLayout.addWidget(self.dataDetails, stretch = 4)
 
@@ -94,6 +92,7 @@ class MqttDataContent(QWidget):
         )
         if len(mqttData)==0:
             mqttData.append((1,datetime.now()))
+
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
 
@@ -136,7 +135,6 @@ class MqttDataContent(QWidget):
 
     def onPeriodChanged(self, newPeriod):
         self.currentPeriod = newPeriod
-
         now = datetime.now()
         offset = now
 
@@ -148,6 +146,7 @@ class MqttDataContent(QWidget):
 
         self.usedMqttData = [(v, t) for v, t in self.allMqttData if t >= offset]
         self.dataDetails.updateDetails([v for v, _ in self.usedMqttData], newPeriod)
+        
         self.dataGraph.drawGraph(self.usedMqttData)
 
     def updateColor(self, newColor):
