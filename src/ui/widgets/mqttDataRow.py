@@ -2,6 +2,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QDialog, QMessageBox
 from src.ui.widgets.mqttDataContent import MqttDataContent
 from src.ui.widgets.mqttDataBar import MqttDataBar
 from src.ui.windows.changeSensorNameDialog import ChangeSensorNameDialog
+from src.ui.windows.generateReportDialog import GenerateReportDialog
 from src.ui.widgets.login import Login
 
 import requests
@@ -20,6 +21,9 @@ class MqttDataRow(QWidget):
         self.rowBar.maximizeButton.clicked.connect(self.rowContent.show)
         self.rowBar.settingsButton.clicked.connect(
             lambda: self.changeSensorNameLogic(rowSpecs.sensors)
+        )
+        self.rowBar.reportButton.clicked.connect(
+            lambda: self.generateReportLogic(rowSpecs)
         )
         self.rowBar.jsonButton.clicked.connect(self.rowContent.saveDataInJson)
         self.rowBar.csvButton.clicked.connect(self.rowContent.saveDataInCsv)
@@ -71,3 +75,9 @@ class MqttDataRow(QWidget):
                 )
 
         self.rowContent.dataDetails.updataSensorNames(resultData)
+
+    def generateReportLogic(self, rowSpecs):
+        dialog = GenerateReportDialog(rowSpecs, self)
+        
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return

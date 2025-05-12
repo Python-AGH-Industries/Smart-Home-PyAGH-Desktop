@@ -131,3 +131,10 @@ ChangeSensorNameDialog {
     background-color: rgb(10, 20, 40);
     border: none;
 }
+
+/* REPORT DIALOG */
+
+GenerateReportDialog {
+    background-color: rgb(10, 20, 40);
+    border: none;
+}
