@@ -1,8 +1,9 @@
-from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QStyleOption, QStyle
+from PyQt6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QStyleOption, QStyle, QDialog
 from PyQt6.QtCore import Qt
 from src.ui.widgets.mqttSubPanel import MqttSubPanel
 from src.ui.widgets.publicSubPanel import PublicSubPanel
 from src.ui.widgets.mqttSubPanelBar import MqttSubPanelBar
+from src.ui.windows.generateReportDialog import GenerateReportDialog
 from PyQt6.QtGui import QPainter
 
 class Panel(QWidget):
@@ -20,6 +21,14 @@ class Panel(QWidget):
         self.mqttSubPanelBar.userChangedPeriod.connect(self.updatePeriods)
         self.mqttSubPanelBar.userChangedColor.connect(self.updateColor)
         self.mqttSubPanelBar.userChangedBackground.connect(self.updateBackground)
+        self.mqttSubPanelBar.reportButton.clicked.connect(
+            lambda: self.generateReportLogic([
+                self.mqttDataWidget.tempSpecs,
+                self.mqttDataWidget.humiditySpecs,
+                self.mqttDataWidget.pressureSpecs,
+                self.mqttDataWidget.lightSpecs
+            ])
+        )
 
         self.updatePeriods()
         self.updateBackground()
@@ -87,6 +96,12 @@ class Panel(QWidget):
         self.mqttDataWidget.lightRow.rowContent.updateBackground(
             currentColor
         )
+
+    def generateReportLogic(self, data):
+        dialog = GenerateReportDialog(data, self)
+
+        if dialog.exec() != QDialog.DialogCode.Accepted:
+            return
 
     def paintEvent(self, event):
         painter = QPainter(self)

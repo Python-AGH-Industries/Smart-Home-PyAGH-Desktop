@@ -46,18 +46,12 @@ class MqttDataBar(QWidget):
             self,
             self.height - offset
         )
-        self.reportButton = IconButton(
-            f"{iconPath}report.png",
-            self,
-            self.height - offset
-        )
 
         barLayout.addWidget(barTitle)
         barLayout.addStretch(1)
         barLayout.addWidget(self.imageButton)
         barLayout.addWidget(self.csvButton)
         barLayout.addWidget(self.jsonButton)
-        barLayout.addWidget(self.reportButton)
         barLayout.addWidget(self.settingsButton)
         barLayout.addWidget(self.minimizeButton)
         barLayout.addWidget(self.maximizeButton)

@@ -17,11 +17,12 @@ class LoginController():
             self.initialized = True
 
     def login(self, username, password):
-        res = json.loads(self.session.post(
-            'http://127.0.0.1:5000/login',
-            json = {
-                "username": username,
-                "password": password
+        res = json.loads(
+            self.session.post(
+                'http://127.0.0.1:5000/login',
+                json = {
+                    "username": username,
+                    "password": password
                 }
             ).text
         )
@@ -31,10 +32,20 @@ class LoginController():
         else:
             return False
         
-    def getSensors(self,type_id):
-        res = self.session.post('http://127.0.0.1:5000/getUserSensors', json={"type_id":type_id})
+    def getSensors(self, type_id):
+        res = self.session.post(
+            'http://127.0.0.1:5000/getUserSensors',
+            json = {
+                "type_id": type_id
+            }
+        )
         return json.loads(res.text)
     
-    def getSensorData(self,sensor_id):
-        res = self.session.post('http://127.0.0.1:5000/readSensorData', json={"sensor_id":sensor_id})
+    def getSensorData(self, sensor_id):
+        res = self.session.post(
+            'http://127.0.0.1:5000/readSensorData',
+            json = {
+                "sensor_id": sensor_id
+            }
+        )
         return json.loads(res.text)

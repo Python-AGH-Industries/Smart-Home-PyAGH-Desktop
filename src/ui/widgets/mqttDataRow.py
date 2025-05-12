@@ -22,9 +22,6 @@ class MqttDataRow(QWidget):
         self.rowBar.settingsButton.clicked.connect(
             lambda: self.changeSensorNameLogic(rowSpecs.sensors)
         )
-        self.rowBar.reportButton.clicked.connect(
-            lambda: self.generateReportLogic(rowSpecs)
-        )
         self.rowBar.jsonButton.clicked.connect(self.rowContent.saveDataInJson)
         self.rowBar.csvButton.clicked.connect(self.rowContent.saveDataInCsv)
         self.rowBar.imageButton.clicked.connect(self.rowContent.saveDataInPng)
@@ -75,9 +72,3 @@ class MqttDataRow(QWidget):
                 )
 
         self.rowContent.dataDetails.updataSensorNames(resultData)
-
-    def generateReportLogic(self, rowSpecs):
-        dialog = GenerateReportDialog(rowSpecs, self)
-        
-        if dialog.exec() != QDialog.DialogCode.Accepted:
-            return

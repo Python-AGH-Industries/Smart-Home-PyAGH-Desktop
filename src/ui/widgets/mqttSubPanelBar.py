@@ -1,5 +1,6 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QHBoxLayout
 from src.ui.widgets.labelComboBox import LabelComboBox
+from src.ui.widgets.iconButton import IconButton
 from PyQt6.QtCore import pyqtSignal
 
 class MqttSubPanelBar(QWidget):
@@ -17,6 +18,11 @@ class MqttSubPanelBar(QWidget):
         self.colors = ["white", "black", "red"]
         self.backgrounds = ["midnight", "navy", "slate"] 
 
+        self.reportButton = IconButton(
+            "src/resources/icons/report.png",
+            self,
+            30
+        )
         self.periodSelection = LabelComboBox(
             f"Data period ",
             self.periods,
@@ -54,6 +60,7 @@ class MqttSubPanelBar(QWidget):
         layout.addWidget(self.periodSelection)
         layout.addWidget(self.colorSelection)
         layout.addWidget(self.backgroundSelection)
+        layout.addWidget(self.reportButton)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(5)
         
