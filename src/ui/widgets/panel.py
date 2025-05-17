@@ -21,14 +21,7 @@ class Panel(QWidget):
         self.mqttSubPanelBar.userChangedPeriod.connect(self.updatePeriods)
         self.mqttSubPanelBar.userChangedColor.connect(self.updateColor)
         self.mqttSubPanelBar.userChangedBackground.connect(self.updateBackground)
-        self.mqttSubPanelBar.reportButton.clicked.connect(
-            lambda: self.generateReportLogic([
-                self.mqttDataWidget.tempSpecs,
-                self.mqttDataWidget.humiditySpecs,
-                self.mqttDataWidget.pressureSpecs,
-                self.mqttDataWidget.lightSpecs
-            ])
-        )
+        self.mqttSubPanelBar.reportButton.clicked.connect(self.generateReportLogic)
 
         self.updatePeriods()
         self.updateBackground()
@@ -97,8 +90,17 @@ class Panel(QWidget):
             currentColor
         )
 
-    def generateReportLogic(self, data):
-        dialog = GenerateReportDialog(data, self)
+    def generateReportLogic(self):
+        dialog = GenerateReportDialog(
+            (
+                self.mqttDataWidget.tempSpecs,
+                self.mqttDataWidget.humiditySpecs,
+                self.mqttDataWidget.pressureSpecs,
+                self.mqttDataWidget.lightSpecs
+            ),
+            self.mqttSubPanelBar.periods,
+            self
+        )
 
         if dialog.exec() != QDialog.DialogCode.Accepted:
             return

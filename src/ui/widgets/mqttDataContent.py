@@ -51,9 +51,11 @@ class MqttDataContent(QWidget):
         if len(mqttData) == 0:
             mqttData.append((1, datetime.now()))
 
+        mqttData.sort(key = lambda x: x[1])
+
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
-
+    
         self.specs = rowSpecs
 
         self.converter = UnitConverter()
@@ -90,8 +92,11 @@ class MqttDataContent(QWidget):
                 mqttData
             )
         )
-        if len(mqttData)==0:
-            mqttData.append((1,datetime.now()))
+        
+        if len(mqttData) == 0:
+            mqttData.append((1, datetime.now()))
+
+        mqttData.sort(key = lambda x: x[1])
 
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
