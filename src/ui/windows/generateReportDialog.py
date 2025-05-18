@@ -117,7 +117,7 @@ class GenerateReportDialog(QDialog):
                 file_name += ".md"
 
             fp = open(file_name, "w+")
-            self.write_report_content(fp)
+            self.write_report(fp)
             fp.close()
 
     def print_data(self):
@@ -126,10 +126,19 @@ class GenerateReportDialog(QDialog):
                 for reading, date in values:
                     print(name, reading, date)
 
-    def write_report_content(self, file):
-        header_text = f"# Report from {datetime.now()} " \
-                      f"for user {Login.getCurrentUser().username}"
+    def write_report(self, file):
+        self.write_report_header(file)
+        
+
+    def write_report_header(self, file):
+        header_text = f"# Report from {datetime.now().strftime("%d-%m-%Y %H:%M")} " \
+                      f"for {Login.getCurrentUser().username}\n"
         file.write(header_text)
+
+        period = self.periodBox.comboBox.currentText()
+        intro_text = f"Thank you for sticking with our offer! " \
+                        f"Here is you report from the last {period}."
+        file.write(intro_text)
 
     def create_report_on_disk(self):
         return QFileDialog.getSaveFileName(
