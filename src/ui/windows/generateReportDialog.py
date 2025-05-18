@@ -1,31 +1,53 @@
 from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QLabel, QCheckBox,
-                             QPushButton, QHBoxLayout)
+                             QPushButton, QHBoxLayout, QFileDialog)
 from src.ui.widgets.labelComboBox import LabelComboBox
 from src.model.loginController import LoginController 
+from datetime import datetime, timedelta, time
+from src.ui.widgets.login import Login
 
 class GenerateReportDialog(QDialog):
-    def __init__(self, specs, periods, parent = None):
+    def __init__(self, specs, parent = None):
         super().__init__(parent)
         self.setWindowTitle("Your report")
         self.setFixedSize(400, 600)
 
+        self.reportPeriods = ["day", "week", "month"]
+
         temperature_specs, humidity_specs, pressure_specs, light_specs = specs
+
         self.temperature_data, self.humidity_data = [], []
         self.pressure_data, self.light_data = [], []
 
+        self.data = [
+            self.temperature_data,
+            self.humidity_data,
+            self.pressure_data,
+            self.light_data
+        ]
+
         controller = LoginController()
-        
-        for name, id in temperature_specs.sensors:
-            self.temperature_data.append((name, controller.getSensorData(id)))
 
-        for name, id in humidity_specs.sensors:
-            self.humidity_data.append((name, controller.getSensorData(id)))
-
-        for name, id in pressure_specs.sensors:
-            self.pressure_data.append((name, controller.getSensorData(id)))
-
-        for name, id in light_specs.sensors:
-            self.light_data.append((name, controller.getSensorData(id)))
+        for d, spec in zip(self.data, specs):
+            for name, id in spec.sensors:
+                mqttData = controller.getSensorData(id)
+                mqttData = mqttData["sensor_data"]
+                mqttData = list(
+                    map(
+                        lambda x: (
+                            x['measurementValue'],
+                            datetime.combine(
+                                datetime.strptime(
+                                    x['measurementDate'],
+                                    '%a, %d %b %Y %H:%M:%S GMT'
+                                ),
+                                time.fromisoformat(x['measurementTime'])
+                            )
+                        ),
+                        mqttData
+                    )
+                )
+                mqttData.sort(key = lambda x : x[1])
+                d.append((name, mqttData))
 
         layout = QVBoxLayout(self)
         layout.setSpacing(10)
@@ -37,8 +59,8 @@ class GenerateReportDialog(QDialog):
         self.includeGraphsFlag = QCheckBox("Include graphs", self)
 
         self.periodBox = LabelComboBox(
-            "Choose period to consider",
-            periods,
+            "Include data from the last",
+            self.reportPeriods,
             self
         )
         self.temperatureUnitBox = LabelComboBox(
@@ -87,15 +109,49 @@ class GenerateReportDialog(QDialog):
         self.okButton.clicked.connect(self.accept)
 
     def generate_report(self):
+        self.filter_by_timerange()
+        file_name = self.create_report_on_disk()
+
+        if file_name:
+            if not file_name.lower().endswith(".md"):
+                file_name += ".md"
+
+            fp = open(file_name, "w+")
+            self.write_report_content(fp)
+            fp.close()
+
+    def print_data(self):
+        for sensors_data in self.data:
+            for name, values in sensors_data:
+                for reading, date in values:
+                    print(name, reading, date)
+
+    def write_report_content(self, file):
+        header_text = f"# Report from {datetime.now()} " \
+                      f"for user {Login.getCurrentUser().username}"
+        file.write(header_text)
+
+    def create_report_on_disk(self):
+        return QFileDialog.getSaveFileName(
+            parent = self,
+            caption = "Select location for you report",
+            filter = "MD Files (*.md);;All Files (*)"
+        )[0]
+
+    def filter_by_timerange(self):
         period = self.periodBox.comboBox.currentText()
-        temperature_unit = self.temperatureUnitBox.comboBox.currentText()
-        humidity_unit = self.humidityUnitBox.comboBox.currentText()
-        pressure_unit = self.pressureUnitBox.comboBox.currentText()
-        light_unit = self.lightUnitBox.comboBox.currentText()
 
-        for name, sensor_data in self.temperature_data:
-            for _, values in sensor_data.items():
-                for val in values:
-                    print(name, val)
+        if period == "day": offset = timedelta(days = 1)
+        elif period == "week": offset = timedelta(weeks = 1)
+        else: offset = timedelta(weeks = 4)
 
-        print(period, temperature_unit, humidity_unit, pressure_unit, light_unit)
+        now = datetime.now()
+        
+        # list[list[tuple[SENSOR_NAME, list[tuple[READING, DATE]]]]]
+        for sensors_data in self.data:
+            for i, (name, values) in enumerate(sensors_data):
+                filtered_values = [
+                    (reading, date) for reading, date in values 
+                    if now - offset <= date <= now
+                ]
+                sensors_data[i] = (name, filtered_values)

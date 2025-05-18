@@ -98,7 +98,6 @@ class Panel(QWidget):
                 self.mqttDataWidget.pressureSpecs,
                 self.mqttDataWidget.lightSpecs
             ),
-            self.mqttSubPanelBar.periods,
             self
         )
 
