@@ -1,11 +1,15 @@
 from PyQt6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QStackedLayout
 
+from src.model.loginController import LoginController
 from src.model.styleLoader import styleLoader
 from src.ui.widgets.login import Login
 from src.ui.widgets.panel import Panel
 from src.ui.widgets.settingsPanel import SettingsPanel
 from src.ui.widgets.register import Register
 from src.ui.widgets.sidePanel import SidePanel
+from src.ui.windows.helpWindow import HelpWindow
+from src.ui.windows.aboutWindow import AboutWindow
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -34,11 +38,17 @@ class MainWindow(QMainWindow):
 
         self.contentLayout = QStackedLayout(self.contentWrapper)
 
+
+        # List of panels displayed
         self.panelWidget = Panel()
         self.settingsWidget = SettingsPanel()
+        self.aboutWidget = AboutWindow()
+        self.helpWidget = HelpWindow()
 
         self.contentLayout.addWidget(self.panelWidget)
         self.contentLayout.addWidget(self.settingsWidget)
+        self.contentLayout.addWidget(self.helpWidget)
+        self.contentLayout.addWidget(self.aboutWidget)
 
         self.sidePanelWidget = SidePanel()
         self.sidePanelWidget.logoutRequest.connect(self.panelToLoginTransition)
@@ -49,6 +59,12 @@ class MainWindow(QMainWindow):
         )
         self.sidePanelWidget.showSettingsRequest.connect(
             lambda: self.contentLayout.setCurrentIndex(1)
+        )
+        self.sidePanelWidget.showHelpRequest.connect(
+            lambda: self.contentLayout.setCurrentIndex(2)
+        )
+        self.sidePanelWidget.showAboutRequest.connect(
+            lambda: self.contentLayout.setCurrentIndex(3)
         )
 
         self.panelWidget.setStyleSheet(
@@ -81,6 +97,8 @@ class MainWindow(QMainWindow):
             self.sidePanelWidget.deleteLater()
             self.sidePanelWidget = None
 
+        self.loginController = LoginController()
+        self.loginController.logout()
         self.loginWidget = Login()
         self.loginWidget.setStyleSheet(
             styleLoader.load("./src/resources/styles/login.qss")

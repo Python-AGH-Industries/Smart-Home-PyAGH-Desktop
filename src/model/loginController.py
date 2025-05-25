@@ -31,7 +31,12 @@ class LoginController():
             return True
         else:
             return False
-        
+    def logout(self):
+        res = self.session.post(
+            'http://127.0.0.1:5000/logout',
+        )
+        return json.loads(res.text)
+
     def getSensors(self, type_id):
         res = self.session.post(
             'http://127.0.0.1:5000/getUserSensors',

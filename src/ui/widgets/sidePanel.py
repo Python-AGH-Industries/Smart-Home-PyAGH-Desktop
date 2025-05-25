@@ -7,6 +7,8 @@ class SidePanel(QWidget):
     logoutRequest = pyqtSignal()
     showHomeRequest = pyqtSignal()
     showSettingsRequest = pyqtSignal()
+    showHelpRequest = pyqtSignal()
+    showAboutRequest = pyqtSignal()
 
     def __init__(self):
         super().__init__()
@@ -25,6 +27,8 @@ class SidePanel(QWidget):
         homeButton.clicked.connect(self.showHomeRequest.emit)
         settingsButton.clicked.connect(self.showSettingsRequest.emit)
         logoutButton.clicked.connect(self.logoutRequest.emit)
+        helpButton.clicked.connect(self.showHelpRequest.emit)
+        aboutButton.clicked.connect(self.showAboutRequest.emit)
 
         sidePanelLayout.addWidget(homeButton)
         sidePanelLayout.addWidget(helpButton)
