@@ -109,6 +109,12 @@ class GenerateReportDialog(QDialog):
         self.okButton.clicked.connect(self.accept)
 
     def generate_report(self):
+        self.period = self.periodBox.comboBox.currentText()
+        self.temperature_unit = self.temperatureUnitBox.comboBox.currentText()
+        self.pressure_unit = self.pressureUnitBox.comboBox.currentText()
+        self.humidity_unit = self.humidityUnitBox.comboBox.currentText()
+        self.light_unit = self.lightUnitBox.comboBox.currentText()
+
         self.filter_by_timerange()
         file_name = self.create_report_on_disk()
 
@@ -128,17 +134,95 @@ class GenerateReportDialog(QDialog):
 
     def write_report(self, file):
         self.write_report_header(file)
-        
+        self.write_report_sensor_data(
+            file,
+            self.data[0],
+            "Temperature",
+            self.temperature_unit
+        )
+        self.write_report_sensor_data(
+            file,
+            self.data[1],
+            "Humidity",
+            self.humidity_unit
+        )
+        self.write_report_sensor_data(
+            file,
+            self.data[2],
+            "Pressure",
+            self.pressure_unit
+        )
+        self.write_report_sensor_data(
+            file,
+            self.data[3],
+            "Light",
+            self.light_unit
+        )
 
     def write_report_header(self, file):
         header_text = f"# Report from {datetime.now().strftime("%d-%m-%Y %H:%M")} " \
                       f"for {Login.getCurrentUser().username}\n"
         file.write(header_text)
 
-        period = self.periodBox.comboBox.currentText()
         intro_text = f"Thank you for sticking with our offer! " \
-                        f"Here is you report from the last {period}."
+                        f"Here is you report from the last {self.period}.\n"
         file.write(intro_text)
+
+    def write_report_sensor_data(self, file, sensor_data, header, unit):
+        temperature_header = f"\n## {header} data\n"
+        file.write(temperature_header)
+        
+        sensor_count = len(sensor_data)
+
+        temperature_intro = f"You have {sensor_count} sensors in your place. " \
+                            f"Let's see what they measured!\n"
+        file.write(temperature_intro)
+
+        table_header = "|"
+        for name, _ in sensor_data:
+            table_header += f"|{name}"
+        table_header += "|\n"
+        file.write(table_header)
+
+        table_sep = "|---"
+        for _ in sensor_data:
+            table_sep += "|---"
+        table_sep += "|\n"
+        file.write(table_sep)
+
+        row_min = "|MIN"
+        for name, value_list in sensor_data:
+            min_value, _ = min(
+                value_list,
+                key = lambda x : x[0]
+            )
+            row_min += f"|{min_value} {unit}"
+
+        row_min += "|\n"
+        file.write(row_min)
+
+        row_max = "|MAX"
+        for name, value_list in sensor_data:
+            max_value, _ = max(
+                value_list,
+                key = lambda x : x[0]
+            )
+            row_max += f"|{max_value} {unit}"
+
+        row_max += "|\n"
+        file.write(row_max)
+
+        row_mean = "|MEAN"
+        for name, value_list in sensor_data:
+            mean_value = round(
+                sum([value for value, _ in value_list]) / len(value_list),
+                2
+            )
+
+            row_mean += f"|{mean_value} {unit}"
+            
+        row_mean += "|\n"
+        file.write(row_mean)
 
     def create_report_on_disk(self):
         return QFileDialog.getSaveFileName(
@@ -148,10 +232,8 @@ class GenerateReportDialog(QDialog):
         )[0]
 
     def filter_by_timerange(self):
-        period = self.periodBox.comboBox.currentText()
-
-        if period == "day": offset = timedelta(days = 1)
-        elif period == "week": offset = timedelta(weeks = 1)
+        if self.period == "day": offset = timedelta(days = 1)
+        elif self.period == "week": offset = timedelta(weeks = 1)
         else: offset = timedelta(weeks = 4)
 
         now = datetime.now()
