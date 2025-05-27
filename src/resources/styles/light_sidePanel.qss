@@ -1,0 +1,19 @@
+/* SIDE PANEL BACKGROUND */
+SidePanel {
+    background-color: rgb(230, 240, 255); 
+}
+
+/* SIDE PANEL BUTTONS */
+SidePanel IconButton {
+    background-color: rgba(100, 150, 255, 100);
+    border-radius: 12px;
+    margin: 0px;
+}
+
+SidePanel IconButton:hover {
+    background-color: rgba(130, 180, 255, 160);
+}
+
+SidePanel IconButton:pressed {
+    background-color: rgba(80, 140, 220, 200);
+}

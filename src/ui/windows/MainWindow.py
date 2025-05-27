@@ -38,7 +38,6 @@ class MainWindow(QMainWindow):
 
         self.contentLayout = QStackedLayout(self.contentWrapper)
 
-
         # List of panels displayed
         self.panelWidget = Panel()
         self.settingsWidget = SettingsPanel()
@@ -71,12 +70,20 @@ class MainWindow(QMainWindow):
             styleLoader.load("./src/resources/styles/panel.qss")
         )
 
+        self.panelWidget.publicDataWidget.setStyleSheet(
+            styleLoader.load("./src/resources/styles/publicSubPanel.qss")
+        )
+
         self.settingsWidget.setStyleSheet(
             styleLoader.load("./src/resources/styles/panel.qss")
         )
 
         self.sidePanelWidget.setStyleSheet(
             styleLoader.load("./src/resources/styles/sidePanel.qss")
+        )
+
+        self.settingsWidget.themeComboBox.comboBox.currentTextChanged.connect(
+            self.styleToggle
         )
 
         wrapperLayout = QHBoxLayout(self.wrapper)
@@ -133,3 +140,38 @@ class MainWindow(QMainWindow):
         self.loginWidget.register.connect(self.loginToRegisterTransition)
 
         self.setCentralWidget(self.loginWidget)
+
+    def styleToggle(self):
+        new_text = self.settingsWidget.themeComboBox.comboBox.currentText()
+        if new_text == "light":
+            self.panelWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/light_panel.qss")
+            )
+
+            self.panelWidget.publicDataWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/light_publicSubPanel.qss")
+            )
+
+            self.settingsWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/light_panel.qss")
+            )
+
+            self.sidePanelWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/light_sidePanel.qss")
+            )
+        else:
+            self.panelWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/panel.qss")
+            )
+
+            self.panelWidget.publicDataWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/publicSubPanel.qss")
+            )
+
+            self.settingsWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/panel.qss")
+            )
+
+            self.sidePanelWidget.setStyleSheet(
+                styleLoader.load("./src/resources/styles/sidePanel.qss")
+            )

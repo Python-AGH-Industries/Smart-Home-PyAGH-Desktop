@@ -1,21 +1,12 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout
 from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFont, QPalette, QColor, QIcon, QPixmap
+from PyQt6.QtGui import QPixmap
 import requests
 from urllib.request import urlopen
-from io import BytesIO
-import os
-
 
 class PublicSubPanel(QWidget):
     def __init__(self):
         super().__init__()
-        
-        # Load and apply QSS styles
-        style_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 
-                                'resources', 'styles', 'publicSubPanel.qss')
-        with open(style_path, 'r') as f:
-            self.setStyleSheet(f.read())
 
         self.publicDataLayout = QVBoxLayout(self)
         self.publicDataLayout.setContentsMargins(10, 10, 10, 10)
@@ -80,9 +71,6 @@ class PublicSubPanel(QWidget):
             self.icon_label.setPixmap(pixmap.scaled(48, 48, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
             self.icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
             weather_layout.addWidget(self.icon_label)
-
-
-
 
             # Add the horizontal layout to the main layout
             self.publicDataLayout.addLayout(weather_layout)

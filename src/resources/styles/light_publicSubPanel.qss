@@ -1,0 +1,36 @@
+/* Main panel styles */
+QWidget {
+    background-color: rgb(230, 240, 255);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+QLabel {
+    color: #1c1f23;
+    padding: 5px;
+    font-size: 14px;
+}
+
+/* Title styles */
+QLabel#title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #2a7de1;
+    padding: 10px;
+    border-bottom: 2px solid #2a7de1;
+}
+
+/* Weather condition styles */
+QLabel#weatherCondition {
+    font-size: 16px;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+/* Weather info styles */
+QLabel#weatherInfo {
+    font-size: 18px;
+    color: #1c1f23;
+    padding: 3px;
+    font-weight: bold;
+}
