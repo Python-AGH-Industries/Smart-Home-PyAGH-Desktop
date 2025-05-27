@@ -4,6 +4,8 @@ from src.ui.widgets.labelComboBox import LabelComboBox
 from src.model.loginController import LoginController 
 from datetime import datetime, timedelta, time
 from src.ui.widgets.login import Login
+from src.model.unitConverter import UnitConverter
+from src.model.floatRounder import FloatRounder
 
 class GenerateReportDialog(QDialog):
     def __init__(self, specs, parent = None):
@@ -11,6 +13,8 @@ class GenerateReportDialog(QDialog):
         self.setWindowTitle("Your report")
         self.setFixedSize(400, 600)
 
+        self.converter = UnitConverter()
+        self.rounder = FloatRounder()
         self.reportPeriods = ["day", "week", "month"]
 
         temperature_specs, humidity_specs, pressure_specs, light_specs = specs
@@ -138,25 +142,29 @@ class GenerateReportDialog(QDialog):
             file,
             self.data[0],
             "Temperature",
-            self.temperature_unit
+            self.temperature_unit,
+            "C"
         )
         self.write_report_sensor_data(
             file,
             self.data[1],
             "Humidity",
-            self.humidity_unit
+            self.humidity_unit,
+            "%"
         )
         self.write_report_sensor_data(
             file,
             self.data[2],
             "Pressure",
-            self.pressure_unit
+            self.pressure_unit,
+            "hPa"
         )
         self.write_report_sensor_data(
             file,
             self.data[3],
             "Light",
-            self.light_unit
+            self.light_unit,
+            "Cd"
         )
 
     def write_report_header(self, file):
@@ -168,13 +176,14 @@ class GenerateReportDialog(QDialog):
                         f"Here is you report from the last {self.period}.\n"
         file.write(intro_text)
 
-    def write_report_sensor_data(self, file, sensor_data, header, unit):
+    def write_report_sensor_data(self, file, sensor_data, header, unit, baseUnit):
         temperature_header = f"\n## {header} data\n"
         file.write(temperature_header)
         
         sensor_count = len(sensor_data)
 
-        temperature_intro = f"You have {sensor_count} sensors in your place. " \
+        temperature_intro = f"You have {sensor_count} {header.lower()} " \
+                            f"sensors in your place. " \
                             f"Let's see what they measured!\n"
         file.write(temperature_intro)
 
@@ -196,6 +205,16 @@ class GenerateReportDialog(QDialog):
                 value_list,
                 key = lambda x : x[0]
             )
+
+            [min_value] = self.converter.convertUnits(
+                header,
+                baseUnit,
+                unit,
+                [min_value]
+            )
+
+            min_value = self.rounder.roundFloat5(min_value)
+
             row_min += f"|{min_value} {unit}"
 
         row_min += "|\n"
@@ -207,6 +226,16 @@ class GenerateReportDialog(QDialog):
                 value_list,
                 key = lambda x : x[0]
             )
+
+            [max_value] = self.converter.convertUnits(
+                header,
+                baseUnit,
+                unit,
+                [max_value]
+            )
+
+            max_value = self.rounder.roundFloat5(max_value)
+
             row_max += f"|{max_value} {unit}"
 
         row_max += "|\n"
@@ -218,6 +247,15 @@ class GenerateReportDialog(QDialog):
                 sum([value for value, _ in value_list]) / len(value_list),
                 2
             )
+
+            [mean_value] = self.converter.convertUnits(
+                header,
+                baseUnit,
+                unit,
+                [mean_value]
+            )
+
+            mean_value = self.rounder.roundFloat5(mean_value)
 
             row_mean += f"|{mean_value} {unit}"
             

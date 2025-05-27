@@ -18,7 +18,7 @@ class MqttSubPanel(QWidget):
                                 self.create_sensor_list(1))
         self.humiditySpecs = DataRowSpecs("Humidity", ["%", "g/m³", "kg/m³"],
                                 self.create_sensor_list(2))
-        self.pressureSpecs = DataRowSpecs("Pressure", ["Pa", "bar", "atm"],
+        self.pressureSpecs = DataRowSpecs("Pressure", ["hPa", "bar", "atm"],
                                 self.create_sensor_list(3))
         self.lightSpecs = DataRowSpecs("Light", ["Cd"],
                                self.create_sensor_list(4))

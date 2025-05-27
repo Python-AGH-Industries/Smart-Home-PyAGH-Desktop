@@ -3,7 +3,7 @@ class UnitConverter:
         pass
 
     def convertUnits(self, title, oldUnit, newUnit, data):
-        if oldUnit==newUnit:
+        if oldUnit == newUnit:
             return data
 
         if title == "Temperature":
@@ -13,8 +13,7 @@ class UnitConverter:
         elif title == "Pressure":
             return self.convertPressure(oldUnit, newUnit, data)
         else:
-            print("Incorrect data title passed")
-            return []
+            return data
 
     def convertTemperature(self, oldUnit, newUnit, data):
         if oldUnit == "C":
@@ -39,8 +38,7 @@ class UnitConverter:
             else:
                 return data
         else:
-            print("Incorrect unit passed")
-            return []
+            return data
 
     def convertHumidity(self, oldUnit, newUnit, data):
         if oldUnit == "%":
@@ -65,31 +63,30 @@ class UnitConverter:
             else:
                 return data
         else:
-            print("Incorrect unit passed")
-            return []
+            return data
 
     def convertPressure(self, oldUnit, newUnit, data):
-        if oldUnit == "Pa":
+        if oldUnit == "hPa":
             if newUnit == "bar":
-                return [p / 100000 for p in data]
+                return [p / 1000 for p in data]
             elif newUnit == "atm":
-                return [p * 9.86923e-6 for p in data] 
+                return [p / 1013.25 for p in data] 
             else:
                 return data
         elif oldUnit == "bar":
-            if newUnit == "Pa":
-                return [p * 100000 for p in data] 
+            if newUnit == "hPa":
+                return [p * 1000 for p in data] 
             elif newUnit == "atm":
-                return [p * 0.986923 for p in data]
+                return [p / 1.01325 for p in data]
             else:
                 return data
         elif oldUnit == "atm":
             if newUnit == "bar":
                 return [p * 1.01325 for p in data] 
-            elif newUnit == "Pa":
-                return [p * 101325 for p in data]
+            elif newUnit == "hPa":
+                return [p * 1013.25 for p in data]
             else:
                 return data
         else:
-            print("Incorrect unit passed")
-            return []
+            return data
+        
