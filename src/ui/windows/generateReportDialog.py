@@ -130,12 +130,6 @@ class GenerateReportDialog(QDialog):
             self.write_report(fp)
             fp.close()
 
-    def print_data(self):
-        for sensors_data in self.data:
-            for name, values in sensors_data:
-                for reading, date in values:
-                    print(name, reading, date)
-
     def write_report(self, file):
         self.write_report_header(file)
         self.write_report_sensor_data(
@@ -145,12 +139,26 @@ class GenerateReportDialog(QDialog):
             self.temperature_unit,
             "C"
         )
+        self.write_sensor_closure(
+            file,
+            self.data[0],
+            "temperature",
+            self.temperature_unit,
+            [0, 35]
+        )
         self.write_report_sensor_data(
             file,
             self.data[1],
             "Humidity",
             self.humidity_unit,
             "%"
+        )
+        self.write_sensor_closure(
+            file,
+            self.data[1],
+            "humidity",
+            self.humidity_unit,
+            [25, 70]
         )
         self.write_report_sensor_data(
             file,
@@ -159,12 +167,26 @@ class GenerateReportDialog(QDialog):
             self.pressure_unit,
             "hPa"
         )
+        self.write_sensor_closure(
+            file,
+            self.data[2],
+            "pressure",
+            self.pressure_unit,
+            [980, 1030]
+        )
         self.write_report_sensor_data(
             file,
             self.data[3],
             "Light",
             self.light_unit,
             "Cd"
+        )
+        self.write_sensor_closure(
+            file,
+            self.data[3],
+            "light",
+            self.light_unit,
+            [100, 50000]
         )
 
     def write_report_header(self, file):
@@ -261,6 +283,49 @@ class GenerateReportDialog(QDialog):
             
         row_mean += "|\n"
         file.write(row_mean)
+
+    def write_sensor_closure(self, file, sensor_data, title, unit, extremes):
+        def format_time_interval(dates):
+            formatted_dates = [
+                str(d).split(".")[0] for d in dates
+            ]
+            
+            if len(formatted_dates) == 1:
+                return f"on {formatted_dates[0]}"
+            return f"from {formatted_dates[0]} to {formatted_dates[-1]}"
+        
+        file.write("\n")
+        [base_low, base_high] = extremes 
+
+        for sensor_name, readings in sensor_data:
+            negatives = [(v, d) for v, d in readings if v < base_low]
+            highs = [(v, d) for v, d in readings if v >= base_high]
+
+            [extreme_low, extreme_high] = self.converter.convertTemperature(
+                "C",
+                unit,
+                extremes
+            )
+
+            extreme_low = self.rounder.roundFloat5(extreme_low)
+            extreme_high = self.rounder.roundFloat5(extreme_high)
+
+            if negatives:
+                dates = [d for _, d in negatives]
+                interval = format_time_interval(dates)
+                file.write(f"Sensor {sensor_name} recorded extremely low " \
+                           f"{title} {interval}, below {extreme_low} {unit} " \
+                           f"({len(negatives)} occurrence(s)).\n")
+
+            if highs:
+                dates = [d for _, d in highs]
+                interval = format_time_interval(dates)
+                file.write(f"Sensor {sensor_name} recorded high {title} " \
+                           f"(≥ {extreme_high} {unit}) {interval} ({len(highs)} occurrence(s)).\n")
+
+            if not negatives and not highs:
+                file.write(f"Sensor {sensor_name} had no extreme " \
+                           f"{title} readings.\n")
 
     def create_report_on_disk(self):
         return QFileDialog.getSaveFileName(
