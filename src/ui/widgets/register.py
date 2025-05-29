@@ -1,8 +1,9 @@
 from PyQt6.QtWidgets import QPushButton, QWidget, \
     QVBoxLayout, QHBoxLayout, QLabel, QMessageBox, \
-    QSizePolicy
+    QSizePolicy, QStyle, QStyleOption
 from PyQt6.QtCore import Qt, pyqtSignal
 
+from PyQt6.QtGui import QPainter
 from src.ui.widgets.labelComboBox import LabelComboBox
 from src.ui.widgets.iconButton import IconButton
 from src.ui.widgets.textInput import TextInput
@@ -83,3 +84,13 @@ class Register(QWidget):
 
     def returnToLogin(self):
         self.goBack.emit()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

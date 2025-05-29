@@ -1,0 +1,84 @@
+Register {
+    background-color: rgb(10, 20, 40);
+    border: none;
+}
+
+/* LABELS */
+QLabel {
+    background-color: rgb(20, 40, 70);
+    font-size: 32pt;
+    font-weight: 400;
+    border-radius: 10px;
+    color: white;
+    padding: 8px;
+    qproperty-alignment: 'AlignCenter';
+}
+
+/* INPUT FIELDS */
+QLineEdit {
+    background-color: rgb(10, 30, 60);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 80);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12pt;
+    margin: 8px 16px;
+}
+
+/* COMBOBOX */
+QComboBox {
+    background-color: rgba(0, 60, 150, 120);
+    border: 1px solid rgba(255, 255, 255, 60);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 14pt;
+    min-height: 48px;
+    max-width: 240px;
+    margin: 8px auto;
+    outline: none;
+}
+
+QComboBox:hover {
+    background-color: rgba(0, 80, 180, 180);
+}
+
+QComboBox::drop-down {
+    border: none;
+}
+
+QComboBox QAbstractItemView {
+    background-color: rgba(10, 30, 60, 220); 
+    selection-background-color: rgba(0, 150, 255, 120);
+    border: none;
+    outline: none;
+    padding: 4px;
+    font-size: 13pt;
+}
+
+QComboBox QAbstractItemView::item {
+    border: none;
+    padding: 6px 10px;
+}
+
+/* BUTTONS */
+QPushButton {
+    background-color: rgba(0, 100, 200, 100);
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 32px;
+    margin: 20px 100px;
+    min-width: 140px;
+}
+
+QPushButton:hover {
+    background-color: rgba(0, 120, 255, 180);
+}
+
+QPushButton:pressed {
+    background-color: rgba(0, 80, 180, 200);
+}
+
+IconButton {
+    margin: 0;
+}
