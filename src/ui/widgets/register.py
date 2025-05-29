@@ -1,8 +1,10 @@
 from PyQt6.QtWidgets import QPushButton, QWidget, \
-    QVBoxLayout, QHBoxLayout, QLabel, \
-    QSizePolicy, QMessageBox
-from PyQt6.QtCore import Qt, pyqtSignal,QFile
+    QVBoxLayout, QHBoxLayout, QLabel, QMessageBox, \
+    QSizePolicy, QStyle, QStyleOption
+from PyQt6.QtCore import Qt, pyqtSignal
 
+from PyQt6.QtGui import QPainter
+from src.ui.widgets.labelComboBox import LabelComboBox
 from src.ui.widgets.iconButton import IconButton
 from src.ui.widgets.textInput import TextInput
 from src.model.loginController import LoginController
@@ -27,22 +29,31 @@ class Register(QWidget):
         )
         loginButton.clicked.connect(self.registerUser)
 
-
         self.loginButtonLayout.addStretch(1)
         self.loginButtonLayout.addWidget(loginButton, stretch = 2)
-
         self.loginButtonLayout.addStretch(1)
-
         self.loginButtonLayout.setContentsMargins(0, 0, 0, 0)
         self.loginButtonLayout.setSpacing(0)
 
         self.loginWidgetLayout.addWidget(self.loginWelcomeLabel, stretch = 1)
+
         self.usernameField = TextInput("Username")
         self.usernameField.append(self.loginWidgetLayout)
-        self.email = TextInput("email")
+
+        self.email = TextInput("Your email")
         self.email.append(self.loginWidgetLayout)
+
         self.passwordField = TextInput("Password")
         self.passwordField.append(self.loginWidgetLayout)
+
+        self.repeatPasswordField = TextInput("Repeat password")
+        self.repeatPasswordField.append(self.loginWidgetLayout)
+
+        self.userPlanComboBox = LabelComboBox(
+            "Choose your plan",
+            ["FREE", "STANDARD", "PREMIUM"]
+        )
+        self.loginWidgetLayout.addWidget(self.userPlanComboBox)
 
         self.loginWidgetLayout.addLayout(self.loginButtonLayout, stretch = 1)
         iconPath = "src/resources/icons/"
@@ -54,7 +65,32 @@ class Register(QWidget):
         self.setLayout(self.loginWidgetLayout)
 
     def registerUser(self):
-        print("register")
+        if self.passwordField.getText() != self.repeatPasswordField.getText():
+            QMessageBox.warning(
+                self,
+                "Passwords don't match",
+                "Your password and repeated password do not match"
+            )
+            return
+
         loginController = LoginController()
+        loginController.register(
+            self.usernameField.getText(),
+            self.email.getText(),
+            self.passwordField.getText(),
+            self.userPlanComboBox.comboBox.currentIndex() + 1
+        )
+        self.returnToLogin()
+
     def returnToLogin(self):
         self.goBack.emit()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

@@ -1,7 +1,8 @@
 from PyQt6.QtWidgets import QPushButton, QWidget, \
-    QVBoxLayout, QHBoxLayout, QLabel, \
-    QSizePolicy, QMessageBox
+    QVBoxLayout, QLabel, QSizePolicy, QMessageBox, \
+    QStyle, QStyleOption
 from PyQt6.QtCore import Qt, pyqtSignal
+from PyQt6.QtGui import QPainter
 
 from src.model.user import User
 from src.model.loginController import LoginController
@@ -17,10 +18,8 @@ class Login(QWidget):
         super().__init__()
         self.loginWidgetLayout = QVBoxLayout(self)
 
-        self.loginWelcomeLabel = QLabel("Welcome to you Smart Home Panel", self)
+        self.loginWelcomeLabel = QLabel("Welcome to your Smart Home Panel!", self)
         self.loginWelcomeLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-
-        self.loginButtonLayout = QHBoxLayout()
 
         loginButton = QPushButton("Login", self)
         loginButton.setSizePolicy(
@@ -36,23 +35,18 @@ class Login(QWidget):
         )
         registerButton.clicked.connect(self.registerHandler)
 
-        self.loginButtonLayout.addStretch(1)
-        self.loginButtonLayout.addWidget(loginButton, stretch = 5)
-        self.loginButtonLayout.addWidget(registerButton, stretch = 5)
-
-        self.loginButtonLayout.addStretch(1)
-
-        self.loginButtonLayout.setContentsMargins(0, 0, 0, 0)
-        self.loginButtonLayout.setSpacing(0)
-
         self.loginWidgetLayout.addWidget(self.loginWelcomeLabel, stretch = 1)
         self.usernameField = TextInput("Username")
         self.usernameField.append(self.loginWidgetLayout)
         self.passwordField = TextInput("Password")
         self.passwordField.append(self.loginWidgetLayout)
 
-        self.loginWidgetLayout.addLayout(self.loginButtonLayout, stretch = 1)
+        self.loginWidgetLayout.addWidget(loginButton)
+        self.loginWidgetLayout.addWidget(registerButton)
+        self.loginWidgetLayout.addStretch(1)
 
+        self.loginWidgetLayout.setContentsMargins(0, 0, 0, 0)
+        self.loginWidgetLayout.setSpacing(0)
         self.setLayout(self.loginWidgetLayout)
 
     def loginHandler(self):
@@ -85,3 +79,13 @@ class Login(QWidget):
     @classmethod
     def getCurrentUser(cls):
         return cls.currentUser
+    
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

@@ -123,9 +123,6 @@ class MainWindow(QMainWindow):
 
         self.loginWidget = Register()
         self.loginWidget.goBack.connect(self.registrationToLoginTransition)
-        self.loginWidget.setStyleSheet(
-            styleLoader.load("./src/resources/styles/login.qss")
-        )
 
         self.setCentralWidget(self.loginWidget)
     

@@ -1,39 +1,48 @@
-QWidget, QHBoxLayout {
-    background-color: rgb(120, 155, 255);
-}
-
-QPushButton {
-    background-color: #3498db;
-    color: white;
-    border-radius: 5px;
-    padding: 5px;
-    max-height: 120px;
-    max-width: 400px;
-    margin-bottom: 200px;
-    margin-left: 30px;
-    margin-right: 30px
-}
-
-QPushButton:hover {
-    background-color: #2980b9;
+/* LOGIN PANEL STYLES */
+Login {
+    background-color: rgb(10, 20, 40);
+    border: none;
 }
 
 QLabel {
-    font-size: 30px;
+    background-color: rgb(20, 40, 70);
+    font-size: 32pt;
+    font-weight: 400;
+    color: white;
+    padding: 8px;
 }
 
+/* INPUT FIELDS */
 QLineEdit {
-    background-color:rgb(255, 255, 255);
-    color: rgb(10, 10, 10);
-    min-height: 50px;
-    margin-left: 200px;
-    margin-right: 200px;
-    margin-top: 25px;
-    margin-bottom: 25px;
-    border-radius: 10px;
+    background-color: rgb(10, 30, 60);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 80);
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12pt;
+    margin-top: 20px;
+    margin-left: 250px;
+    margin-right: 250px;
 }
 
-QMessageBox {
-    text-align: center;
-    padding: 70px 0;
+/* BUTTONS */
+QPushButton {
+    background-color: rgba(0, 100, 200, 100);
+    color: white;
+    border-radius: 8px;
+    padding: 10px 20px;
+    font-size: 32px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-left: 400px;
+    margin-right: 400px;
+    min-width: 140px;
+}
+
+QPushButton:hover {
+    background-color: rgba(0, 120, 255, 180);
+}
+
+QPushButton:pressed {
+    background-color: rgba(0, 80, 180, 200);
 }
