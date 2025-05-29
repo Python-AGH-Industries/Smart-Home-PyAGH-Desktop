@@ -1,6 +1,6 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QStyleOption, QStyle
 from PyQt6.QtCore import Qt, QUrl
-from PyQt6.QtGui import QDesktopServices
+from PyQt6.QtGui import QDesktopServices, QPainter
 
 from src.model.styleLoader import styleLoader
 
@@ -10,12 +10,13 @@ class AboutWindow(QWidget):
         super().__init__()
         self.setWindowTitle("About")
         self.setMinimumSize(400, 300)
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         
         # Create main layout
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
         self.setStyleSheet(
-            styleLoader.load("./src/resources/styles/sidePanel.qss")
+            styleLoader.load("./src/resources/styles/about.qss")
         )
 
         # Project title
@@ -75,3 +76,13 @@ class AboutWindow(QWidget):
 
         # Add stretch to push everything to the top
         main_layout.addStretch()
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

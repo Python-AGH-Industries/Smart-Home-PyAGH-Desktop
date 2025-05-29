@@ -1,5 +1,6 @@
-from PyQt6.QtWidgets import QWidget, QVBoxLayout, QScrollArea
+from PyQt6.QtWidgets import QWidget, QVBoxLayout, QScrollArea, QStyleOption, QStyle
 from PyQt6.QtCore import Qt
+from PyQt6.QtGui import QPainter
 
 from src.model.styleLoader import styleLoader
 from src.ui.widgets.expandableSection import ExpandableSection
@@ -10,12 +11,13 @@ class HelpWindow(QWidget):
         super().__init__()
         self.setWindowTitle("Help")
         self.setMinimumSize(600, 400)
+        self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
         
         # Create main layout
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
         self.setStyleSheet(
-            styleLoader.load("./src/resources/styles/sidePanel.qss")
+            styleLoader.load("./src/resources/styles/help_window.qss")
         )
 
         # allow for scrolling
@@ -89,3 +91,13 @@ class HelpWindow(QWidget):
 
         scroll.setWidget(content_widget)
         main_layout.addWidget(scroll)
+
+    def paintEvent(self, event):
+        painter = QPainter(self)
+        painter.setRenderHint(QPainter.RenderHint.Antialiasing)
+
+        opt = QStyleOption()
+        opt.initFrom(self)
+        self.style().drawPrimitive(QStyle.PrimitiveElement.PE_Widget, opt, painter, self)
+
+        super().paintEvent(event)

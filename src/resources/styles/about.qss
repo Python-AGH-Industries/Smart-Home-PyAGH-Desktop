@@ -1,0 +1,50 @@
+* {
+    color: white;
+}
+AboutWindow {
+    background-color: rgb(10, 20, 40);
+    border: none;
+}
+QWidget {
+    background-color: rgb(10, 20, 40);
+    border: none;
+}
+
+QLabel {
+    font-size: 12pt;
+    font-weight: 300;
+}
+
+/* Title styling */
+QLabel[font-size="24px"] {
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    margin: 20px;
+}
+
+/* Authors label styling */
+QLabel[font-weight="bold"] {
+    font-weight: bold;
+    color: white;
+    margin: 20px 20px 5px 20px;
+}
+
+/* GitHub button styling */
+QPushButton {
+    background-color: rgba(0, 100, 200, 100);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    margin: 20px;
+    font-size: 12pt;
+}
+
+QPushButton:hover {
+    background-color: rgba(0, 120, 255, 180);
+}
+
+QPushButton:pressed {
+    background-color: rgba(0, 80, 180, 200);
+}

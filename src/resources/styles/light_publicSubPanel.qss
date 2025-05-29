@@ -1,4 +1,4 @@
-/* Main panel styles */
+A/* Main panel styles */
 QWidget {
     background-color: rgb(230, 240, 255);
     border-radius: 10px;

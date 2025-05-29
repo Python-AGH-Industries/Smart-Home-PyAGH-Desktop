@@ -81,7 +81,6 @@ class MqttDataContent(QWidget):
         self.timer.start()
 
     def getData(self, sensor_id):
-        print("Dow")
         controller = LoginController()
         mqttData = controller.getSensorData(sensor_id)
         mqttData = mqttData["sensor_data"]
@@ -108,6 +107,7 @@ class MqttDataContent(QWidget):
 
         self.allMqttData = mqttData
         self.usedMqttData = mqttData
+        self.onPeriodChanged(self.currentPeriod)
 
     def onSensorChanged(self):
         self.dataDetails.updateSensor()
