@@ -18,38 +18,36 @@ class HelpWindow(QWidget):
             styleLoader.load("./src/resources/styles/sidePanel.qss")
         )
 
-        # Create scroll area
+        # allow for scrolling
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
         scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
         
-        # Create content widget
         content_widget = QWidget()
         content_layout = QVBoxLayout()
         content_widget.setLayout(content_layout)
         
-        # Add help sections
+        # Help Sections
         sections = [
             ("Generating Reports", """
             To generate a report:
-            1. Go to the Reports section
-            2. Select the date range
-            3. Choose the type of report
-            4. Click 'Generate Report'
-            5. The report will be saved in your documents folder
+            1. Go to main page
+            2. Select sensor you want to generate report form
+            3. From bar above graph choose type of report
+            4. Save the report file
+            5. The report will be saved in selected folder
             """),
             
             ("Changing Password", """
             To change your password:
-            1. Click on your profile icon
-            2. Select 'Settings'
-            3. Choose 'Change Password'
-            4. Enter your current password
-            5. Enter and confirm your new password
-            6. Click 'Save Changes'
+            1. Click on the settings icon
+            2. Enter current password
+            3. Enter new password
+            4. Save changes
+            5. Confirm the change
             """),
             
-            ("Managing Sensors", """
+            ("Change sensor displayed", """
             To manage your sensors:
             1. Go to the Sensors section
             2. To rename a sensor:
@@ -82,14 +80,12 @@ class HelpWindow(QWidget):
             """)
         ]
         
-        # Add sections to layout
+        # generate sections of help
         for title, content in sections:
             section = ExpandableSection(title, content)
             content_layout.addWidget(section)
         
-        # Add stretch to push content to the top
         content_layout.addStretch()
-        
-        # Set the scroll area's widget
+
         scroll.setWidget(content_widget)
         main_layout.addWidget(scroll)

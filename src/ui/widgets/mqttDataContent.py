@@ -1,5 +1,6 @@
 from datetime import time
 
+from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QWidget, QHBoxLayout, QFileDialog
 
 from src.model.loginController import LoginController
@@ -73,7 +74,14 @@ class MqttDataContent(QWidget):
         dataContentLayout.setContentsMargins(0, 0, 0, 0)
         dataContentLayout.setSpacing(0)
 
+        # downloading data
+        self.timer = QTimer(self)
+        self.timer.setInterval(1000)  # 5000 ms = 5 seconds
+        self.timer.timeout.connect(lambda: self.getData(self.currentSensor))
+        self.timer.start()
+
     def getData(self, sensor_id):
+        print("Dow")
         controller = LoginController()
         mqttData = controller.getSensorData(sensor_id)
         mqttData = mqttData["sensor_data"]
@@ -225,3 +233,9 @@ class MqttDataContent(QWidget):
                 self.dataGraph.plot_widget.plotItem
             )
             exporter.export(fileName)
+
+    # def data_polling(self,interval=60):
+    #     self.poll_data = True
+    #     while self.poll_data:
+    #         self.getData(self.currentSensor)
+    #         time.sleep(interval)
