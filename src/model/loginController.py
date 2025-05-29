@@ -1,3 +1,4 @@
+from PyQt6.QtWidgets import QMessageBox
 import requests
 import json
 
@@ -27,15 +28,39 @@ class LoginController():
             ).text
         )
 
-        if res['success']:
-            return True
-        else:
-            return False
+        return True if res['success'] else False
+        
     def logout(self):
         res = self.session.post(
             'http://127.0.0.1:5000/logout',
         )
         return json.loads(res.text)
+    
+    def register(self, username, email, password, userplan):
+        res = self.session.post(
+                'http://127.0.0.1:5000/addUser',
+                json = {
+                    "username": username,
+                    "password": password,
+                    "email": email,
+                    "userplan": userplan
+                }
+            )
+        
+        res_json = json.loads(res.text)
+
+        if res.status_code == 200:
+            QMessageBox.information(
+                None,
+                "User registered",
+                "User registered, you can now login"
+            )
+        else:
+            QMessageBox.information(
+                None,
+                "Something went wrong",
+                f"Could not register user, reason:\n{res_json["error"]}"
+            )
 
     def getSensors(self, type_id):
         res = self.session.post(
