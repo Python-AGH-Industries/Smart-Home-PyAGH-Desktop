@@ -11,7 +11,6 @@ class MqttSubPanelBar(QWidget):
     def __init__(self):
         super().__init__()
         room1 = QPushButton("Kitchen")
-        room2 = QPushButton("Living Room")
         add_button = QPushButton("+")
 
         self.periods = ["4h", "8h", "12h", "24h", "48h", "7 days"]
@@ -54,7 +53,6 @@ class MqttSubPanelBar(QWidget):
         self.setFixedHeight(30)
         layout = QHBoxLayout(self)
         layout.addWidget(room1)
-        layout.addWidget(room2)
         layout.addWidget(add_button)
         layout.addStretch(1)
         layout.addWidget(self.periodSelection)
