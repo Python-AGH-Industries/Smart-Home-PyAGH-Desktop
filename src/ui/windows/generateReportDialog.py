@@ -11,7 +11,7 @@ class GenerateReportDialog(QDialog):
     def __init__(self, specs, parent = None):
         super().__init__(parent)
         self.setWindowTitle("Your report")
-        self.setFixedSize(400, 600)
+        self.setFixedSize(400, 300)
 
         self.converter = UnitConverter()
         self.rounder = FloatRounder()
@@ -59,9 +59,6 @@ class GenerateReportDialog(QDialog):
 
         self.label = QLabel("Report generation")
 
-        self.publicDataFlag = QCheckBox("Include public data", self)
-        self.includeGraphsFlag = QCheckBox("Include graphs", self)
-
         self.periodBox = LabelComboBox(
             "Include data from the last",
             self.reportPeriods,
@@ -104,8 +101,6 @@ class GenerateReportDialog(QDialog):
         layout.addWidget(self.humidityUnitBox)
         layout.addWidget(self.pressureUnitBox)
         layout.addWidget(self.lightUnitBox)
-        layout.addWidget(self.publicDataFlag)
-        layout.addWidget(self.includeGraphsFlag)
         layout.addStretch(1)
         layout.addLayout(buttonLayout)
 
