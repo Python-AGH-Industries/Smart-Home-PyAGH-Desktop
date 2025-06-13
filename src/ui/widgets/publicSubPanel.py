@@ -76,7 +76,7 @@ class PublicSubPanel(QWidget):
                 self.cloud_label.setObjectName("weatherInfo")
                 self.cloud_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.publicDataLayout.addWidget(self.cloud_label)
-
+    
                 self.pressure_label = QLabel("Pressure: "+str(self.pressure), self)
                 self.pressure_label.setObjectName("weatherInfo")
                 self.pressure_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
