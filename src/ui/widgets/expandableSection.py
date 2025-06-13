@@ -1,7 +1,7 @@
 from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton
-from PyQt6.QtCore import QPropertyAnimation, QEasingCurve
+from PyQt6.QtCore import QPropertyAnimation, QEasingCurve, Qt
 
-from src.model.styleLoader import styleLoader
+from src.model.styleLoader import style_loader
 
 
 class ExpandableSection(QWidget):
@@ -13,7 +13,7 @@ class ExpandableSection(QWidget):
         self.expand_button = QPushButton(title)
         self.expand_button.setCheckable(True)
         self.expand_button.setStyleSheet(
-            styleLoader.load("./src/resources/styles/expandable_section.qss")
+            style_loader.load("./src/resources/styles/expandable_section.qss")
         )
 
         # showing and hiding content

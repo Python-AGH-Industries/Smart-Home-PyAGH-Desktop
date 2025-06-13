@@ -67,13 +67,17 @@ class PublicSubPanel(QWidget):
                 weather_layout.addWidget(self.icon_label)
 
                 self.publicDataLayout.addLayout(weather_layout)
-
-                self.cloud_label = QLabel("Clouds: "+str(self.temp)+"%", self)
+                self.cloud_label = QLabel("Temperature: "+str(self.temp), self)
                 self.cloud_label.setObjectName("weatherInfo")
                 self.cloud_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.publicDataLayout.addWidget(self.cloud_label)
 
-                self.pressure_label = QLabel("Pressure: "+str(self.cloud), self)
+                self.cloud_label = QLabel("Clouds: "+str(self.cloud)+"%", self)
+                self.cloud_label.setObjectName("weatherInfo")
+                self.cloud_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.publicDataLayout.addWidget(self.cloud_label)
+
+                self.pressure_label = QLabel("Pressure: "+str(self.pressure), self)
                 self.pressure_label.setObjectName("weatherInfo")
                 self.pressure_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.publicDataLayout.addWidget(self.pressure_label)

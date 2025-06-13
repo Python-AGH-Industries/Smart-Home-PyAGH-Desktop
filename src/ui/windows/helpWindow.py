@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QScrollArea, QStyleOption, QSt
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QPainter
 
-from src.model.styleLoader import styleLoader
+from src.model.styleLoader import style_loader
 from src.ui.widgets.expandableSection import ExpandableSection
 
 
@@ -17,7 +17,7 @@ class HelpWindow(QWidget):
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
         self.setStyleSheet(
-            styleLoader.load("./src/resources/styles/help_window.qss")
+            style_loader.load("./src/resources/styles/help_window.qss")
         )
 
         # allow for scrolling

@@ -2,7 +2,7 @@ from PyQt6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QStyleOpt
 from PyQt6.QtCore import Qt, QUrl
 from PyQt6.QtGui import QDesktopServices, QPainter
 
-from src.model.styleLoader import styleLoader
+from src.model.styleLoader import style_loader
 
 
 class AboutWindow(QWidget):
@@ -16,7 +16,7 @@ class AboutWindow(QWidget):
         main_layout = QVBoxLayout()
         self.setLayout(main_layout)
         self.setStyleSheet(
-            styleLoader.load("./src/resources/styles/about.qss")
+            style_loader.load("./src/resources/styles/about.qss")
         )
 
         # Project title

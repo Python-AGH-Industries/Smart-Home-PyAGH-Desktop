@@ -22,9 +22,9 @@ class MqttDataRow(QWidget):
         self.rowBar.settingsButton.clicked.connect(
             lambda: self.changeSensorNameLogic(rowSpecs.sensors)
         )
-        self.rowBar.jsonButton.clicked.connect(self.rowContent.saveDataInJson)
-        self.rowBar.csvButton.clicked.connect(self.rowContent.saveDataInCsv)
-        self.rowBar.imageButton.clicked.connect(self.rowContent.saveDataInPng)
+        self.rowBar.jsonButton.clicked.connect(self.rowContent.save_data_in_json)
+        self.rowBar.csvButton.clicked.connect(self.rowContent.save_data_in_csv)
+        self.rowBar.imageButton.clicked.connect(self.rowContent.save_data_in_png)
 
         wrapperLayout.addWidget(self.rowBar)
         wrapperLayout.addWidget(self.rowContent)
@@ -38,7 +38,7 @@ class MqttDataRow(QWidget):
         if dialog.exec() != QDialog.DialogCode.Accepted:
             return
         
-        newNames = [name.strip() for name in dialog.getNewSensorData()]
+        newNames = [name.strip() for name in dialog.get_new_sensor_data()]
         resultData = []
 
         for (oldName, id), newName in zip(sensorList, newNames):

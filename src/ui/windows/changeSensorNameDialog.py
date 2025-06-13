@@ -38,7 +38,7 @@ class ChangeSensorNameDialog(QDialog):
         self.cancelButton.clicked.connect(self.reject)
         self.okButton.clicked.connect(self.accept)
 
-    def getNewSensorData(self):
+    def get_new_sensor_data(self):
         result = []
 
         for _, edit in self.rowData:

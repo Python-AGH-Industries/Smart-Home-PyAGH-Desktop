@@ -223,14 +223,14 @@ class GenerateReportDialog(QDialog):
                 key = lambda x : x[0]
             )
 
-            [min_value] = self.converter.convertUnits(
+            [min_value] = self.converter.convert_units(
                 header,
                 baseUnit,
                 unit,
                 [min_value]
             )
 
-            min_value = self.rounder.roundFloat5(min_value)
+            min_value = self.rounder.round_float_5(min_value)
 
             row_min += f"|{min_value} {unit}"
 
@@ -244,14 +244,14 @@ class GenerateReportDialog(QDialog):
                 key = lambda x : x[0]
             )
 
-            [max_value] = self.converter.convertUnits(
+            [max_value] = self.converter.convert_units(
                 header,
                 baseUnit,
                 unit,
                 [max_value]
             )
 
-            max_value = self.rounder.roundFloat5(max_value)
+            max_value = self.rounder.round_float_5(max_value)
 
             row_max += f"|{max_value} {unit}"
 
@@ -265,14 +265,14 @@ class GenerateReportDialog(QDialog):
                 2
             )
 
-            [mean_value] = self.converter.convertUnits(
+            [mean_value] = self.converter.convert_units(
                 header,
                 baseUnit,
                 unit,
                 [mean_value]
             )
 
-            mean_value = self.rounder.roundFloat5(mean_value)
+            mean_value = self.rounder.round_float_5(mean_value)
 
             row_mean += f"|{mean_value} {unit}"
             
@@ -296,14 +296,14 @@ class GenerateReportDialog(QDialog):
             negatives = [(v, d) for v, d in readings if v < base_low]
             highs = [(v, d) for v, d in readings if v >= base_high]
 
-            [extreme_low, extreme_high] = self.converter.convertTemperature(
+            [extreme_low, extreme_high] = self.converter.convert_temperature(
                 "C",
                 unit,
                 extremes
             )
 
-            extreme_low = self.rounder.roundFloat5(extreme_low)
-            extreme_high = self.rounder.roundFloat5(extreme_high)
+            extreme_low = self.rounder.round_float_5(extreme_low)
+            extreme_high = self.rounder.round_float_5(extreme_high)
 
             if negatives:
                 dates = [d for _, d in negatives]

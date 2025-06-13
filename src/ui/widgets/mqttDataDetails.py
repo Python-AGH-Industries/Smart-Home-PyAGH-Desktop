@@ -61,9 +61,9 @@ class MqttDataDetails(QWidget):
             temp_min = 0
             temp_max = 0
         else:
-            temp_mean = self.rounder.roundFloat5(sum(mqttData) / len(mqttData))
-            temp_min = self.rounder.roundFloat5(min(mqttData))
-            temp_max = self.rounder.roundFloat5(max(mqttData))
+            temp_mean = self.rounder.round_float_5(sum(mqttData) / len(mqttData))
+            temp_min = self.rounder.round_float_5(min(mqttData))
+            temp_max = self.rounder.round_float_5(max(mqttData))
 
         self.labelGroup.setText(
             f"{temp_mean} {self.chosenUnit}", 

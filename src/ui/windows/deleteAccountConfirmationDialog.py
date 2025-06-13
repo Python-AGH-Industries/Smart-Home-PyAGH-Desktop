@@ -31,5 +31,5 @@ class DeleteAccountConfirmationDialog(QDialog):
         self.cancelButton.clicked.connect(self.reject)
         self.okButton.clicked.connect(self.accept)
 
-    def getPassword(self):
+    def get_password(self):
         return self.passwordInput.text()

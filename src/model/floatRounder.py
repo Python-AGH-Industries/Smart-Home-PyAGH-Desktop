@@ -4,18 +4,18 @@ class FloatRounder():
     def __init__(self):
         pass
 
-    def roundFloat5(self, number):
+    def round_float_5(self, number):
         if number == 0:
             return 0
         num_len = int(log10(number)) + 1
         if abs(number) < 1:
-            return round(number, 5 + self.zerosCount(number))
+            return round(number, 5 + self.zeros_count(number))
         elif 1 <= num_len <= 5:
             return round(number, 5 - num_len)
         else:
             return int(number)
         
-    def zerosCount(self, number):
+    def zeros_count(self, number):
         if abs(number) < 1:
             cnt = 0
             while abs(number) < 1:

@@ -22,29 +22,29 @@ class SettingsPanel(QWidget):
         self.user = Login.getCurrentUser()
         self.session = requests.session()
         
-        self.usernameLabel = QLabel("Hello, " + str(self.user.username))
-        layout.addWidget(self.usernameLabel)
+        self.username_label = QLabel("Hello, " + str(self.user.username))
+        layout.addWidget(self.username_label)
         
-        formLayout = QGridLayout()
-        formLayout.setVerticalSpacing(10)
-        formLayout.setHorizontalSpacing(15)
+        form_layout = QGridLayout()
+        form_layout.setVerticalSpacing(10)
+        form_layout.setHorizontalSpacing(15)
         
-        currentPassLabel = QLabel("Current Password:")
-        self.currentPassInput = QLineEdit()
-        formLayout.addWidget(currentPassLabel)
-        formLayout.addWidget(self.currentPassInput)
+        current_pass_label = QLabel("Current Password:")
+        self.current_pass_input = QLineEdit()
+        form_layout.addWidget(current_pass_label)
+        form_layout.addWidget(self.current_pass_input)
         
-        newPassLabel = QLabel("New Password:")
-        self.newPassInput = QLineEdit()
-        formLayout.addWidget(newPassLabel)
-        formLayout.addWidget(self.newPassInput)
+        new_pass_label = QLabel("New Password:")
+        self.new_pass_input = QLineEdit()
+        form_layout.addWidget(new_pass_label)
+        form_layout.addWidget(self.new_pass_input)
         
-        repeatPassLabel = QLabel("Repeat New Password:")
-        self.repeatPassInput = QLineEdit()
-        formLayout.addWidget(repeatPassLabel)
-        formLayout.addWidget(self.repeatPassInput)
+        repeat_pass_label = QLabel("Repeat New Password:")
+        self.repeat_pass_input = QLineEdit()
+        form_layout.addWidget(repeat_pass_label)
+        form_layout.addWidget(self.repeat_pass_input)
         
-        layout.addLayout(formLayout)
+        layout.addLayout(form_layout)
         
         buttonLayout = QHBoxLayout()
         self.saveButton = QPushButton("Save Changes")
@@ -75,15 +75,15 @@ class SettingsPanel(QWidget):
         deleteLayout.addWidget(deleteButton)
         deleteLayout.addStretch(1)
 
-        deleteButton.clicked.connect(self.accountDeletionConfirmation)
+        deleteButton.clicked.connect(self.account_deletion_confirmation)
 
         layout.addLayout(deleteLayout)
         layout.addStretch(1)
         
     def saveChanges(self):
-        current = self.currentPassInput.text()
-        new = self.newPassInput.text()
-        repeated = self.repeatPassInput.text()
+        current = self.current_pass_input.text()
+        new = self.new_pass_input.text()
+        repeated = self.repeat_pass_input.text()
         
         if new != repeated:
             QMessageBox.warning(
@@ -113,16 +113,16 @@ class SettingsPanel(QWidget):
         self.clearForm()
     
     def clearForm(self):
-        self.currentPassInput.clear()
-        self.newPassInput.clear()
-        self.repeatPassInput.clear()
+        self.current_pass_input.clear()
+        self.new_pass_input.clear()
+        self.repeat_pass_input.clear()
 
-    def accountDeletionConfirmation(self):
+    def account_deletion_confirmation(self):
         dialog = DeleteAccountConfirmationDialog(self)
         if dialog.exec() != QDialog.DialogCode.Accepted:
             return
 
-        password = dialog.getPassword()
+        password = dialog.get_password()
         if password == "":
             QMessageBox.warning(
                 self,

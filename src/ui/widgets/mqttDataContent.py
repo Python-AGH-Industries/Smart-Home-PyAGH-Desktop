@@ -11,7 +11,11 @@ from datetime import datetime, timedelta
 import pyqtgraph.exporters
 import json
 
+UPDATE_INTERVAL = 20000
+
+
 class MqttDataContent(QWidget):
+
     colorMap = {
         "red": "#fc0303",
         "black": "#000000",
@@ -76,7 +80,7 @@ class MqttDataContent(QWidget):
 
         # downloading data
         self.timer = QTimer(self)
-        self.timer.setInterval(10000)  # 5000 ms = 5 seconds
+        self.timer.setInterval(UPDATE_INTERVAL)
         self.timer.timeout.connect(lambda: self.getData(self.currentSensor))
         self.timer.start()
 
@@ -115,23 +119,19 @@ class MqttDataContent(QWidget):
         self.onPeriodChanged(self.currentPeriod)
 
     def onUnitsChanged(self):
-        newValuesAll = self.converter.convertUnits(
-                self.specs.title, 
-                self.dataDetails.chosenUnit,
-                self.specs.units[
-                    self.dataDetails.unitSelection.comboBox.currentIndex()
-                ],
-                [v for (v, _) in self.allMqttData]
-            )
+        newValuesAll = self.converter.convert_units(
+            self.specs.title,
+            self.specs.units,
+            self.dataDetails.chosenUnit,
+            [v for (v, _) in self.allMqttData]
+        )
         
-        newValuesUsed = self.converter.convertUnits(
-                self.specs.title,
-                self.dataDetails.chosenUnit,
-                self.specs.units[
-                    self.dataDetails.unitSelection.comboBox.currentIndex()
-                ],
-                [v for (v, _) in self.usedMqttData]
-            )
+        newValuesUsed = self.converter.convert_units(
+            self.specs.title,
+            self.specs.units,
+            self.dataDetails.chosenUnit,
+            [v for (v, _) in self.usedMqttData]
+        )
 
         self.usedMqttData = list(zip(
             newValuesUsed,
@@ -168,7 +168,7 @@ class MqttDataContent(QWidget):
     def updateBackground(self, newColor):
         self.dataGraph.changeGraphBackground(self.backgroundMap[newColor])
 
-    def saveDataInJson(self):
+    def save_data_in_json(self):
         jsonData = {}
         jsonData[self.specs.title] = {}
 
@@ -193,7 +193,7 @@ class MqttDataContent(QWidget):
             file.write(jsonData)
             file.close()
 
-    def saveDataInCsv(self):
+    def save_data_in_csv(self):
         csvData = []
         csvData.append(("Date", f"{self.specs.title} value"))
 
@@ -217,7 +217,7 @@ class MqttDataContent(QWidget):
                 file.write(f"{time},{value}\n")
             file.close()
 
-    def saveDataInPng(self):
+    def save_data_in_png(self):
         response = QFileDialog.getSaveFileName(
             parent = self,
             caption = "Select location to save",
