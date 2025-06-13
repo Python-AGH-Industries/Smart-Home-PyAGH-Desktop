@@ -1,0 +1,86 @@
+* {
+    background-color: rgb(245, 245, 245);
+}
+QVBoxLayout{
+    background-color: rgb(245, 245, 245);
+
+}
+QWidget {
+    background-color: rgb(245, 245, 245);
+    border: none;
+}
+QLabel {
+
+    font-size: 12pt;
+    font-weight: 300;
+}
+
+/* Scroll area styling */
+QScrollArea {
+    border: none;
+    background-color: rgb(245, 245, 245);
+}
+
+QScrollArea > QWidget > QWidget {
+    background-color: transparent;
+}
+
+QScrollBar:vertical {
+    border: none;
+    background-color: rgb(245, 245, 245);
+    width: 10px;
+    margin: 0px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: rgba(200, 220, 255, 180);
+
+    min-height: 20px;
+    border-radius: 5px;
+}
+
+QScrollBar::handle:vertical:hover {
+    background-color: rgba(200, 220, 255, 180);
+}
+
+QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
+    height: 0px;
+}
+
+QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical {
+    background: none;
+}
+
+/* Expandable section styling */
+ExpandableSection {
+    background-color: rgb(245, 245, 245);
+    border-radius: 10px;
+    margin: 5px;
+    padding: 10px;
+
+}
+
+
+ExpandableSection QLabel {
+
+    color: white;
+    font-size: 12pt;
+    font-weight: 500;
+}
+
+ExpandableSection QPushButton {
+    background-color: rgb(245, 245, 245);
+
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 12pt;
+}
+
+ExpandableSection QPushButton:hover {
+    background-color: rgba(200, 220, 255, 180);
+}
+
+ExpandableSection QPushButton:pressed {
+    background-color: rgba(200, 220, 255, 180);
+}

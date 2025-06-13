@@ -55,6 +55,7 @@ class PublicSubPanel(QWidget):
                 pixmap = QPixmap()
                 pixmap.loadFromData(image_data)
 
+
                 self.icon_label = QLabel(self)
                 self.icon_label.setObjectName("weatherIcon")
                 self.icon_label.setPixmap(pixmap.scaled(48, 48, Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
@@ -62,13 +63,17 @@ class PublicSubPanel(QWidget):
                 weather_layout.addWidget(self.icon_label)
 
                 self.public_data_layout.addLayout(weather_layout)
+                self.temp_label = QLabel("Temperature: "+str(self.temp), self)
+                self.temp_label.setObjectName("weatherInfo")
+                self.temp_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+                self.public_data_layout.addWidget(self.temp_label)
 
-                self.cloud_label = QLabel("Clouds: "+str(self.temp)+"%", self)
+                self.cloud_label = QLabel("Clouds: "+str(self.cloud)+"%", self)
                 self.cloud_label.setObjectName("weatherInfo")
                 self.cloud_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.public_data_layout.addWidget(self.cloud_label)
 
-                self.pressure_label = QLabel("Pressure: "+str(self.cloud), self)
+                self.pressure_label = QLabel("Pressure: "+str(self.pressure), self)
                 self.pressure_label.setObjectName("weatherInfo")
                 self.pressure_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.public_data_layout.addWidget(self.pressure_label)
@@ -83,6 +88,4 @@ class PublicSubPanel(QWidget):
                 self.wind_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 self.public_data_layout.addWidget(self.wind_label)
         except:
-            pass
-        else:
             print(f"Request failed with status code {response.status_code}")
