@@ -10,7 +10,7 @@ class MqttSubPanelBar(QWidget):
 
     def __init__(self):
         super().__init__()
-        room1 = QPushButton("Kitchen")
+        room1 = QPushButton("Room 1")
         add_button = QPushButton("+")
 
         self.periods = ["4h", "8h", "12h", "24h", "48h", "7 days"]

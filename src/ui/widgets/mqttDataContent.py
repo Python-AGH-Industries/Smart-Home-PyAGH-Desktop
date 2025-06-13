@@ -76,7 +76,7 @@ class MqttDataContent(QWidget):
 
         # downloading data
         self.timer = QTimer(self)
-        self.timer.setInterval(10000)  # 5000 ms = 5 seconds
+        self.timer.setInterval(10000)  # 10000 ms = 10 seconds
         self.timer.timeout.connect(lambda: self.getData(self.current_sensor))
         self.timer.start()
 

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QLabel, QCheckBox,
+from PyQt6.QtWidgets import (QDialog, QVBoxLayout, QLabel,
                              QPushButton, QHBoxLayout, QFileDialog)
 from src.ui.widgets.labelComboBox import LabelComboBox
 from src.model.loginController import LoginController 
