@@ -11,92 +11,92 @@ class Panel(QWidget):
         super().__init__()
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
 
-        self.panelLayout = QHBoxLayout(self)
-        self.mqttSubPanelLayout = QVBoxLayout()
+        self.panel_layout = QHBoxLayout(self)
+        self.mqtt_sub_panel_layout = QVBoxLayout()
 
-        self.mqttSubPanelBar = MqttSubPanelBar()
-        self.mqttDataWidget = MqttSubPanel()
-        self.publicDataWidget = PublicSubPanel()
+        self.mqtt_sub_panel_bar = MqttSubPanelBar()
+        self.mqtt_data_widget = MqttSubPanel()
+        self.public_data_widget = PublicSubPanel()
 
-        self.mqttSubPanelBar.userChangedPeriod.connect(self.updatePeriods)
-        self.mqttSubPanelBar.userChangedColor.connect(self.updateColor)
-        self.mqttSubPanelBar.userChangedBackground.connect(self.updateBackground)
-        self.mqttSubPanelBar.reportButton.clicked.connect(self.generateReportLogic)
+        self.mqtt_sub_panel_bar.userChangedPeriod.connect(self.updatePeriods)
+        self.mqtt_sub_panel_bar.userChangedColor.connect(self.updateColor)
+        self.mqtt_sub_panel_bar.userChangedBackground.connect(self.updateBackground)
+        self.mqtt_sub_panel_bar.report_button.clicked.connect(self.generateReportLogic)
 
         self.updatePeriods()
         self.updateBackground()
         self.updateColor()
 
-        self.mqttSubPanelLayout.addWidget(self.mqttSubPanelBar)
-        self.mqttSubPanelLayout.addWidget(self.mqttDataWidget) 
+        self.mqtt_sub_panel_layout.addWidget(self.mqtt_sub_panel_bar)
+        self.mqtt_sub_panel_layout.addWidget(self.mqtt_data_widget) 
 
-        self.panelLayout.addLayout(self.mqttSubPanelLayout, stretch = 2)
-        self.panelLayout.addWidget(self.publicDataWidget, stretch = 1)
+        self.panel_layout.addLayout(self.mqtt_sub_panel_layout, stretch = 2)
+        self.panel_layout.addWidget(self.public_data_widget, stretch = 1)
 
-        self.panelLayout.setContentsMargins(0, 0, 0, 0)
-        self.panelLayout.setSpacing(0)
+        self.panel_layout.setContentsMargins(0, 0, 0, 0)
+        self.panel_layout.setSpacing(0)
 
     def updatePeriods(self):
-        currentPeriod = self.mqttSubPanelBar.periods[
-            self.mqttSubPanelBar.periodSelection.comboBox.currentIndex()
+        current_period = self.mqtt_sub_panel_bar.periods[
+            self.mqtt_sub_panel_bar.period_selection.combo_box.currentIndex()
         ]
 
-        self.mqttDataWidget.temperatureRow.rowContent.onPeriodChanged(
-            currentPeriod
+        self.mqtt_data_widget.temperature_row.rowContent.onPeriodChanged(
+            current_period
         )
-        self.mqttDataWidget.humidityRow.rowContent.onPeriodChanged(
-            currentPeriod
+        self.mqtt_data_widget.humidity_row.rowContent.onPeriodChanged(
+            current_period
         )
-        self.mqttDataWidget.pressureRow.rowContent.onPeriodChanged(
-            currentPeriod
+        self.mqtt_data_widget.pressure_row.rowContent.onPeriodChanged(
+            current_period
         )
-        self.mqttDataWidget.lightRow.rowContent.onPeriodChanged(
-            currentPeriod
+        self.mqtt_data_widget.light_row.rowContent.onPeriodChanged(
+            current_period
         )
 
     def updateColor(self):
-        currentColor = self.mqttSubPanelBar.colors[
-            self.mqttSubPanelBar.colorSelection.comboBox.currentIndex()
+        current_color = self.mqtt_sub_panel_bar.colors[
+            self.mqtt_sub_panel_bar.color_selection.combo_box.currentIndex()
         ]
 
-        self.mqttDataWidget.temperatureRow.rowContent.updateColor(
-            currentColor
+        self.mqtt_data_widget.temperature_row.rowContent.updateColor(
+            current_color
         )
-        self.mqttDataWidget.humidityRow.rowContent.updateColor(
-            currentColor
+        self.mqtt_data_widget.humidity_row.rowContent.updateColor(
+            current_color
         )
-        self.mqttDataWidget.pressureRow.rowContent.updateColor(
-            currentColor
+        self.mqtt_data_widget.pressure_row.rowContent.updateColor(
+            current_color
         )
-        self.mqttDataWidget.lightRow.rowContent.updateColor(
-            currentColor
+        self.mqtt_data_widget.light_row.rowContent.updateColor(
+            current_color
         )
 
     def updateBackground(self):
-        currentColor = self.mqttSubPanelBar.backgrounds[
-            self.mqttSubPanelBar.backgroundSelection.comboBox.currentIndex()
+        current_color = self.mqtt_sub_panel_bar.backgrounds[
+            self.mqtt_sub_panel_bar.background_selection.combo_box.currentIndex()
         ]
 
-        self.mqttDataWidget.temperatureRow.rowContent.updateBackground(
-            currentColor
+        self.mqtt_data_widget.temperature_row.rowContent.updateBackground(
+            current_color
         )
-        self.mqttDataWidget.humidityRow.rowContent.updateBackground(
-            currentColor
+        self.mqtt_data_widget.humidity_row.rowContent.updateBackground(
+            current_color
         )
-        self.mqttDataWidget.pressureRow.rowContent.updateBackground(
-            currentColor
+        self.mqtt_data_widget.pressure_row.rowContent.updateBackground(
+            current_color
         )
-        self.mqttDataWidget.lightRow.rowContent.updateBackground(
-            currentColor
+        self.mqtt_data_widget.light_row.rowContent.updateBackground(
+            current_color
         )
 
     def generateReportLogic(self):
         dialog = GenerateReportDialog(
             (
-                self.mqttDataWidget.tempSpecs,
-                self.mqttDataWidget.humiditySpecs,
-                self.mqttDataWidget.pressureSpecs,
-                self.mqttDataWidget.lightSpecs
+                self.mqtt_data_widget.temp_specs,
+                self.mqtt_data_widget.humidity_specs,
+                self.mqtt_data_widget.pressure_specs,
+                self.mqtt_data_widget.light_specs
             ),
             self
         )

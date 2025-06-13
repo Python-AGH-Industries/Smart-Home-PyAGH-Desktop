@@ -14,55 +14,55 @@ class SidePanel(QWidget):
         super().__init__()
         self.setAttribute(Qt.WidgetAttribute.WA_StyledBackground, True)
 
-        sidePanelLayout = QVBoxLayout(self)
+        side_panel_layout = QVBoxLayout(self)
         
-        iconPath = "src/resources/icons/"
+        icon_path = "src/resources/icons/"
 
-        homeButton = IconButton(iconPath + "home.png", self)
-        helpButton = IconButton(iconPath + "question_mark.png", self)
-        aboutButton = IconButton(iconPath + "info.png", self)
-        settingsButton = IconButton(iconPath + "gear.png", self)
-        logoutButton = IconButton(iconPath + "logout.png", self)
+        home_button = IconButton(icon_path + "home.png", self)
+        help_button = IconButton(icon_path + "question_mark.png", self)
+        about_button = IconButton(icon_path + "info.png", self)
+        settings_button = IconButton(icon_path + "gear.png", self)
+        logout_button = IconButton(icon_path + "logout.png", self)
 
-        homeButton.clicked.connect(self.showHomeRequest.emit)
-        settingsButton.clicked.connect(self.showSettingsRequest.emit)
-        logoutButton.clicked.connect(self.logoutRequest.emit)
-        helpButton.clicked.connect(self.showHelpRequest.emit)
-        aboutButton.clicked.connect(self.showAboutRequest.emit)
+        home_button.clicked.connect(self.showHomeRequest.emit)
+        settings_button.clicked.connect(self.showSettingsRequest.emit)
+        logout_button.clicked.connect(self.logoutRequest.emit)
+        help_button.clicked.connect(self.showHelpRequest.emit)
+        about_button.clicked.connect(self.showAboutRequest.emit)
 
-        sidePanelLayout.addWidget(homeButton)
-        sidePanelLayout.addWidget(helpButton)
-        sidePanelLayout.addWidget(aboutButton)
-        sidePanelLayout.addStretch(1)
-        sidePanelLayout.addWidget(settingsButton)
-        sidePanelLayout.addWidget(logoutButton)
+        side_panel_layout.addWidget(home_button)
+        side_panel_layout.addWidget(help_button)
+        side_panel_layout.addWidget(about_button)
+        side_panel_layout.addStretch(1)
+        side_panel_layout.addWidget(settings_button)
+        side_panel_layout.addWidget(logout_button)
 
-        sidePanelLayout.setAlignment(
-            homeButton,
+        side_panel_layout.setAlignment(
+            home_button,
             Qt.AlignmentFlag.AlignHCenter
         )
 
-        sidePanelLayout.setAlignment(
-            helpButton,
+        side_panel_layout.setAlignment(
+            help_button,
             Qt.AlignmentFlag.AlignHCenter
         )
 
-        sidePanelLayout.setAlignment(
-            aboutButton,
+        side_panel_layout.setAlignment(
+            about_button,
             Qt.AlignmentFlag.AlignHCenter
         )
 
-        sidePanelLayout.setAlignment(
-            settingsButton,
+        side_panel_layout.setAlignment(
+            settings_button,
             Qt.AlignmentFlag.AlignHCenter
         )
 
-        sidePanelLayout.setAlignment(
-            logoutButton,
+        side_panel_layout.setAlignment(
+            logout_button,
             Qt.AlignmentFlag.AlignHCenter
         )
 
-        sidePanelLayout.setSpacing(10)
+        side_panel_layout.setSpacing(10)
 
     def paintEvent(self, event):
         painter = QPainter(self)

@@ -17,14 +17,14 @@ class MqttDataRow(QWidget):
         self.rowBar = MqttDataBar(rowSpecs.title)
         self.rowContent = MqttDataContent(rowSpecs)
 
-        self.rowBar.minimizeButton.clicked.connect(self.rowContent.hide)
-        self.rowBar.maximizeButton.clicked.connect(self.rowContent.show)
-        self.rowBar.settingsButton.clicked.connect(
+        self.rowBar.minimize_button.clicked.connect(self.rowContent.hide)
+        self.rowBar.maximize_button.clicked.connect(self.rowContent.show)
+        self.rowBar.settings_button.clicked.connect(
             lambda: self.changeSensorNameLogic(rowSpecs.sensors)
         )
-        self.rowBar.jsonButton.clicked.connect(self.rowContent.saveDataInJson)
-        self.rowBar.csvButton.clicked.connect(self.rowContent.saveDataInCsv)
-        self.rowBar.imageButton.clicked.connect(self.rowContent.saveDataInPng)
+        self.rowBar.json_button.clicked.connect(self.rowContent.saveDataInJson)
+        self.rowBar.csv_button.clicked.connect(self.rowContent.saveDataInCsv)
+        self.rowBar.image_button.clicked.connect(self.rowContent.saveDataInPng)
 
         wrapperLayout.addWidget(self.rowBar)
         wrapperLayout.addWidget(self.rowContent)
@@ -32,43 +32,43 @@ class MqttDataRow(QWidget):
         wrapperLayout.setContentsMargins(0, 0, 0, 0)
         wrapperLayout.setSpacing(0)
 
-    def changeSensorNameLogic(self, sensorList):
-        dialog = ChangeSensorNameDialog(sensorList, self)
+    def changeSensorNameLogic(self, sensor_list):
+        dialog = ChangeSensorNameDialog(sensor_list, self)
 
         if dialog.exec() != QDialog.DialogCode.Accepted:
             return
         
-        newNames = [name.strip() for name in dialog.getNewSensorData()]
-        resultData = []
+        new_names = [name.strip() for name in dialog.getNewSensorData()]
+        result_data = []
 
-        for (oldName, id), newName in zip(sensorList, newNames):
-            if newName == oldName: 
-                resultData.append((newName, id))
+        for (old_name, id), new_name in zip(sensor_list, new_names):
+            if new_name == old_name: 
+                result_data.append((new_name, id))
                 continue
 
             response = self.session.post(
                 "http://127.0.0.1:5000/changeSensorName",
                 json = {
                     "username": Login.getCurrentUser().username,
-                    "oldName": oldName,
-                    "newName": newName
+                    "old_name": old_name,
+                    "new_name": new_name
                 }    
             )
 
             if response.status_code == 200:
-                resultData.append((newName, id))
+                result_data.append((new_name, id))
                 QMessageBox.information(
                     self,
                     "Changed name",
-                    f"Changed sensor name from {oldName} to {newName}"
+                    f"Changed sensor name from {old_name} to {new_name}"
                 )
             else:
-                resultData.append((oldName, id))
+                result_data.append((old_name, id))
                 QMessageBox.warning(
                     self,
                     "Change failed",
-                    f"Could not change sensor name from {oldName} to "
-                    f"{newName} because:\n{response.json().get("error")}"
+                    f"Could not change sensor name from {old_name} to "
+                    f"{new_name} because:\n{response.json().get("error")}"
                 )
 
-        self.rowContent.dataDetails.updataSensorNames(resultData)
+        self.rowContent.data_details.updataSensorNames(result_data)

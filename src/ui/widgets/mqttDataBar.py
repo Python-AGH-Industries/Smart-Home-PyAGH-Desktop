@@ -13,51 +13,51 @@ class MqttDataBar(QWidget):
 
         offset = 10
 
-        barLayout = QHBoxLayout(self)
+        bar_layout = QHBoxLayout(self)
 
-        barTitle = QLabel(title, self)
-        self.minimizeButton = IconButton(
+        bar_title = QLabel(title, self)
+        self.minimize_button = IconButton(
             f"{iconPath}minimize.png",
             self,
             self.height - offset
         )
-        self.maximizeButton = IconButton(
+        self.maximize_button = IconButton(
             f"{iconPath}maximize.png",
             self,
             self.height - offset
         )
-        self.jsonButton = IconButton(
+        self.json_button = IconButton(
             f"{iconPath}json.png",
             self,
             self.height - offset
         )
-        self.csvButton = IconButton(
+        self.csv_button = IconButton(
             f"{iconPath}csv.png",
             self,
             self.height - offset
         )
-        self.imageButton = IconButton(
+        self.image_button = IconButton(
             f"{iconPath}image.png",
             self,
             self.height - offset
         )
-        self.settingsButton = IconButton(
+        self.settings_button = IconButton(
             f"{iconPath}gear.png",
             self,
             self.height - offset
         )
 
-        barLayout.addWidget(barTitle)
-        barLayout.addStretch(1)
-        barLayout.addWidget(self.imageButton)
-        barLayout.addWidget(self.csvButton)
-        barLayout.addWidget(self.jsonButton)
-        barLayout.addWidget(self.settingsButton)
-        barLayout.addWidget(self.minimizeButton)
-        barLayout.addWidget(self.maximizeButton)
+        bar_layout.addWidget(bar_title)
+        bar_layout.addStretch(1)
+        bar_layout.addWidget(self.image_button)
+        bar_layout.addWidget(self.csv_button)
+        bar_layout.addWidget(self.json_button)
+        bar_layout.addWidget(self.settings_button)
+        bar_layout.addWidget(self.minimize_button)
+        bar_layout.addWidget(self.maximize_button)
 
-        barLayout.setContentsMargins(0, 0, 0, 0)
-        barLayout.setSpacing(10)
+        bar_layout.setContentsMargins(0, 0, 0, 0)
+        bar_layout.setSpacing(10)
     
     def paintEvent(self, event):
         painter = QPainter(self)

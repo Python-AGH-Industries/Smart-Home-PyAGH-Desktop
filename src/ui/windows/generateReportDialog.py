@@ -15,7 +15,7 @@ class GenerateReportDialog(QDialog):
 
         self.converter = UnitConverter()
         self.rounder = FloatRounder()
-        self.reportPeriods = ["day", "week", "month"]
+        self.report_periods = ["day", "week", "month"]
 
         temperature_specs, humidity_specs, pressure_specs, light_specs = specs
 
@@ -59,60 +59,60 @@ class GenerateReportDialog(QDialog):
 
         self.label = QLabel("Report generation")
 
-        self.periodBox = LabelComboBox(
+        self.period_box = LabelComboBox(
             "Include data from the last",
-            self.reportPeriods,
+            self.report_periods,
             self
         )
-        self.temperatureUnitBox = LabelComboBox(
+        self.temperature_unit_box = LabelComboBox(
             "Choose temperature unit",
             temperature_specs.units,
             self
         )
-        self.humidityUnitBox = LabelComboBox(
+        self.humidity_unit_box = LabelComboBox(
             "Choose humidity unit",
             humidity_specs.units,
             self
         )
-        self.pressureUnitBox = LabelComboBox(
+        self.pressure_unit_box = LabelComboBox(
             "Choose pressure unit",
             pressure_specs.units,
             self
         )
-        self.lightUnitBox = LabelComboBox(
+        self.light_unit_box = LabelComboBox(
             "Choose light unit",
             light_specs.units,
             self
         )
 
-        buttonLayout = QHBoxLayout()
-        self.cancelButton = QPushButton("Cancel")
-        self.okButton = QPushButton("Generate")
+        button_layout = QHBoxLayout()
+        self.cancel_button = QPushButton("Cancel")
+        self.ok_button = QPushButton("Generate")
 
-        self.okButton.clicked.connect(self.generate_report)
+        self.ok_button.clicked.connect(self.generate_report)
 
-        buttonLayout.addStretch()
-        buttonLayout.addWidget(self.cancelButton)
-        buttonLayout.addWidget(self.okButton)
+        button_layout.addStretch()
+        button_layout.addWidget(self.cancel_button)
+        button_layout.addWidget(self.ok_button)
 
         layout.addWidget(self.label)
-        layout.addWidget(self.periodBox)
-        layout.addWidget(self.temperatureUnitBox)
-        layout.addWidget(self.humidityUnitBox)
-        layout.addWidget(self.pressureUnitBox)
-        layout.addWidget(self.lightUnitBox)
+        layout.addWidget(self.period_box)
+        layout.addWidget(self.temperature_unit_box)
+        layout.addWidget(self.humidity_unit_box)
+        layout.addWidget(self.pressure_unit_box)
+        layout.addWidget(self.light_unit_box)
         layout.addStretch(1)
-        layout.addLayout(buttonLayout)
+        layout.addLayout(button_layout)
 
-        self.cancelButton.clicked.connect(self.reject)
-        self.okButton.clicked.connect(self.accept)
+        self.cancel_button.clicked.connect(self.reject)
+        self.ok_button.clicked.connect(self.accept)
 
     def generate_report(self):
-        self.period = self.periodBox.comboBox.currentText()
-        self.temperature_unit = self.temperatureUnitBox.comboBox.currentText()
-        self.pressure_unit = self.pressureUnitBox.comboBox.currentText()
-        self.humidity_unit = self.humidityUnitBox.comboBox.currentText()
-        self.light_unit = self.lightUnitBox.comboBox.currentText()
+        self.period = self.period_box.combo_box.currentText()
+        self.temperature_unit = self.temperature_unit_box.combo_box.currentText()
+        self.pressure_unit = self.pressure_unit_box.combo_box.currentText()
+        self.humidity_unit = self.humidity_unit_box.combo_box.currentText()
+        self.light_unit = self.light_unit_box.combo_box.currentText()
 
         self.filter_by_timerange()
         file_name = self.create_report_on_disk()
@@ -193,7 +193,7 @@ class GenerateReportDialog(QDialog):
                         f"Here is you report from the last {self.period}.\n"
         file.write(intro_text)
 
-    def write_report_sensor_data(self, file, sensor_data, header, unit, baseUnit):
+    def write_report_sensor_data(self, file, sensor_data, header, unit, base_unit):
         temperature_header = f"\n## {header} data\n"
         file.write(temperature_header)
         
@@ -225,7 +225,7 @@ class GenerateReportDialog(QDialog):
 
             [min_value] = self.converter.convertUnits(
                 header,
-                baseUnit,
+                base_unit,
                 unit,
                 [min_value]
             )
@@ -246,7 +246,7 @@ class GenerateReportDialog(QDialog):
 
             [max_value] = self.converter.convertUnits(
                 header,
-                baseUnit,
+                base_unit,
                 unit,
                 [max_value]
             )
@@ -258,7 +258,7 @@ class GenerateReportDialog(QDialog):
         row_max += "|\n"
         file.write(row_max)
 
-        row_mean = "|MEAN"
+        row_mean = "|AVG"
         for name, value_list in sensor_data:
             mean_value = round(
                 sum([value for value, _ in value_list]) / len(value_list),
@@ -267,7 +267,7 @@ class GenerateReportDialog(QDialog):
 
             [mean_value] = self.converter.convertUnits(
                 header,
-                baseUnit,
+                base_unit,
                 unit,
                 [mean_value]
             )

@@ -12,28 +12,28 @@ import pyqtgraph.exporters
 import json
 
 class MqttDataContent(QWidget):
-    colorMap = {
+    COLOR_MAP = {
         "red": "#fc0303",
         "black": "#000000",
         "white": "#f0f0f0"
     }
 
-    backgroundMap = {
+    BACKGROUND_MAP = {
         "midnight": "#283c5a",
         "navy": "#325078",
         "slate": "#506ea0"
     }
 
-    def __init__(self, rowSpecs):
+    def __init__(self, row_specs):
         super().__init__()
-        dataContentLayout = QHBoxLayout(self)
-        self.currentSensor = rowSpecs.sensors[0][1]
+        data_content_layout = QHBoxLayout(self)
+        self.current_sensor = row_specs.sensors[0][1]
 
         # downloading data from server
         controller = LoginController()
-        mqttData = controller.getSensorData(self.currentSensor)
-        mqttData = mqttData["sensor_data"]
-        mqttData = list(
+        mqtt_data = controller.getSensorData(self.current_sensor)
+        mqtt_data = mqtt_data["sensor_data"]
+        mqtt_data = list(
             map(
                 lambda x: (
                     x['measurementValue'],
@@ -45,46 +45,46 @@ class MqttDataContent(QWidget):
                         time.fromisoformat(x['measurementTime'])
                     )
                 ),
-                mqttData
+                mqtt_data
             )
         )
 
-        if len(mqttData) == 0:
-            mqttData.append((1, datetime.now()))
+        if len(mqtt_data) == 0:
+            mqtt_data.append((1, datetime.now()))
 
-        mqttData.sort(key = lambda x: x[1])
+        mqtt_data.sort(key = lambda x: x[1])
 
-        self.allMqttData = mqttData
-        self.usedMqttData = mqttData
+        self.all_mqtt_data = mqtt_data
+        self.used_mqtt_data = mqtt_data
     
-        self.specs = rowSpecs
+        self.specs = row_specs
 
         self.converter = UnitConverter()
-        self.dataGraph = MqttDataGraph(self.specs.title)
-        self.dataDetails = MqttDataDetails(self.specs)
+        self.data_graph = MqttDataGraph(self.specs.title)
+        self.data_details = MqttDataDetails(self.specs)
 
-        self.dataDetails.userChangedUnit.connect(self.onUnitsChanged)
-        self.dataDetails.userChangedSensor.connect(self.onSensorChanged)
+        self.data_details.userChangedUnit.connect(self.onUnitsChanged)
+        self.data_details.userChangedSensor.connect(self.onSensorChanged)
 
-        self.dataDetails.updateDetails([v for (v, _) in self.usedMqttData])
+        self.data_details.updateDetails([v for (v, _) in self.used_mqtt_data])
 
-        dataContentLayout.addWidget(self.dataGraph, stretch = 5)
-        dataContentLayout.addWidget(self.dataDetails, stretch = 4)
+        data_content_layout.addWidget(self.data_graph, stretch = 5)
+        data_content_layout.addWidget(self.data_details, stretch = 4)
 
-        dataContentLayout.setContentsMargins(0, 0, 0, 0)
-        dataContentLayout.setSpacing(0)
+        data_content_layout.setContentsMargins(0, 0, 0, 0)
+        data_content_layout.setSpacing(0)
 
         # downloading data
         self.timer = QTimer(self)
         self.timer.setInterval(10000)  # 5000 ms = 5 seconds
-        self.timer.timeout.connect(lambda: self.getData(self.currentSensor))
+        self.timer.timeout.connect(lambda: self.getData(self.current_sensor))
         self.timer.start()
 
     def getData(self, sensor_id):
         controller = LoginController()
-        mqttData = controller.getSensorData(sensor_id)
-        mqttData = mqttData["sensor_data"]
-        mqttData = list(
+        mqtt_data = controller.getSensorData(sensor_id)
+        mqtt_data = mqtt_data["sensor_data"]
+        mqtt_data = list(
             map(
                 lambda x: (
                     x['measurementValue'],
@@ -96,86 +96,86 @@ class MqttDataContent(QWidget):
                         time.fromisoformat(x['measurementTime'])
                     )
                 ),
-                mqttData
+                mqtt_data
             )
         )
         
-        if len(mqttData) == 0:
-            mqttData.append((1, datetime.now()))
+        if len(mqtt_data) == 0:
+            mqtt_data.append((1, datetime.now()))
 
-        mqttData.sort(key = lambda x: x[1])
+        mqtt_data.sort(key = lambda x: x[1])
 
-        self.allMqttData = mqttData
-        self.usedMqttData = mqttData
-        self.onPeriodChanged(self.currentPeriod)
+        self.all_mqtt_data = mqtt_data
+        self.used_mqtt_data = mqtt_data
+        self.onPeriodChanged(self.current_period)
 
     def onSensorChanged(self):
-        self.dataDetails.updateSensor()
-        self.getData(self.dataDetails.chosenSensor[1])
-        self.onPeriodChanged(self.currentPeriod)
+        self.data_details.updateSensor()
+        self.getData(self.data_details.chosen_sensor[1])
+        self.onPeriodChanged(self.current_period)
 
     def onUnitsChanged(self):
         newValuesAll = self.converter.convertUnits(
                 self.specs.title, 
-                self.dataDetails.chosenUnit,
+                self.data_details.chosen_unit,
                 self.specs.units[
-                    self.dataDetails.unitSelection.comboBox.currentIndex()
+                    self.data_details.unit_selection.combo_box.currentIndex()
                 ],
-                [v for (v, _) in self.allMqttData]
+                [v for (v, _) in self.all_mqtt_data]
             )
         
         newValuesUsed = self.converter.convertUnits(
                 self.specs.title,
-                self.dataDetails.chosenUnit,
+                self.data_details.chosen_unit,
                 self.specs.units[
-                    self.dataDetails.unitSelection.comboBox.currentIndex()
+                    self.data_details.unit_selection.combo_box.currentIndex()
                 ],
-                [v for (v, _) in self.usedMqttData]
+                [v for (v, _) in self.used_mqtt_data]
             )
 
-        self.usedMqttData = list(zip(
+        self.used_mqtt_data = list(zip(
             newValuesUsed,
-            [t for _, t in self.usedMqttData]
+            [t for _, t in self.used_mqtt_data]
         ))
 
-        self.allMqttData = list(zip(
+        self.all_mqtt_data = list(zip(
             newValuesAll,
-            [t for _, t in self.allMqttData]
+            [t for _, t in self.all_mqtt_data]
         ))
 
-        self.dataDetails.updateDetails([v for v, _ in self.usedMqttData])
-        self.dataGraph.drawGraph(self.usedMqttData)
+        self.data_details.updateDetails([v for v, _ in self.used_mqtt_data])
+        self.data_graph.drawGraph(self.used_mqtt_data)
 
-    def onPeriodChanged(self, newPeriod):
-        self.currentPeriod = newPeriod
+    def onPeriodChanged(self, new_period):
+        self.current_period = new_period
         now = datetime.now()
         offset = now
 
-        if newPeriod == "7 days":
+        if new_period == "7 days":
             offset = now - timedelta(days = 7)
         else:
-            hs = int(newPeriod[: newPeriod.index("h")])
+            hs = int(new_period[: new_period.index("h")])
             offset = now - timedelta(hours = hs)
 
-        self.usedMqttData = [(v, t) for v, t in self.allMqttData if t >= offset]
-        self.dataDetails.updateDetails([v for v, _ in self.usedMqttData], newPeriod)
+        self.used_mqtt_data = [(v, t) for v, t in self.all_mqtt_data if t >= offset]
+        self.data_details.updateDetails([v for v, _ in self.used_mqtt_data], new_period)
         
-        self.dataGraph.drawGraph(self.usedMqttData)
+        self.data_graph.drawGraph(self.used_mqtt_data)
 
-    def updateColor(self, newColor):
-        self.dataGraph.changePenColor(self.colorMap[newColor])
+    def updateColor(self, new_color):
+        self.data_graph.changePenColor(self.COLOR_MAP[new_color])
 
-    def updateBackground(self, newColor):
-        self.dataGraph.changeGraphBackground(self.backgroundMap[newColor])
+    def updateBackground(self, new_color):
+        self.data_graph.changeGraphBackground(self.BACKGROUND_MAP[new_color])
 
     def saveDataInJson(self):
-        jsonData = {}
-        jsonData[self.specs.title] = {}
+        json_data = {}
+        json_data[self.specs.title] = {}
 
-        for value, time in self.usedMqttData:
-            jsonData[self.specs.title][str(time)] = value
+        for value, time in self.used_mqtt_data:
+            json_data[self.specs.title][str(time)] = value
 
-        jsonData = json.dumps(jsonData, indent = 4)
+        json_data = json.dumps(json_data, indent = 4)
 
         response = QFileDialog.getSaveFileName(
             parent = self,
@@ -183,22 +183,22 @@ class MqttDataContent(QWidget):
             filter = "JSON Files (*.json);;All Files (*)"
         )
 
-        fileName = response[0]
+        file_name = response[0]
 
-        if fileName:
-            if not fileName.lower().endswith(".json"):
-                fileName += ".json"
+        if file_name:
+            if not file_name.lower().endswith(".json"):
+                file_name += ".json"
 
-            file = open(fileName, "w")
-            file.write(jsonData)
+            file = open(file_name, "w")
+            file.write(json_data)
             file.close()
 
     def saveDataInCsv(self):
-        csvData = []
-        csvData.append(("Date", f"{self.specs.title} value"))
+        csv_data = []
+        csv_data.append(("Date", f"{self.specs.title} value"))
 
-        for value, time in self.usedMqttData:
-            csvData.append((time, value))
+        for value, time in self.used_mqtt_data:
+            csv_data.append((time, value))
 
         response = QFileDialog.getSaveFileName(
             parent = self,
@@ -206,14 +206,14 @@ class MqttDataContent(QWidget):
             filter = "CSV Files (*.csv);;All Files (*)"
         )
 
-        fileName = response[0]
+        file_name = response[0]
 
-        if fileName:
-            if not fileName.lower().endswith(".csv"):
-                fileName += ".csv"
+        if file_name:
+            if not file_name.lower().endswith(".csv"):
+                file_name += ".csv"
 
-            file = open(fileName, "w+")
-            for time, value in csvData:
+            file = open(file_name, "w+")
+            for time, value in csv_data:
                 file.write(f"{time},{value}\n")
             file.close()
 
@@ -224,18 +224,14 @@ class MqttDataContent(QWidget):
             filter = "PNG Files (*.png);;All Files (*)"
         )
 
-        fileName = response[0]
+        file_name = response[0]
 
-        if fileName:
-            if not fileName.lower().endswith(".png"):
-                fileName += ".png"
+        if file_name:
+            if not file_name.lower().endswith(".png"):
+                file_name += ".png"
+
             exporter = pyqtgraph.exporters.ImageExporter(
-                self.dataGraph.plot_widget.plotItem
+                self.data_graph.plot_widget.plotItem
             )
-            exporter.export(fileName)
-
-    # def data_polling(self,interval=60):
-    #     self.poll_data = True
-    #     while self.poll_data:
-    #         self.getData(self.currentSensor)
-    #         time.sleep(interval)
+            
+            exporter.export(file_name)

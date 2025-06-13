@@ -15,70 +15,70 @@ class Register(QWidget):
     def __init__(self):
         super().__init__()
 
-        self.loginWidgetLayout = QVBoxLayout(self)
+        self.login_widget_layout = QVBoxLayout(self)
 
-        self.loginWelcomeLabel = QLabel("Registration panel", self)
-        self.loginWelcomeLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.login_welcome_label = QLabel("Registration panel", self)
+        self.login_welcome_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        self.loginButtonLayout = QHBoxLayout()
+        self.login_button_layout = QHBoxLayout()
 
-        loginButton = QPushButton("Register", self)
-        loginButton.setSizePolicy(
+        login_button = QPushButton("Register", self)
+        login_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding
         )
-        loginButton.clicked.connect(self.registerUser)
+        login_button.clicked.connect(self.registerUser)
 
-        self.loginButtonLayout.addStretch(1)
-        self.loginButtonLayout.addWidget(loginButton, stretch = 2)
-        self.loginButtonLayout.addStretch(1)
-        self.loginButtonLayout.setContentsMargins(0, 0, 0, 0)
-        self.loginButtonLayout.setSpacing(0)
+        self.login_button_layout.addStretch(1)
+        self.login_button_layout.addWidget(login_button, stretch = 2)
+        self.login_button_layout.addStretch(1)
+        self.login_button_layout.setContentsMargins(0, 0, 0, 0)
+        self.login_button_layout.setSpacing(0)
 
-        self.loginWidgetLayout.addWidget(self.loginWelcomeLabel, stretch = 1)
+        self.login_widget_layout.addWidget(self.login_welcome_label, stretch = 1)
 
-        self.usernameField = TextInput("Username")
-        self.usernameField.append(self.loginWidgetLayout)
+        self.username_field = TextInput("Username")
+        self.username_field.append(self.login_widget_layout)
 
         self.email = TextInput("Your email")
-        self.email.append(self.loginWidgetLayout)
+        self.email.append(self.login_widget_layout)
 
-        self.passwordField = TextInput("Password")
-        self.passwordField.append(self.loginWidgetLayout)
+        self.password_field = TextInput("Password")
+        self.password_field.append(self.login_widget_layout)
 
-        self.repeatPasswordField = TextInput("Repeat password")
-        self.repeatPasswordField.append(self.loginWidgetLayout)
+        self.repeat_password_field = TextInput("Repeat password")
+        self.repeat_password_field.append(self.login_widget_layout)
 
-        self.userPlanComboBox = LabelComboBox(
+        self.user_plan_combo_box = LabelComboBox(
             "Choose your plan",
             ["FREE", "STANDARD", "PREMIUM"]
         )
-        self.loginWidgetLayout.addWidget(self.userPlanComboBox)
+        self.login_widget_layout.addWidget(self.user_plan_combo_box)
 
-        self.loginWidgetLayout.addLayout(self.loginButtonLayout, stretch = 1)
-        iconPath = "src/resources/icons/"
+        self.login_widget_layout.addLayout(self.login_button_layout, stretch = 1)
+        icon_path = "src/resources/icons/"
 
-        homeButton = IconButton(iconPath + "home.png", self)
-        homeButton.clicked.connect(self.returnToLogin)
-        self.loginWidgetLayout.addWidget(homeButton)
+        home_button = IconButton(icon_path + "home.png", self)
+        home_button.clicked.connect(self.returnToLogin)
+        self.login_widget_layout.addWidget(home_button)
 
-        self.setLayout(self.loginWidgetLayout)
+        self.setLayout(self.login_widget_layout)
 
     def registerUser(self):
-        if self.passwordField.getText() != self.repeatPasswordField.getText():
+        if self.password_field.getText() != self.repeat_password_field.getText():
             QMessageBox.warning(
                 self,
-                "Passwords don't match",
+                "passwords don't match",
                 "Your password and repeated password do not match"
             )
             return
 
-        loginController = LoginController()
-        loginController.register(
-            self.usernameField.getText(),
+        login_controller = LoginController()
+        login_controller.register(
+            self.username_field.getText(),
             self.email.getText(),
-            self.passwordField.getText(),
-            self.userPlanComboBox.comboBox.currentIndex() + 1
+            self.password_field.getText(),
+            self.user_plan_combo_box.combo_box.currentIndex() + 1
         )
         self.returnToLogin()
 

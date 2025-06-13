@@ -17,36 +17,36 @@ class MqttSubPanelBar(QWidget):
         self.colors = ["white", "black", "red"]
         self.backgrounds = ["midnight", "navy", "slate"] 
 
-        self.reportButton = IconButton(
+        self.report_button = IconButton(
             "src/resources/icons/report.png",
             self,
             30
         )
-        self.periodSelection = LabelComboBox(
+        self.period_selection = LabelComboBox(
             f"Data period ",
             self.periods,
             self
         )
-        self.colorSelection = LabelComboBox(
+        self.color_selection = LabelComboBox(
             f"Color ",
             self.colors,
             self
         )
-        self.backgroundSelection = LabelComboBox(
+        self.background_selection = LabelComboBox(
             f"Background ",
             self.backgrounds,
             self
         )
 
-        self.periodSelection.comboBox.currentTextChanged.connect(
+        self.period_selection.combo_box.currentTextChanged.connect(
             self.userChangedPeriod.emit
         )
 
-        self.colorSelection.comboBox.currentIndexChanged.connect(
+        self.color_selection.combo_box.currentIndexChanged.connect(
             self.userChangedColor.emit
         )
 
-        self.backgroundSelection.comboBox.currentTextChanged.connect(
+        self.background_selection.combo_box.currentTextChanged.connect(
             self.userChangedBackground.emit
         )
 
@@ -55,10 +55,10 @@ class MqttSubPanelBar(QWidget):
         layout.addWidget(room1)
         layout.addWidget(add_button)
         layout.addStretch(1)
-        layout.addWidget(self.periodSelection)
-        layout.addWidget(self.colorSelection)
-        layout.addWidget(self.backgroundSelection)
-        layout.addWidget(self.reportButton)
+        layout.addWidget(self.period_selection)
+        layout.addWidget(self.color_selection)
+        layout.addWidget(self.background_selection)
+        layout.addWidget(self.report_button)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(5)
         

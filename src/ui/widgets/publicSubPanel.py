@@ -4,20 +4,18 @@ from PyQt6.QtGui import QPixmap
 import requests
 from urllib.request import urlopen
 
-
-
 class PublicSubPanel(QWidget):
     def __init__(self):
         super().__init__()
-        self.publicDataLayout = QVBoxLayout(self)
-        self.publicDataLayout.setContentsMargins(10, 10, 10, 10)
-        self.publicDataLayout.setSpacing(5)
+        self.public_data_layout = QVBoxLayout(self)
+        self.public_data_layout.setContentsMargins(10, 10, 10, 10)
+        self.public_data_layout.setSpacing(5)
         
         # Title
         label = QLabel("Weather", self)
         label.setObjectName("title")
         label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.publicDataLayout.addWidget(label)
+        self.public_data_layout.addWidget(label)
 
         self.send_weather_request()
 
@@ -32,12 +30,9 @@ class PublicSubPanel(QWidget):
                 "q": city,
                 "aqi": aqi
             }
-            response = requests.get(base_url, params=params)
-
+            response = requests.get(base_url, params = params)
 
             if response.status_code == 200:
-                # generate weather info
-                print(response.json())
                 self.json_data = response.json
                 self.weather = response.json()["current"]["condition"]
                 self.temp = response.json()["current"]["temp_c"]
@@ -66,27 +61,27 @@ class PublicSubPanel(QWidget):
                 self.icon_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
                 weather_layout.addWidget(self.icon_label)
 
-                self.publicDataLayout.addLayout(weather_layout)
+                self.public_data_layout.addLayout(weather_layout)
 
                 self.cloud_label = QLabel("Clouds: "+str(self.temp)+"%", self)
                 self.cloud_label.setObjectName("weatherInfo")
                 self.cloud_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.publicDataLayout.addWidget(self.cloud_label)
+                self.public_data_layout.addWidget(self.cloud_label)
 
                 self.pressure_label = QLabel("Pressure: "+str(self.cloud), self)
                 self.pressure_label.setObjectName("weatherInfo")
                 self.pressure_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.publicDataLayout.addWidget(self.pressure_label)
+                self.public_data_layout.addWidget(self.pressure_label)
 
                 self.humidity_label = QLabel("Humidity: "+str(self.humidity), self)
                 self.humidity_label.setObjectName("weatherInfo")
                 self.humidity_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.publicDataLayout.addWidget(self.humidity_label)
+                self.public_data_layout.addWidget(self.humidity_label)
 
                 self.wind_label = QLabel("Wind speed: "+str(self.wind), self)
                 self.wind_label.setObjectName("weatherInfo")
                 self.wind_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
-                self.publicDataLayout.addWidget(self.wind_label)
+                self.public_data_layout.addWidget(self.wind_label)
         except:
             pass
         else:

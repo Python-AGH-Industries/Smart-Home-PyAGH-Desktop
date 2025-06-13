@@ -4,16 +4,16 @@ from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QPainter
 
 class IconButton(QPushButton):
-    def __init__(self, path = "", parent = None, fixedSize = 80):
+    def __init__(self, path = "", parent = None, fixed_size = 80):
         super().__init__(parent)
-        self.setFixedSize(QSize(fixedSize, fixedSize))
+        self.setFixedSize(QSize(fixed_size, fixed_size))
         self.setIcon(QIcon(path))
         
-        offset = fixedSize / 6
+        offset = fixed_size / 6
 
         self.setIconSize(QSize(
-            int(fixedSize - offset),
-            int(fixedSize - offset)
+            int(fixed_size - offset),
+            int(fixed_size - offset)
         ))
 
     def paintEvent(self, event):

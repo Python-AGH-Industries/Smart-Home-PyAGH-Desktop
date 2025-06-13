@@ -7,16 +7,16 @@ class StackedLabels(QWidget):
     def __init__(self, title, parent = None):
         super().__init__(parent)
     
-        mainLayout = QVBoxLayout(self)
+        main_layout = QVBoxLayout(self)
 
-        self.upperLabel = QLabel(title, self)
-        self.lowerLabel = QLabel("", self)
+        self.upper_label = QLabel(title, self)
+        self.lower_label = QLabel("", self)
 
-        self.upperLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
-        self.lowerLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.upper_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.lower_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        mainLayout.addWidget(self.upperLabel)
-        mainLayout.addWidget(self.lowerLabel)
+        main_layout.addWidget(self.upper_label)
+        main_layout.addWidget(self.lower_label)
 
     def paintEvent(self, event):
         painter = QPainter(self)

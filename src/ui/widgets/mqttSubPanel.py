@@ -12,30 +12,30 @@ class MqttSubPanel(QWidget):
         self.rounder = FloatRounder()
         self.login = LoginController()
 
-        mqttDataLayout = QVBoxLayout(self)
+        mqtt_data_layout = QVBoxLayout(self)
 
-        self.tempSpecs = DataRowSpecs("Temperature", ["C", "F", "K"],
+        self.temp_specs = DataRowSpecs("Temperature", ["C", "F", "K"],
                                 self.create_sensor_list(1))
-        self.humiditySpecs = DataRowSpecs("Humidity", ["%", "g/m³", "kg/m³"],
+        self.humidity_specs = DataRowSpecs("Humidity", ["%", "g/m³", "kg/m³"],
                                 self.create_sensor_list(2))
-        self.pressureSpecs = DataRowSpecs("Pressure", ["hPa", "bar", "atm"],
+        self.pressure_specs = DataRowSpecs("Pressure", ["hPa", "bar", "atm"],
                                 self.create_sensor_list(3))
-        self.lightSpecs = DataRowSpecs("Light", ["Cd"],
+        self.light_specs = DataRowSpecs("Light", ["Cd"],
                                self.create_sensor_list(4))
 
-        self.temperatureRow = MqttDataRow(self.tempSpecs)
-        self.humidityRow = MqttDataRow(self.humiditySpecs)
-        self.pressureRow = MqttDataRow(self.pressureSpecs)
-        self.lightRow = MqttDataRow(self.lightSpecs)
+        self.temperature_row = MqttDataRow(self.temp_specs)
+        self.humidity_row = MqttDataRow(self.humidity_specs)
+        self.pressure_row = MqttDataRow(self.pressure_specs)
+        self.light_row = MqttDataRow(self.light_specs)
 
-        mqttDataLayout.addWidget(self.temperatureRow)
-        mqttDataLayout.addWidget(self.humidityRow)
-        mqttDataLayout.addWidget(self.pressureRow)
-        mqttDataLayout.addWidget(self.lightRow)
-        mqttDataLayout.addStretch(2)
+        mqtt_data_layout.addWidget(self.temperature_row)
+        mqtt_data_layout.addWidget(self.humidity_row)
+        mqtt_data_layout.addWidget(self.pressure_row)
+        mqtt_data_layout.addWidget(self.light_row)
+        mqtt_data_layout.addStretch(2)
 
-        mqttDataLayout.setContentsMargins(0, 0, 0, 0)
-        mqttDataLayout.setSpacing(0)
+        mqtt_data_layout.setContentsMargins(0, 0, 0, 0)
+        mqtt_data_layout.setSpacing(0)
 
     def create_sensor_list(self, type_id):
         response = self.login.getSensors(type_id)

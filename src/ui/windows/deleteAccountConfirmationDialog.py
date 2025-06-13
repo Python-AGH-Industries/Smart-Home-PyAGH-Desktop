@@ -13,23 +13,23 @@ class DeleteAccountConfirmationDialog(QDialog):
 
         self.label = QLabel("Enter your password:")
 
-        self.passwordInput = QLineEdit()
-        self.passwordInput.setEchoMode(QLineEdit.EchoMode.Password)
+        self.password_input = QLineEdit()
+        self.password_input.setEchoMode(QLineEdit.EchoMode.Password)
 
-        buttonLayout = QHBoxLayout()
-        self.cancelButton = QPushButton("Cancel")
-        self.okButton = QPushButton("OK")
-        buttonLayout.addStretch()
-        buttonLayout.addWidget(self.cancelButton)
-        buttonLayout.addWidget(self.okButton)
+        button_layout = QHBoxLayout()
+        self.cancel_button = QPushButton("Cancel")
+        self.ok_button = QPushButton("OK")
+        button_layout.addStretch()
+        button_layout.addWidget(self.cancel_button)
+        button_layout.addWidget(self.ok_button)
 
         layout.addWidget(self.label)
-        layout.addWidget(self.passwordInput)
+        layout.addWidget(self.password_input)
         layout.addStretch(1)
-        layout.addLayout(buttonLayout)
+        layout.addLayout(button_layout)
 
-        self.cancelButton.clicked.connect(self.reject)
-        self.okButton.clicked.connect(self.accept)
+        self.cancel_button.clicked.connect(self.reject)
+        self.ok_button.clicked.connect(self.accept)
 
     def getPassword(self):
-        return self.passwordInput.text()
+        return self.password_input.text()

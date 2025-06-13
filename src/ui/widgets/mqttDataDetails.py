@@ -13,13 +13,13 @@ class MqttDataDetails(QWidget):
         self.specs = specs
         layout = QVBoxLayout(self)
 
-        self.sensorSelection = LabelComboBox(
+        self.sensor_selection = LabelComboBox(
             f"Chosen {specs.title.lower()} sensor",
             [name for name, _ in self.specs.sensors],
             self
         )
 
-        self.unitSelection = LabelComboBox(
+        self.unit_selection = LabelComboBox(
             f"{specs.title} unit ",
             specs.units,
             self
@@ -27,53 +27,53 @@ class MqttDataDetails(QWidget):
 
         self.rounder = FloatRounder()
 
-        self.chosenPeriod = ""
-        self.chosenUnit = self.specs.units[
-            self.unitSelection.comboBox.currentIndex()
+        self.chosen_period = ""
+        self.chosen_unit = self.specs.units[
+            self.unit_selection.combo_box.currentIndex()
         ]
-        self.chosenSensor = self.specs.sensors[
-            self.sensorSelection.comboBox.currentIndex()
+        self.chosen_sensor = self.specs.sensors[
+            self.sensor_selection.combo_box.currentIndex()
         ]
 
-        self.labelGroup = MqttLabelGroup()
+        self.label_group = MqttLabelGroup()
         
-        self.sensorSelection.comboBox.currentTextChanged.connect(
+        self.sensor_selection.combo_box.currentTextChanged.connect(
             lambda: self.userChangedSensor.emit()
         )
-        self.unitSelection.comboBox.currentTextChanged.connect(
+        self.unit_selection.combo_box.currentTextChanged.connect(
             self.userChangedUnit.emit
         )
 
-        layout.addWidget(self.sensorSelection)
-        layout.addWidget(self.unitSelection)
-        layout.addWidget(self.labelGroup)
+        layout.addWidget(self.sensor_selection)
+        layout.addWidget(self.unit_selection)
+        layout.addWidget(self.label_group)
 
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(5)
 
-    def updateDetails(self, mqttData, newPeriod = None):
-        if newPeriod is not None:
-            self.chosenPeriod = newPeriod
+    def updateDetails(self, mqtt_data, new_period = None):
+        if new_period is not None:
+            self.chosen_period = new_period
 
-        self.chosenUnit = self.specs.units[self.unitSelection.comboBox.currentIndex()]
-        if len(mqttData) == 0:
+        self.chosen_unit = self.specs.units[self.unit_selection.combo_box.currentIndex()]
+        if len(mqtt_data) == 0:
             temp_mean = 0
             temp_min = 0
             temp_max = 0
         else:
-            temp_mean = self.rounder.roundFloat5(sum(mqttData) / len(mqttData))
-            temp_min = self.rounder.roundFloat5(min(mqttData))
-            temp_max = self.rounder.roundFloat5(max(mqttData))
+            temp_mean = self.rounder.roundFloat5(sum(mqtt_data) / len(mqtt_data))
+            temp_min = self.rounder.roundFloat5(min(mqtt_data))
+            temp_max = self.rounder.roundFloat5(max(mqtt_data))
 
-        self.labelGroup.setText(
-            f"{temp_mean} {self.chosenUnit}", 
-            f"{temp_min} {self.chosenUnit}", 
-            f"{temp_max} {self.chosenUnit}"
+        self.label_group.setText(
+            f"{temp_mean} {self.chosen_unit}", 
+            f"{temp_min} {self.chosen_unit}", 
+            f"{temp_max} {self.chosen_unit}"
         )
     
     def updateSensor(self):
-        self.chosenSensor = self.specs.sensors[
-            self.sensorSelection.comboBox.currentIndex()
+        self.chosen_sensor = self.specs.sensors[
+            self.sensor_selection.combo_box.currentIndex()
         ]
 
     def updataSensorNames(self, newNames):
@@ -81,8 +81,8 @@ class MqttDataDetails(QWidget):
 
         newItems = [item for item, _ in newNames]
 
-        self.sensorSelection.comboBox.clear()
-        self.sensorSelection.comboBox.addItems(newItems)
-        self.chosenSensor = self.specs.sensors[
-            self.sensorSelection.comboBox.currentIndex()
+        self.sensor_selection.combo_box.clear()
+        self.sensor_selection.combo_box.addItems(newItems)
+        self.chosen_sensor = self.specs.sensors[
+            self.sensor_selection.combo_box.currentIndex()
         ]

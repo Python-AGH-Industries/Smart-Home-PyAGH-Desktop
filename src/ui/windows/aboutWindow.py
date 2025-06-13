@@ -4,7 +4,6 @@ from PyQt6.QtGui import QDesktopServices, QPainter
 
 from src.model.styleLoader import styleLoader
 
-
 class AboutWindow(QWidget):
     def __init__(self):
         super().__init__()

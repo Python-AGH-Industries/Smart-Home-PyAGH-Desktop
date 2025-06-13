@@ -12,55 +12,55 @@ class Login(QWidget):
     loginSuccessful = pyqtSignal()
     register = pyqtSignal()
 
-    currentUser = None
+    current_user = None
 
     def __init__(self):
         super().__init__()
-        self.loginWidgetLayout = QVBoxLayout(self)
+        self.login_widget_layout = QVBoxLayout(self)
 
-        self.loginWelcomeLabel = QLabel("Welcome to your Smart Home Panel!", self)
-        self.loginWelcomeLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.login_welcom_label = QLabel("Welcome to your Smart Home Panel!", self)
+        self.login_welcom_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        loginButton = QPushButton("Login", self)
-        loginButton.setSizePolicy(
+        login_button = QPushButton("Login", self)
+        login_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding
         )
-        loginButton.clicked.connect(self.loginHandler)
+        login_button.clicked.connect(self.loginHandler)
 
-        registerButton = QPushButton("Register", self)
-        registerButton.setSizePolicy(
+        register_button = QPushButton("Register", self)
+        register_button.setSizePolicy(
             QSizePolicy.Policy.Expanding,
             QSizePolicy.Policy.Expanding
         )
-        registerButton.clicked.connect(self.registerHandler)
+        register_button.clicked.connect(self.registerHandler)
 
-        self.loginWidgetLayout.addWidget(self.loginWelcomeLabel, stretch = 1)
-        self.usernameField = TextInput("Username")
-        self.usernameField.append(self.loginWidgetLayout)
-        self.passwordField = TextInput("Password")
-        self.passwordField.append(self.loginWidgetLayout)
+        self.login_widget_layout.addWidget(self.login_welcom_label, stretch = 1)
+        self.username_field = TextInput("Username")
+        self.username_field.append(self.login_widget_layout)
+        self.password_field = TextInput("Password")
+        self.password_field.append(self.login_widget_layout)
 
-        self.loginWidgetLayout.addWidget(loginButton)
-        self.loginWidgetLayout.addWidget(registerButton)
-        self.loginWidgetLayout.addStretch(1)
+        self.login_widget_layout.addWidget(login_button)
+        self.login_widget_layout.addWidget(register_button)
+        self.login_widget_layout.addStretch(1)
 
-        self.loginWidgetLayout.setContentsMargins(0, 0, 0, 0)
-        self.loginWidgetLayout.setSpacing(0)
-        self.setLayout(self.loginWidgetLayout)
+        self.login_widget_layout.setContentsMargins(0, 0, 0, 0)
+        self.login_widget_layout.setSpacing(0)
+        self.setLayout(self.login_widget_layout)
 
     def loginHandler(self):
-        global currentUser
-        loginController = LoginController()
+        global current_user
+        login_controller = LoginController()
 
-        username = self.usernameField.getText()
-        password = self.passwordField.getText()
+        username = self.username_field.getText()
+        password = self.password_field.getText()
 
-        if loginController.login(
+        if login_controller.login(
             username,
             password
         ):
-            Login.currentUser = User(username)
+            Login.current_user = User(username)
             print("logowanie pomyślne")
             self.loginSuccessful.emit()
         else:
@@ -78,7 +78,7 @@ class Login(QWidget):
 
     @classmethod
     def getCurrentUser(cls):
-        return cls.currentUser
+        return cls.current_user
     
     def paintEvent(self, event):
         painter = QPainter(self)

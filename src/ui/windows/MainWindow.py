@@ -10,7 +10,6 @@ from src.ui.widgets.sidePanel import SidePanel
 from src.ui.windows.helpWindow import HelpWindow
 from src.ui.windows.aboutWindow import AboutWindow
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -18,163 +17,163 @@ class MainWindow(QMainWindow):
         self.setWindowTitle("Smart Home Panel")
         self.setMinimumSize(1200, 800)
 
-        self.loginWidget = Login()
-        self.loginWidget.setStyleSheet(
+        self.login_widget = Login()
+        self.login_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/login.qss")
         )
 
-        self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
-        self.loginWidget.register.connect(self.loginToRegisterTransition)
+        self.login_widget.loginSuccessful.connect(self.loginToPanelTransition)
+        self.login_widget.register.connect(self.loginToRegisterTransition)
 
-        self.setCentralWidget(self.loginWidget)
+        self.setCentralWidget(self.login_widget)
 
     def loginToPanelTransition(self):
-        if self.loginWidget is not None:
-            self.loginWidget.deleteLater()
-            self.loginWidget = None
+        if self.login_widget is not None:
+            self.login_widget.deleteLater()
+            self.login_widget = None
 
         self.wrapper = QWidget()
-        self.contentWrapper = QWidget()
+        self.content_wrapper = QWidget()
 
-        self.contentLayout = QStackedLayout(self.contentWrapper)
+        self.content_layout = QStackedLayout(self.content_wrapper)
 
         # List of panels displayed
-        self.panelWidget = Panel()
-        self.settingsWidget = SettingsPanel()
-        self.aboutWidget = AboutWindow()
-        self.helpWidget = HelpWindow()
+        self.panel_widget = Panel()
+        self.settings_widget = SettingsPanel()
+        self.about_widget = AboutWindow()
+        self.help_widget = HelpWindow()
 
-        self.contentLayout.addWidget(self.panelWidget)
-        self.contentLayout.addWidget(self.settingsWidget)
-        self.contentLayout.addWidget(self.helpWidget)
-        self.contentLayout.addWidget(self.aboutWidget)
+        self.content_layout.addWidget(self.panel_widget)
+        self.content_layout.addWidget(self.settings_widget)
+        self.content_layout.addWidget(self.help_widget)
+        self.content_layout.addWidget(self.about_widget)
 
-        self.sidePanelWidget = SidePanel()
-        self.sidePanelWidget.logoutRequest.connect(self.panelToLoginTransition)
-        self.sidePanelWidget.setFixedWidth(100)
+        self.side_panel_widget = SidePanel()
+        self.side_panel_widget.logoutRequest.connect(self.panelToLoginTransition)
+        self.side_panel_widget.setFixedWidth(100)
 
-        self.sidePanelWidget.showHomeRequest.connect(
-            lambda: self.contentLayout.setCurrentIndex(0)
+        self.side_panel_widget.showHomeRequest.connect(
+            lambda: self.content_layout.setCurrentIndex(0)
         )
-        self.sidePanelWidget.showSettingsRequest.connect(
-            lambda: self.contentLayout.setCurrentIndex(1)
+        self.side_panel_widget.showSettingsRequest.connect(
+            lambda: self.content_layout.setCurrentIndex(1)
         )
-        self.sidePanelWidget.showHelpRequest.connect(
-            lambda: self.contentLayout.setCurrentIndex(2)
+        self.side_panel_widget.showHelpRequest.connect(
+            lambda: self.content_layout.setCurrentIndex(2)
         )
-        self.sidePanelWidget.showAboutRequest.connect(
-            lambda: self.contentLayout.setCurrentIndex(3)
+        self.side_panel_widget.showAboutRequest.connect(
+            lambda: self.content_layout.setCurrentIndex(3)
         )
 
-        self.panelWidget.setStyleSheet(
+        self.panel_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/panel.qss")
         )
 
-        self.panelWidget.publicDataWidget.setStyleSheet(
+        self.panel_widget.public_data_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/publicSubPanel.qss")
         )
 
-        self.settingsWidget.setStyleSheet(
+        self.settings_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/panel.qss")
         )
 
-        self.sidePanelWidget.setStyleSheet(
+        self.side_panel_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/sidePanel.qss")
         )
 
-        self.settingsWidget.themeComboBox.comboBox.currentTextChanged.connect(
+        self.settings_widget.theme_combo_box.combo_box.currentTextChanged.connect(
             self.styleToggle
         )
 
-        wrapperLayout = QHBoxLayout(self.wrapper)
-        wrapperLayout.addWidget(self.sidePanelWidget)
-        wrapperLayout.addWidget(self.contentWrapper)
+        wrapper_layout = QHBoxLayout(self.wrapper)
+        wrapper_layout.addWidget(self.side_panel_widget)
+        wrapper_layout.addWidget(self.content_wrapper)
 
-        wrapperLayout.setContentsMargins(0, 0, 0, 0)
-        wrapperLayout.setSpacing(0)
+        wrapper_layout.setContentsMargins(0, 0, 0, 0)
+        wrapper_layout.setSpacing(0)
 
         self.setCentralWidget(self.wrapper)
 
     def panelToLoginTransition(self):
-        if self.panelWidget is not None:
-            self.panelWidget.deleteLater()
-            self.panelWidget = None
+        if self.panel_widget is not None:
+            self.panel_widget.deleteLater()
+            self.panel_widget = None
 
-        if self.sidePanelWidget is not None:
-            self.sidePanelWidget.deleteLater()
-            self.sidePanelWidget = None
+        if self.side_panel_widget is not None:
+            self.side_panel_widget.deleteLater()
+            self.side_panel_widget = None
 
-        self.loginController = LoginController()
-        self.loginController.logout()
-        self.loginWidget = Login()
-        self.loginWidget.setStyleSheet(
+        self.login_controller = LoginController()
+        self.login_controller.logout()
+        self.login_widget = Login()
+        self.login_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/login.qss")
         )
 
-        self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
-        self.loginWidget.register.connect(self.loginToRegisterTransition)
+        self.login_widget.loginSuccessful.connect(self.loginToPanelTransition)
+        self.login_widget.register.connect(self.loginToRegisterTransition)
 
-        self.setCentralWidget(self.loginWidget)
+        self.setCentralWidget(self.login_widget)
 
     def loginToRegisterTransition(self):
-        if self.loginWidget is not None:
-            self.loginWidget.deleteLater()
-            self.loginWidget = None
+        if self.login_widget is not None:
+            self.login_widget.deleteLater()
+            self.login_widget = None
 
-        self.loginWidget = Register()
-        self.loginWidget.goBack.connect(self.registrationToLoginTransition)
-        self.loginWidget.setStyleSheet(
+        self.login_widget = Register()
+        self.login_widget.goBack.connect(self.registrationToLoginTransition)
+        self.login_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/register.qss")
         )
 
-        self.setCentralWidget(self.loginWidget)
+        self.setCentralWidget(self.login_widget)
     
     def registrationToLoginTransition(self):
-        if self.loginWidget is not None:
-            self.loginWidget.deleteLater()
-            self.loginWidget = None
+        if self.login_widget is not None:
+            self.login_widget.deleteLater()
+            self.login_widget = None
 
-        self.loginWidget = Login()
-        self.loginWidget.setStyleSheet(
+        self.login_widget = Login()
+        self.login_widget.setStyleSheet(
             styleLoader.load("./src/resources/styles/login.qss")
         )
 
-        self.loginWidget.loginSuccessful.connect(self.loginToPanelTransition)
-        self.loginWidget.register.connect(self.loginToRegisterTransition)
+        self.login_widget.loginSuccessful.connect(self.loginToPanelTransition)
+        self.login_widget.register.connect(self.loginToRegisterTransition)
 
-        self.setCentralWidget(self.loginWidget)
+        self.setCentralWidget(self.login_widget)
 
     def styleToggle(self):
-        new_text = self.settingsWidget.themeComboBox.comboBox.currentText()
+        new_text = self.settings_widget.theme_combo_box.combo_box.currentText()
         if new_text == "light":
-            self.panelWidget.setStyleSheet(
+            self.panel_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/light_panel.qss")
             )
 
-            self.panelWidget.publicDataWidget.setStyleSheet(
+            self.panel_widget.public_data_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/light_publicSubPanel.qss")
             )
 
-            self.settingsWidget.setStyleSheet(
+            self.settings_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/light_panel.qss")
             )
 
-            self.sidePanelWidget.setStyleSheet(
+            self.side_panel_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/light_sidePanel.qss")
             )
         else:
-            self.panelWidget.setStyleSheet(
+            self.panel_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/panel.qss")
             )
 
-            self.panelWidget.publicDataWidget.setStyleSheet(
+            self.panel_widget.public_data_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/publicSubPanel.qss")
             )
 
-            self.settingsWidget.setStyleSheet(
+            self.settings_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/panel.qss")
             )
 
-            self.sidePanelWidget.setStyleSheet(
+            self.side_panel_widget.setStyleSheet(
                 styleLoader.load("./src/resources/styles/sidePanel.qss")
             )
